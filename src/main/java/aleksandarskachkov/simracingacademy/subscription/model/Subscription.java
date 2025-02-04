@@ -21,8 +21,6 @@ import java.util.UUID;
 @Entity
 public class Subscription {
 
-    //TODO relation with tracks
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

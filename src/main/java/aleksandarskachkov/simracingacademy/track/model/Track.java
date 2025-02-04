@@ -18,7 +18,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 public class Track {
-    //TODO relation with subscriptions
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
