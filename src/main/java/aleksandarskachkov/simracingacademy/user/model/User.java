@@ -65,4 +65,6 @@ public class User {
     @ManyToMany
     private List<Track> tracks = new ArrayList<>();
 
+    //maybe to add course
+
 }

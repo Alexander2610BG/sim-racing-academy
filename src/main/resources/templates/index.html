@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Racing+Sans+One&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <title>Sim Racing Academy</title>
+</head>
+<body>
+<header class="header">
+    <div class="header-inner">
+        <nav class="nav">
+            <a href="/" class="button login">Login</a>
+            <a href="/" class="button register">Register</a>
+        </nav>
+    </div>
+</header>
+<main>
+    <div class="logo-container">
+        <a href="/" class="logo-big">
+            <img src="/images/helmet.png" alt="Sim Racing Academy Logo" class="helmet-logo">
+        </a>
+    </div>
+    <div class="main-content">
+        <h1>Welcome to Sim Racing Academy</h1>
+        <p>
+            Feel like a real F1 driver with our immersive sim racing platform! Train on top tracks, refine your skills, and compete like the pros. Whether you're a beginner or an expert, we have everything you need to race at the highest level!
+        </p>
+        <div class="action-buttons">
+            <a href="/courses">Courses</a>
+            <a href="/contacts">Contacts</a>
+            <a href="/info">Info</a>
+        </div>
+    </div>
+
+    <div class="video-section">
+        <div class="video-box">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/nsJL3TyoBqA" title="YouTube video 1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="video-box">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/bhkXd4z0lTY" title="YouTube video 2" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="video-box">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/oN4PEd-P8o4" title="YouTube video 3" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+</main>
+<th:block th:insert="~{fragments/footer :: footer}"></th:block>
+</body>
+</html>

@@ -50,7 +50,7 @@ public class Subscription {
     private LocalDateTime createdOn;
 
     @Column(nullable = false)
-    private LocalDateTime updatedOn;
+    private LocalDateTime completedOn;
 
     @ManyToMany
     @JoinTable(
@@ -61,5 +61,4 @@ public class Subscription {
 
     @ManyToOne
     private Course course;
-
 }
