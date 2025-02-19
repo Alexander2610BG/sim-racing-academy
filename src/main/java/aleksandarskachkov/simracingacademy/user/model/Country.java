@@ -1,5 +1,5 @@
 package aleksandarskachkov.simracingacademy.user.model;
 
 public enum Country {
-    BULGARIA, GERMANY, FRANCE, UK, USA
+    BULGARIA, GERMANY, FRANCE, MONACO, SPAIN, PORTUGAL
 }

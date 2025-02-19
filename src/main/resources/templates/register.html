@@ -1,0 +1,39 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/form.css">
+    <title>Register</title>
+</head>
+<body>
+<main>
+    <section class="section full-height">
+        <div class="container">
+            <h3>Register Here</h3>
+            <form th:action="@{/register}" th:method="POST" th:object="${registerRequest}">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" th:field="*{username}" required>
+                <p class="alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" th:field="*{password}" required>
+                <p class="alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+
+
+                <label for="country">Country</label>
+                <select id="country" name="country" th:field="*{country}" required>
+                    <option th:each="country : ${T(aleksandarskachkov.simracingacademy.user.model.Country).values()}" th:value="${country}" th:text="${#strings.capitalize(#strings.toLowerCase(country))}"></option>
+                </select>
+
+                <button type="submit">Register</button>
+                <p class="form-already">Already have an account? <a th:href="@{/login}">Login</a>!</p>
+            </form>
+        </div>
+    </section>
+</main>
+<th:block th:insert="fragments/footer :: footer"></th:block>
+</body>
+</html>

@@ -13,14 +13,14 @@
 <header class="header">
     <div class="header-inner">
         <nav class="nav">
-            <a href="/" class="button login">Login</a>
-            <a href="/" class="button register">Register</a>
+            <a th:href="@{/login}" class="button login">Login</a>
+            <a th:href="@{/register}" class="button register">Register</a>
         </nav>
     </div>
 </header>
 <main>
     <div class="logo-container">
-        <a href="/" class="logo-big">
+        <a th:href="@{/}" class="logo-big">
             <img src="/images/helmet.png" alt="Sim Racing Academy Logo" class="helmet-logo">
         </a>
     </div>
