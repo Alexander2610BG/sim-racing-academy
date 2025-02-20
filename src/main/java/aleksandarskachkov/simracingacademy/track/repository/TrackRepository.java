@@ -15,4 +15,6 @@ import java.util.UUID;
 public interface TrackRepository extends JpaRepository<Track, UUID> {
 
     List<Track> getAllTracksByType(TrackType type);
+
+    List<Track> findAllByType(TrackType trackType);
 }

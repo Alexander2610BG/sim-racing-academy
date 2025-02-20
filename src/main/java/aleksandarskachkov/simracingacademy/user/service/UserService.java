@@ -6,6 +6,7 @@ import aleksandarskachkov.simracingacademy.subscription.service.SubscriptionServ
 import aleksandarskachkov.simracingacademy.track.model.Track;
 import aleksandarskachkov.simracingacademy.track.model.TrackType;
 import aleksandarskachkov.simracingacademy.track.repository.TrackRepository;
+import aleksandarskachkov.simracingacademy.track.service.TrackService;
 import aleksandarskachkov.simracingacademy.user.model.User;
 import aleksandarskachkov.simracingacademy.user.model.UserRole;
 import aleksandarskachkov.simracingacademy.user.repository.UserRepository;
@@ -32,22 +33,25 @@ public class UserService {
     private final WalletService walletService;
     private final PasswordEncoder passwordEncoder;
     private final TrackRepository trackRepository;
+    private final TrackService trackService;
 
     @Autowired
-    public UserService(UserRepository userRepository, SubscriptionService subscriptionService, WalletService walletService, PasswordEncoder passwordEncoder, TrackRepository trackRepository) {
+    public UserService(UserRepository userRepository, SubscriptionService subscriptionService, WalletService walletService, PasswordEncoder passwordEncoder, TrackRepository trackRepository, TrackService trackService) {
         this.userRepository = userRepository;
         this.subscriptionService = subscriptionService;
         this.walletService = walletService;
         this.passwordEncoder = passwordEncoder;
         this.trackRepository = trackRepository;
+        this.trackService = trackService;
     }
 
     @Transactional
-    public User register(RegisterRequest registerRequest) {
+    public User registerUser(RegisterRequest registerRequest) {
 
         Optional<User> userOptional = userRepository.findByUsername(registerRequest.getUsername());
+
         if (userOptional.isPresent()) {
-            throw new DomainException("Username [%s] already exists.".formatted(registerRequest.getUsername()));
+            throw new DomainException("User with this username already exists.");
         }
 
         User user = userRepository.save(initializeUser(registerRequest));
@@ -77,7 +81,7 @@ public class UserService {
 
         User user = optionalUser.get();
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            throw new DomainException("Username or password is incorrect.");
+            throw new DomainException("Username or password are incorrect.");
         }
 
         return user;
@@ -87,12 +91,13 @@ public class UserService {
 
         return User.builder()
                 .username(registerRequest.getUsername())
-                .password(registerRequest.getPassword())
+                .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .role(UserRole.USER)
                 .country(registerRequest.getCountry())
                 .isActive(true)
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())
+                .tracks(trackService.getDefaultTracks())
                 .build();
     }
 

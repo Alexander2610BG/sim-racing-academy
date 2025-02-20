@@ -9,6 +9,7 @@ import aleksandarskachkov.simracingacademy.track.model.Track;
 import aleksandarskachkov.simracingacademy.track.model.TrackName;
 import aleksandarskachkov.simracingacademy.track.model.TrackType;
 import aleksandarskachkov.simracingacademy.track.repository.TrackRepository;
+import aleksandarskachkov.simracingacademy.track.service.TrackService;
 import aleksandarskachkov.simracingacademy.user.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,12 @@ import java.util.*;
 public class SubscriptionService {
 
     private final SubscriptionRepository subscriptionRepository;
-    private final TrackRepository trackRepository;
+    private final TrackService trackService;
 
     @Autowired
-    public SubscriptionService(SubscriptionRepository subscriptionRepository, TrackRepository trackRepository) {
+    public SubscriptionService(SubscriptionRepository subscriptionRepository, TrackService trackService) {
         this.subscriptionRepository = subscriptionRepository;
-        this.trackRepository = trackRepository;
+        this.trackService = trackService;
     }
 
     public Subscription createDefaultSubscription(User user) {
@@ -46,14 +47,6 @@ public class SubscriptionService {
         // to be more safely because the milly seconds
         LocalDateTime now = LocalDateTime.now();
 
-        List<Track> defaultSubscriptionTracks = List.of(
-                (Track) trackRepository.getAllTracksByType(TrackType.DEFAULT)
-        );
-//        Optional<Track> defaultSubscriptionTracks = Optional.of(
-//                trackRepository.getAllTracksByType(TrackType.DEFAULT)
-//        ).orElse(Optional.empty());
-
-
         return Subscription.builder()
                 .owner(user)
                 .status(SubscriptionStatus.ACTIVE)
@@ -64,7 +57,7 @@ public class SubscriptionService {
                 .createdOn(now)
                 .completedOn(now.plusMonths(1))
                 .course(null)
-                .tracks(defaultSubscriptionTracks)
+                .tracks(trackService.getDefaultTracks())
                 .build();
     }
 }

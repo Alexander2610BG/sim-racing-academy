@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -23,21 +24,25 @@ public class TrackService {
 
     public void createDefaultTracks() {
 
-        Track bahrain = initializeTrack(TrackName.BAHRAIN, "bahrain", new BigDecimal("0.00"), TrackType.DEFAULT);
-        Track imola = initializeTrack(TrackName.IMOLA, "imola", new BigDecimal("0.00"), TrackType.DEFAULT);
+        Track bahrain = createTrack(TrackName.BAHRAIN, "bahrain", new BigDecimal("0.00"), TrackType.DEFAULT);
+        Track imola = createTrack(TrackName.IMOLA, "imola", new BigDecimal("0.00"), TrackType.DEFAULT);
 
-        trackRepository.save(bahrain);
-        trackRepository.save(imola);
     }
 
-    private Track initializeTrack(TrackName name, String description, BigDecimal price, TrackType type) {
+    public List<Track> getDefaultTracks() {
+        return trackRepository.findAllByType(TrackType.DEFAULT);
+    }
+
+    private Track createTrack(TrackName name, String description, BigDecimal price, TrackType type) {
 
 
-        return Track.builder()
+        Track track = Track.builder()
                 .name(name)
                 .description(description)
                 .price(price)
                 .type(type)
                 .build();
+
+        return trackRepository.save(track);
     }
 }
