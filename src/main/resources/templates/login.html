@@ -14,14 +14,13 @@
     <section class="section full-height">
         <div class="container">
             <h3>Login</h3>
-            <form th:action="@{/login}" th:method="POST" th:object="${loginRequest}">
+            <form class="form" th:action="@{/login}" th:method="POST" th:object="${loginRequest}">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" placeholder="Enter your username" th:field="*{username}" required>
-                <p class="alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
 
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" placeholder="Enter your password" th:field="*{password}" required>
-                <p class="alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                <p class="alert-warning" th:if="${errorMessage}" th:text="${errorMessage}"></p>
 
                 <button type="submit">Login</button>
                 <p class="form-already">Don't have an account? <a th:href="@{/register}">Register</a>!</p>

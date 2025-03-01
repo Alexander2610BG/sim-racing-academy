@@ -1,5 +1,6 @@
 package aleksandarskachkov.simracingacademy.web;
 
+import aleksandarskachkov.simracingacademy.security.AuthenticationMetadata;
 import aleksandarskachkov.simracingacademy.user.model.User;
 import aleksandarskachkov.simracingacademy.user.service.UserService;
 import aleksandarskachkov.simracingacademy.web.dto.LoginRequest;
@@ -7,10 +8,12 @@ import aleksandarskachkov.simracingacademy.web.dto.RegisterRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -24,26 +27,17 @@ public class IndexController {
     }
 
     @GetMapping("/login")
-    public ModelAndView getLoginPage() {
+    public ModelAndView getLoginPage(@RequestParam(value = "error", required = false) String error) {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
         modelAndView.addObject("loginRequest", new LoginRequest());
 
-        return modelAndView;
-    }
-
-    @PostMapping("/login")
-    public String login(@Valid LoginRequest loginRequest, BindingResult bindingResult, HttpSession session) {
-
-        if (bindingResult.hasErrors()) {
-            return "login";
+        if (error != null) {
+            modelAndView.addObject("errorMessage", "Incorrect username or password!");
         }
 
-        User loggedInUser = userService.login(loginRequest);
-        session.setAttribute("user_id", loggedInUser.getId());
-
-        return "redirect:/home";
+        return modelAndView;
     }
 
     @GetMapping("/")
@@ -72,5 +66,17 @@ public class IndexController {
         userService.registerUser(registerRequest);
 
         return new ModelAndView("redirect:/login");
+    }
+
+    @GetMapping("/home")
+    public ModelAndView getHomePage(@AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
+
+        User user = userService.getById(authenticationMetadata.getUserId());
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("home");
+        modelAndView.addObject("user", user);
+
+        return modelAndView;
     }
 }

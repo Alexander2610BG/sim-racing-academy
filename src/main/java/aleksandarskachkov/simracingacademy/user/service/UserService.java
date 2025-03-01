@@ -1,6 +1,7 @@
 package aleksandarskachkov.simracingacademy.user.service;
 
 import aleksandarskachkov.simracingacademy.exception.DomainException;
+import aleksandarskachkov.simracingacademy.security.AuthenticationMetadata;
 import aleksandarskachkov.simracingacademy.subscription.model.Subscription;
 import aleksandarskachkov.simracingacademy.subscription.service.SubscriptionService;
 import aleksandarskachkov.simracingacademy.track.model.Track;
@@ -17,16 +18,20 @@ import aleksandarskachkov.simracingacademy.web.dto.RegisterRequest;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final SubscriptionService subscriptionService;
@@ -72,21 +77,6 @@ public class UserService {
         return user;
     }
 
-    public User login(LoginRequest loginRequest) {
-
-        Optional<User> optionalUser = userRepository.findByUsername(loginRequest.getUsername());
-        if (optionalUser.isEmpty()) {
-            throw new DomainException("Username or password are invalid.");
-        }
-
-        User user = optionalUser.get();
-        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            throw new DomainException("Username or password are incorrect.");
-        }
-
-        return user;
-    }
-
     private User initializeUser(RegisterRequest registerRequest) {
 
         return User.builder()
@@ -104,5 +94,17 @@ public class UserService {
     public List<User> getAllUsers() {
 
         return userRepository.findAll();
+    }
+
+    public User getById(UUID userId) {
+       return userRepository.findById(userId).orElseThrow(() -> new DomainException("User with id [%s] does not exists.".formatted(userId)));
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new DomainException("User with this username does not exist"));
+
+        return new AuthenticationMetadata(user.getId(), username, user.getPassword(), user.getRole(), user.isActive());
     }
 }
