@@ -1,570 +1,230 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"><head>
     <meta charset="UTF-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;family=Poppins:wght@300;400;600&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sim Racing Academy</title>
-    <style>
-        /* General Styles */
-        body {
-            background: #ffffff; /* White background */
-            font-family: 'Poppins', sans-serif;
-            color: #333333; /* Dark text */
-            margin: 0;
-            display: flex;
-        }
-
-        /* Sidebar Styles */
-        .nav-bar {
-            height: 100vh;
-            background: #f5f5f5; /* Light gray for sidebar */
-        }
-
-        .side-bar-container {
-            background-color: #f5f5f5; /* Light gray */
-            width: 240px;
-            height: 100%;
-            border-radius: 12px;
-            padding-inline: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .side-bar-container nav {
-            width: 100%;
-        }
-
-        .side_navbar {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-
-        .func-block {
-            margin-bottom: 16px;
-        }
-
-        .func-block span {
-            font-size: 16px;
-            font-weight: 300;
-            margin-bottom: 10px;
-            display: block;
-            color: #333333; /* Dark text */
-            padding: 8px 12px;
-        }
-
-        .func-block a {
-            display: flex;
-            text-decoration: none;
-            font-weight: 300;
-            font-size: 14px;
-            color: #333333; /* Dark text */
-            padding: 10px 12px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            background: transparent;
-            transition: all 0.3s ease;
-        }
-
-        .func-block a:hover {
-            background: #ff0000; /* Red background */
-            color: white;
-            box-shadow: 0 2px 8px rgba(255, 0, 0, 0.3);
-        }
-
-        .func-block a.active {
-            background: #ff0000; /* Red background */
-            color: white;
-        }
-
-        .func-block svg {
-            margin-left: auto;
-            margin-right: 4%;
-            width: 18px;
-            fill: #333333; /* Dark icons */
-        }
-
-        .func-block a:hover svg {
-            fill: white; /* White icons on hover */
-        }
-
-        .func-block .logout {
-            background: #ff0000; /* Red background */
-            color: white;
-        }
-
-        .func-block a.logout:hover {
-            background: #cc0000; /* Darker red background */
-        }
-
-        .smart-wallet-nav-bar {
-            display: flex;
-            padding: 20px 0;
-            width: 100%;
-            color: #333333; /* Dark text */
-        }
-
-        .smart-wallet-nav-bar div {
-            padding: 5px 5px;
-        }
-
-        .smart-wallet-nav-bar-name {
-            font-size: 16px;
-            font-weight: 300;
-        }
-
-        .smart-wallet-nav-bar-version {
-            font-size: 16px;
-            font-weight: 300;
-            margin-left: auto;
-            border: 1px solid rgba(255, 0, 0, 0.1); /* Red border */
-        }
-
-        /* Main Content Styles */
-        .home-section {
-            height: 100vh;
-            width: calc(100% - 240px);
-            display: grid;
-            grid-column-gap: 26px;
-            grid-row-gap: 26px;
-            grid-template-columns: repeat(2, 50%);
-            padding: 20px;
-        }
-
-        .single-section-box {
-            background: #ffffff; /* White background */
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: box-shadow 0.3s ease;
-        }
-
-        .single-section-box:hover {
-            box-shadow: 0 8px 16px rgba(255, 0, 0, 0.2); /* Red shadow */
-        }
-
-        .profile-card {
-            background: #ffffff; /* White background */
-            width: 300px;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            transition: box-shadow 0.3s ease;
-        }
-
-        .profile-card:hover {
-            box-shadow: 0 8px 16px rgba(255, 0, 0, 0.2); /* Red shadow */
-        }
-
-        .profile-header {
-            margin-bottom: 20px;
-        }
-
-        .profile-header h2 {
-            margin-bottom: 0;
-            font-weight: 600;
-            color: #333333; /* Dark text */
-        }
-
-        .profile-avatar {
-            width: 160px;
-            height: 160px;
-            border-radius: 80%;
-            margin-bottom: 10px;
-            box-shadow: 0 0 10px 5px rgba(255, 0, 0, 0.1); /* Red shadow */
-        }
-
-        .profile-name {
-            font-size: 1.5rem;
-            color: #333333; /* Dark text */
-        }
-
-        .profile-actions {
-            margin-top: 20px;
-        }
-
-        .profile-actions-button {
-            align-self: center;
-            text-align: center;
-            padding: 0 10px;
-            width: 120px;
-            align-items: center;
-            justify-content: center;
-            display: flex;
-            gap: 4px;
-            font-size: 14px;
-            font-family: 'Poppins', sans-serif;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            color: #ffffff; /* White text */
-            background: #ff0000; /* Red background */
-            font-weight: 300;
-            text-decoration: none;
-            z-index: 2;
-            transition: all 0.3s ease;
-        }
-
-        .profile-actions-button:hover {
-            background: #cc0000; /* Darker red background */
-            box-shadow: 0 2px 8px rgba(255, 0, 0, 0.3);
-        }
-
-        .profile-actions-button p {
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-
-        .profile-actions-button svg {
-            width: 16px;
-            fill: #ffffff; /* White icons */
-        }
-
-        .profile-info {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            font-size: 12px;
-            font-weight: 300;
-            align-items: start;
-            margin-left: 5%;
-            color: #333333; /* Dark text */
-        }
-
-        .profile-info p {
-            margin: 5px 0;
-            color: #666666; /* Gray text */
-        }
-
-        .home-standard-wallet {
-            border: none;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            padding: 8px;
-        }
-
-        .home-subscription {
-            border: none;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            padding: 8px;
-        }
-
-        .default-label-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-weight: 300;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            border-radius: 4px;
-            width: 100%;
-        }
-
-        .default-label-box p {
-            background-color: #ffffff; /* White background */
-            border-radius: 6px;
-            color: #ff0000; /* Red text */
-            border: 1px solid #ff0000; /* Red border */
-            padding: 4px 10px;
-            font-weight: 400;
-            font-size: 12px;
-        }
-
-        .wallet-balance {
-            margin-bottom: 16px;
-            padding: 20px 0;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-self: start;
-            background: #ff0000; /* Red background */
-            width: 100%;
-            border-radius: 6px;
-        }
-
-        .wallet-balance p {
-            color: #ffffff; /* White text */
-            font-weight: 300;
-            font-size: 14px;
-            margin: 0;
-            margin-top: 4px;
-            margin-bottom: 10px;
-        }
-
-        .wallet-balance .balance {
-            margin-top: 12px;
-            font-weight: 600;
-            font-size: 36px;
-        }
-
-        .details-section {
-            flex-direction: column;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            gap: 10px;
-            font-size: 12px;
-            color: #666666; /* Gray text */
-            margin-top: 10px;
-        }
-
-        .details-section strong {
-            font-weight: 500;
-            color: #333333; /* Dark text */
-        }
-
-        .styled-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: 'Poppins', sans-serif;
-            font-size: 14px;
-            margin: 20px 0;
-            background: #ffffff; /* White background */
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .styled-table thead {
-            background: #ff0000; /* Red background */
-            color: #ffffff; /* White text */
-            text-transform: uppercase;
-            font-weight: 200;
-        }
-
-        .styled-table thead th {
-            padding: 12px;
-            border-bottom: 2px solid #ff0000; /* Red border */
-        }
-
-        .styled-table tbody td {
-            padding: 12px;
-            color: #333333; /* Dark text */
-            border-bottom: 1px solid #ff0000; /* Red border */
-        }
-
-        .status {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .status.active {
-            background-color: #e0f7e9;
-            color: #2e7d32;
-            border: 1px solid rgba(84, 227, 54, 0.6);
-        }
-
-        .status.terminated {
-            background-color: #fbe9e7;
-            color: #c62828;
-            border: 1px solid rgba(255, 103, 103, 0.6);
-        }
-
-        .status.completed {
-            background-color: #fbf0e7;
-            color: #ff852c;
-            border: 1px solid rgba(255, 144, 103, 0.6);
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/nav-side-bar.css">
+    <link rel="stylesheet" type="text/css" href="/css/home-common.css">
+    <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <title>Home</title>
 </head>
 <body>
-<div class="nav-bar">
-    <div class="side-bar-container">
-        <nav>
-            <div class="side_navbar">
-                <div class="smart-wallet-nav-bar">
-                    <div class="smart-wallet-nav-bar-name">Sim Racing Academy</div>
-                    <div class="smart-wallet-nav-bar-version">v1.0.0</div>
+<nav>
+
+</nav>
+<main>
+    <div class="nav-bar">
+        <div class="side-bar-container">
+            <nav>
+                <div class="side_navbar">
+                    <div class="sim-racing-academy-nav-bar">
+                        <div class="sim-racing-academy-nav-bar-name">Sim Racing Academy</div>
+                        <div class="sim-racing-academy-nav-bar-version">v1.0.0</div>
+                    </div>
+                    <div class="func-block">
+                        <a href="/home" class="active">
+                            <p>Dashboard</p>
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14"></path>
+                            </svg>
+                        </a>
+                        <a class="special-gold" href="/subscriptions">
+                            <p>Upgrade</p>
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M12 2c-.791 0-1.55.314-2.11.874l-.893.893a.985.985 0 0 1-.696.288H7.04A2.984 2.984 0 0 0 4.055 7.04v1.262a.986.986 0 0 1-.288.696l-.893.893a2.984 2.984 0 0 0 0 4.22l.893.893a.985.985 0 0 1 .288.696v1.262a2.984 2.984 0 0 0 2.984 2.984h1.262c.261 0 .512.104.696.288l.893.893a2.984 2.984 0 0 0 4.22 0l.893-.893a.985.985 0 0 1 .696-.288h1.262a2.984 2.984 0 0 0 2.984-2.984V15.7c0-.261.104-.512.288-.696l.893-.893a2.984 2.984 0 0 0 0-4.22l-.893-.893a.985.985 0 0 1-.288-.696V7.04a2.984 2.984 0 0 0-2.984-2.984h-1.262a.985.985 0 0 1-.696-.288l-.893-.893A2.984 2.984 0 0 0 12 2Zm3.683 7.73a1 1 0 1 0-1.414-1.413l-4.253 4.253-1.277-1.277a1 1 0 0 0-1.415 1.414l1.985 1.984a1 1 0 0 0 1.414 0l4.96-4.96Z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="func-block">
+                        <span>Quick Link</span>
+                        <a href="/transfers">
+                            <p>Transfers</p>
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"></path>
+                            </svg>
+                        </a>
+                        <a href="/course">
+                            <p>Course</p>
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M12 14a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a3 3 0 0 1-3-3Zm3-1a1 1 0 1 0 0 2h4v-2h-4Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M12.293 3.293a1 1 0 0 1 1.414 0L16.414 6h-2.828l-1.293-1.293a1 1 0 0 1 0-1.414ZM12.414 6 9.707 3.293a1 1 0 0 0-1.414 0L5.586 6h6.828ZM4.586 7l-.056.055A2 2 0 0 0 3 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2h-4a5 5 0 0 1 0-10h4a2 2 0 0 0-1.53-1.945L17.414 7H4.586Z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                        </a>
+                        <a href="/tracks">
+                            <p>Tracks</p>
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M12 14a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a3 3 0 0 1-3-3Zm3-1a1 1 0 1 0 0 2h4v-2h-4Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M12.293 3.293a1 1 0 0 1 1.414 0L16.414 6h-2.828l-1.293-1.293a1 1 0 0 1 0-1.414ZM12.414 6 9.707 3.293a1 1 0 0 0-1.414 0L5.586 6h6.828ZM4.586 7l-.056.055A2 2 0 0 0 3 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2h-4a5 5 0 0 1 0-10h4a2 2 0 0 0-1.53-1.945L17.414 7H4.586Z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                        <a href="/wallets">
+                            <p>Wallet</p>
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M12 14a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a3 3 0 0 1-3-3Zm3-1a1 1 0 1 0 0 2h4v-2h-4Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M12.293 3.293a1 1 0 0 1 1.414 0L16.414 6h-2.828l-1.293-1.293a1 1 0 0 1 0-1.414ZM12.414 6 9.707 3.293a1 1 0 0 0-1.414 0L5.586 6h6.828ZM4.586 7l-.056.055A2 2 0 0 0 3 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2h-4a5 5 0 0 1 0-10h4a2 2 0 0 0-1.53-1.945L17.414 7H4.586Z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                        <a href="/transactions">
+                            <p>Transactions</p>
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 20V7m0 13-4-4m4 4 4-4m4-12v13m0-13 4 4m-4-4-4 4"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="func-block">
+                        <span>Utility</span>
+                        <a href="/subscriptions/history">
+                            <p>Subscription History</p>
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="func-block admin-func-block">
+                        <span>Admin</span>
+                        <a href="/users">
+                            <p>Users</p>
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01"></path>
+                            </svg>
+                        </a>
+                        <a href="/reports">
+                            <p>Reports</p>
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="func-block">
+                        <a class="logout" href="/logout">
+                            <p>Logout</p>
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"></path>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
-                <div class="func-block">
-                    <a href="/home" class="active">
-                        <p>Dashboard</p>
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14"></path>
-                        </svg>
-                    </a>
-                    <a class="special-gold" href="/subscriptions">
-                        <p>Upgrade</p>
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                            <path fill-rule="evenodd" d="M12 2c-.791 0-1.55.314-2.11.874l-.893.893a.985.985 0 0 1-.696.288H7.04A2.984 2.984 0 0 0 4.055 7.04v1.262a.986.986 0 0 1-.288.696l-.893.893a2.984 2.984 0 0 0 0 4.22l.893.893a.985.985 0 0 1 .288.696v1.262a2.984 2.984 0 0 0 2.984 2.984h1.262c.261 0 .512.104.696.288l-.893-.893a2.984 2.984 0 0 0 4.22 0l.893-.893a.985.985 0 0 1 .696-.288h1.262a2.984 2.984 0 0 0 2.984-2.984V15.7c0-.261.104-.512.288-.696l.893-.893a2.984 2.984 0 0 0 0-4.22l-.893-.893a.985.985 0 0 1-.288-.696V7.04a2.984 2.984 0 0 0-2.984-2.984h-1.262a.985.985 0 0 1-.696-.288l-.893-.893A2.984 2.984 0 0 0 12 2Zm3.683 7.73a1 1 0 1 0-1.414-1.413l-4.253 4.253-1.277-1.277a1 1 0 0 0-1.415 1.414l1.985 1.984a1 1 0 0 0 1.414 0l4.96-4.96Z" clip-rule="evenodd"></path>
-                        </svg>
-                    </a>
-                </div>
-                <div class="func-block">
-                    <span>Quick Link</span>
-                    <a href="/courses">
-                        <p>Courses</p>
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"></path>
-                        </svg>
-                    </a>
-                    <a href="/tracks">
-                        <p>Tracks</p>
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                            <path fill-rule="evenodd" d="M12 14a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a3 3 0 0 1-3-3Zm3-1a1 1 0 1 0 0 2h4v-2h-4Z" clip-rule="evenodd"></path>
-                            <path fill-rule="evenodd" d="M12.293 3.293a1 1 0 0 1 1.414 0L16.414 6h-2.828l-1.293-1.293a1 1 0 0 1 0-1.414ZM12.414 6 9.707 3.293a1 1 0 0 0-1.414 0L5.586 6h6.828ZM4.586 7l-.056.055A2 2 0 0 0 3 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2h-4a5 5 0 0 1 0-10h4a2 2 0 0 0-1.53-1.945L17.414 7H4.586Z" clip-rule="evenodd"></path>
-                        </svg>
-                    </a>
-                    <a href="/transfers">
-                        <p>Transfers</p>
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"></path>
-                        </svg>
-                    </a>
-                    <a href="/wallets">
-                        <p>Wallets</p>
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                            <path fill-rule="evenodd" d="M12 14a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a3 3 0 0 1-3-3Zm3-1a1 1 0 1 0 0 2h4v-2h-4Z" clip-rule="evenodd"></path>
-                            <path fill-rule="evenodd" d="M12.293 3.293a1 1 0 0 1 1.414 0L16.414 6h-2.828l-1.293-1.293a1 1 0 0 1 0-1.414ZM12.414 6 9.707 3.293a1 1 0 0 0-1.414 0L5.586 6h6.828ZM4.586 7l-.056.055A2 2 0 0 0 3 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2h-4a5 5 0 0 1 0-10h4a2 2 0 0 0-1.53-1.945L17.414 7H4.586Z" clip-rule="evenodd"></path>
-                        </svg>
-                    </a>
-                    <a href="/transactions">
-                        <p>Transactions</p>
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 20V7m0 13-4-4m4 4 4-4m4-12v13m0-13 4 4m-4-4-4 4"></path>
-                        </svg>
-                    </a>
-                </div>
-                <div class="func-block">
-                    <span>Utility</span>
-                    <a href="/subscriptions/history">
-                        <p>Subscription History</p>
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01"></path>
-                        </svg>
-                    </a>
-                </div>
-                <div class="func-block">
-                    <span>Admin</span>
-                    <a href="/users">
-                        <p>Users</p>
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01"></path>
-                        </svg>
-                    </a>
-                    <a href="/reports">
-                        <p>Reports</p>
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01"></path>
-                        </svg>
-                    </a>
-                </div>
-                <div class="func-block">
-                    <a class="logout" href="/logout">
-                        <p>Logout</p>
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </nav>
+            </nav>
+        </div>
     </div>
-</div>
-<div class="home-section">
-    <div class="single-section-box home-profile-information">
-        <div class="profile-card">
+    <div class="home-section">
+        <div class="single-section-box home-profile-information">
             <div class="profile-header">
-                <img class="profile-avatar" src="https://static.vecteezy.com/system/resources/thumbnails/001/840/612/small_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg" alt="Profile Picture">
-                <h2 class="profile-name">John Doe</h2>
+                <img th:src="${#strings.isEmpty(user.profilePicture) ? 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg' : user.profilePicture}" alt="Profile Picture" class="profile-avatar">
+                <h2 class="profile-name" th:text="${user.username}"></h2>
                 <div class="profile-status-role-container">
-                    <p class="active-profile">ACTIVE</p>
+                    <p th:if="${user.isActive()}" class="active-profile">ACTIVE</p>
+                    <p th:if="${!user.isActive()}" class="inactive-profile">INACTIVE</p>
+                </div>
+                <div class="details-section">
+                    <div class="details-section-container">
+                        <strong>User id: </strong>
+                        <p th:text="${user.id}"></p>
+                    </div>
                 </div>
             </div>
             <div class="profile-info">
                 <div class="details-section-container">
-                    <strong>User ID:</strong>
-                    <p>12345</p>
+                    <strong>Username: </strong>
+                    <p th:text="${user.username}"></p>
                 </div>
                 <div class="details-section-container">
-                    <strong>Email:</strong>
-                    <p>john.doe@example.com</p>
+                    <strong>Email: </strong>
+                    <p th:text="${#strings.isEmpty(user.email) ? 'Edit your profile and and add email' : user.email}"></p>
                 </div>
                 <div class="details-section-container">
-                    <strong>Joined:</strong>
-                    <p>01 Jan 2023</p>
+                    <strong>Joined: </strong>
+                    <p th:text="${#temporals.format(user.createdOn, 'dd MMM YYYY HH:mm')}"></p>
                 </div>
                 <div class="details-section-container">
-                    <strong>Country:</strong>
-                    <p>USA</p>
+                    <strong>Country: </strong>
+                    <p th:text="${#strings.capitalize(#strings.toLowerCase(user.country))}"></p>
                 </div>
             </div>
-            <div class="profile-actions">
-                <a href="/edit-profile" class="profile-actions-button">
-                    <p>Edit Profile</p>
-                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5"></path>
-                    </svg>
-                </a>
+            <a href="/users/profile" class="profile-actions-button">
+                <p>Edit Profile</p>
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5"></path>
+                </svg>
+            </a>
+        </div>
+
+        <div class="single-section-box home-standard-wallet">
+            <div class="default-label-box">
+                <p>Standard Wallet</p>
+                <p th:text="${user.wallet.status}" th:classappend="${user.wallet.status.name() == 'ACTIVE' ? 'active-wallet-status' : 'inactaive-wallet-status'}"></p>
+            </div>
+            <div class="wallet-balance">
+                <p th:text="${user.wallet.balance + ' EUR'}" class="balance"></p>
+                <p class="available-balance-text">Available Balance</p>
+            </div>
+
+            <a class="profile-actions-button" href="/wallet">
+                <p>Open Wallet</p>
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M12 14a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a3 3 0 0 1-3-3Zm3-1a1 1 0 1 0 0 2h4v-2h-4Z" clip-rule="evenodd"></path>
+                    <path fill-rule="evenodd" d="M12.293 3.293a1 1 0 0 1 1.414 0L16.414 6h-2.828l-1.293-1.293a1 1 0 0 1 0-1.414ZM12.414 6 9.707 3.293a1 1 0 0 0-1.414 0L5.586 6h6.828ZM4.586 7l-.056.055A2 2 0 0 0 3 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2h-4a5 5 0 0 1 0-10h4a2 2 0 0 0-1.53-1.945L17.414 7H4.586Z" clip-rule="evenodd"></path>
+                </svg>
+            </a>
+
+            <div class="details-section">
+                <div class="details-section-container">
+                    <strong>Wallet id: </strong>
+                    <p th:text="${user.wallet.id}"></p>
+                </div>
+                <div class="details-section-container">
+                    <strong>Last transaction on: </strong>
+                    <p th:text="${#temporals.format(user.wallet.updatedOn, 'dd MMM YYYY HH:mm')}"></p>
+                </div>
+            </div>
+        </div>
+        <div class="single-section-box home-subscription">
+            <div class="default-label-box">
+                <p th:text="${user.subscriptions[0].type + ' SUBSCRIPTION'}"></p>
+            </div>
+            <table class="styled-table">
+                <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Period</th>
+                    <th>Price</th>
+                    <th>Renewal</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:if="${user.subscriptions[0].status.name() == 'ACTIVE'}"><span class="status active">ACTIVE</span></td>
+                    <td th:if="${user.subscriptions[0].status.name() == 'COMPLETED'}"><span class="status completed">COMPLETED</span></td>
+                    <td th:if="${user.subscriptions[0].status.name() == 'TERMINATED'}"><span class="status terminated">TERMINATED</span></td>
+                    <td th:text="${#strings.capitalize(#strings.toLowerCase(user.subscriptions[0].period))}"></td>
+                    <td th:text="${user.subscriptions[0].price}"></td>
+                    <td th:text="${user.subscriptions[0].renewalAllowed == true ? 'Automatic' : 'No'}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <a class="profile-actions-button" href="/subscriptions">
+                <p>Change</p>
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M20.337 3.664c.213.212.354.486.404.782.294 1.711.657 5.195-.906 6.76-1.77 1.768-8.485 5.517-10.611 6.683a.987.987 0 0 1-1.176-.173l-.882-.88-.877-.884a.988.988 0 0 1-.173-1.177c1.165-2.126 4.913-8.841 6.682-10.611 1.562-1.563 5.046-1.198 6.757-.904.296.05.57.191.782.404ZM5.407 7.576l4-.341-2.69 4.48-2.857-.334a.996.996 0 0 1-.565-1.694l2.112-2.111Zm11.357 7.02-.34 4-2.111 2.113a.996.996 0 0 1-1.69-.565l-.422-2.807 4.563-2.74Zm.84-6.21a1.99 1.99 0 1 1-3.98 0 1.99 1.99 0 0 1 3.98 0Z" clip-rule="evenodd"></path>
+                </svg>
+            </a>
+            <div class="details-section">
+                <div class="details-section-container">
+                    <strong>Subscription id: </strong>
+                    <p th:text="${user.subscriptions[0].id}"></p>
+                </div>
+                <div class="details-section-container">
+                    <strong>Subscribe until: </strong>
+                    <p th:text="${#temporals.format(user.subscriptions[0].completedOn, 'dd MMM YYYY HH:mm')}"></p>
+                </div>
             </div>
         </div>
     </div>
-    <div class="single-section-box home-standard-wallet">
-        <div class="default-label-box">
-            <p>Standard Wallet</p>
-            <p class="active-wallet-status">ACTIVE</p>
-        </div>
-        <div class="wallet-balance">
-            <p class="balance">5000 EUR</p>
-            <p class="available-balance-text">Available Balance</p>
-        </div>
-        <div class="details-section">
-            <div class="details-section-container">
-                <strong>Wallet ID:</strong>
-                <p>67890</p>
-            </div>
-            <div class="details-section-container">
-                <strong>Last Transaction:</strong>
-                <p>11 Dec 2023 21:32</p>
-            </div>
-        </div>
-    </div>
-    <div class="single-section-box home-subscription">
-        <div class="default-label-box">
-            <p>Premium Subscription</p>
-        </div>
-        <table class="styled-table">
-            <thead>
-            <tr>
-                <th>Status</th>
-                <th>Period</th>
-                <th>Price</th>
-                <th>Renewal</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><span class="status active">ACTIVE</span></td>
-                <td>Monthly</td>
-                <td>50 EUR</td>
-                <td>Automatic</td>
-            </tr>
-            </tbody>
-        </table>
-        <div class="details-section">
-            <div class="details-section-container">
-                <strong>Subscription ID:</strong>
-                <p>98765</p>
-            </div>
-            <div class="details-section-container">
-                <strong>Subscribe Until:</strong>
-                <p>31 Dec 2023</p>
-            </div>
-        </div>
-    </div>
-</div>
+</main>
+<th:block th:insert="~{fragments/footer :: footer}"></th:block>
 </body>
 </html>
