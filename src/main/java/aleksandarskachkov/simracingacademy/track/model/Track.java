@@ -41,12 +41,11 @@ public class Track {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "track")
     private List<Video> videos = new ArrayList<>();
 
-    //eventually to be removed
     @ManyToMany(mappedBy = "tracks")
     private List<Subscription> subscriptions = new ArrayList<>();
 
     //eventually to be removed
-    @ManyToMany(mappedBy = "tracks")
-    private List<User> users = new ArrayList<>();
+//    @ManyToMany(mappedBy = "tracks")
+//    private List<User> users = new ArrayList<>();
 
 }

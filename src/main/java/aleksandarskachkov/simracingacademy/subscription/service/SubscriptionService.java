@@ -56,7 +56,7 @@ public class SubscriptionService {
                 .renewalAllowed(true)
                 .createdOn(now)
                 .completedOn(now.plusMonths(1))
-                .course(null)
+//                .course(null)
                 .tracks(trackService.getDefaultTracks())
                 .build();
     }

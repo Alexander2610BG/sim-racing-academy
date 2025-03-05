@@ -1,6 +1,5 @@
 package aleksandarskachkov.simracingacademy.subscription.model;
 
-import aleksandarskachkov.simracingacademy.course.model.Course;
 import aleksandarskachkov.simracingacademy.track.model.Track;
 import aleksandarskachkov.simracingacademy.user.model.User;
 import jakarta.persistence.*;
@@ -59,6 +58,6 @@ public class Subscription {
     )
     private List<Track> tracks = new ArrayList<>();
 
-    @ManyToOne
-    private Course course;
+//    @ManyToMany
+//    private List<Module> modules = new ArrayList<>();
 }

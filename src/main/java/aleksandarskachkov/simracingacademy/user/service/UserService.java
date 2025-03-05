@@ -68,8 +68,8 @@ public class UserService implements UserDetailsService {
         user.setWallet(wallet);
 
         // potentially to be removed if user cant buy tracks
-        List<Track> defaultTracks = trackRepository.getAllTracksByType(TrackType.DEFAULT);
-        user.setTracks(defaultTracks);
+//        List<Track> defaultTracks = trackRepository.getAllTracksByType(TrackType.DEFAULT);
+//        user.setTracks(defaultTracks);
 
         log.info("Successfully created new user account for username [%s] and id [%s]"
                 .formatted(user.getUsername(), user.getId()));
@@ -87,7 +87,7 @@ public class UserService implements UserDetailsService {
                 .isActive(true)
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())
-                .tracks(trackService.getDefaultTracks())
+//                .tracks(trackService.getDefaultTracks())
                 .build();
     }
 
