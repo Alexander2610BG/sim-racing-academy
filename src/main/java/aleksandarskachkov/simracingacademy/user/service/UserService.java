@@ -4,8 +4,6 @@ import aleksandarskachkov.simracingacademy.exception.DomainException;
 import aleksandarskachkov.simracingacademy.security.AuthenticationMetadata;
 import aleksandarskachkov.simracingacademy.subscription.model.Subscription;
 import aleksandarskachkov.simracingacademy.subscription.service.SubscriptionService;
-import aleksandarskachkov.simracingacademy.track.model.Track;
-import aleksandarskachkov.simracingacademy.track.model.TrackType;
 import aleksandarskachkov.simracingacademy.track.repository.TrackRepository;
 import aleksandarskachkov.simracingacademy.track.service.TrackService;
 import aleksandarskachkov.simracingacademy.user.model.User;
@@ -16,7 +14,6 @@ import aleksandarskachkov.simracingacademy.wallet.service.WalletService;
 import aleksandarskachkov.simracingacademy.web.dto.RegisterRequest;
 import aleksandarskachkov.simracingacademy.web.dto.UserEditRequest;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -119,6 +116,28 @@ public class UserService implements UserDetailsService {
         user.setLastName(userEditRequest.getLastName());
         user.setEmail(userEditRequest.getEmail());
         user.setProfilePicture(userEditRequest.getProfilePicture());
+
+        userRepository.save(user);
+    }
+
+    @CacheEvict(value = "users", allEntries = true)
+    public void switchStatus(UUID userId) {
+
+        User user = userRepository.getById(userId);
+
+        user.setActive(!user.isActive());
+        userRepository.save(user);
+    }
+
+    public void swichRole(UUID userId) {
+
+        User user = userRepository.getById(userId);
+
+        if (user.getRole() == UserRole.USER) {
+            user.setRole(UserRole.ADMIN);
+        } else {
+            user.setRole(UserRole.USER);
+        }
 
         userRepository.save(user);
     }

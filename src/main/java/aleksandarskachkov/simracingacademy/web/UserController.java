@@ -1,11 +1,14 @@
 package aleksandarskachkov.simracingacademy.web;
 
+import aleksandarskachkov.simracingacademy.security.AuthenticationMetadata;
 import aleksandarskachkov.simracingacademy.user.model.User;
 import aleksandarskachkov.simracingacademy.user.service.UserService;
 import aleksandarskachkov.simracingacademy.web.dto.UserEditRequest;
 import aleksandarskachkov.simracingacademy.web.mapper.DtoMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -25,6 +29,19 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ModelAndView getAllUsers(@AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
+
+        List<User> users = userService.getAllUsers();
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("users");
+        modelAndView.addObject("users", users);
+
+        return modelAndView;
     }
 
     @GetMapping("/{id}/profile")
@@ -56,5 +73,21 @@ public class UserController {
         userService.editUserDetails(id, userEditRequest);
 
         return new ModelAndView("redirect:/home");
+    }
+
+    @PutMapping("/{id}/status")
+    public ModelAndView switchUserStatus(@PathVariable UUID id) {
+
+        userService.switchStatus(id);
+
+        return new ModelAndView("redirect:/users");
+    }
+
+    @PutMapping("/{id}/role")
+    public ModelAndView switchUserRole(@PathVariable UUID id) {
+
+        userService.swichRole(id);
+
+        return new ModelAndView("redirect:/users");
     }
 }
