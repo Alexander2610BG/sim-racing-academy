@@ -13,11 +13,13 @@ import aleksandarskachkov.simracingacademy.user.model.UserRole;
 import aleksandarskachkov.simracingacademy.user.repository.UserRepository;
 import aleksandarskachkov.simracingacademy.wallet.model.Wallet;
 import aleksandarskachkov.simracingacademy.wallet.service.WalletService;
-import aleksandarskachkov.simracingacademy.web.dto.LoginRequest;
 import aleksandarskachkov.simracingacademy.web.dto.RegisterRequest;
+import aleksandarskachkov.simracingacademy.web.dto.UserEditRequest;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -106,5 +108,18 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new DomainException("User with this username does not exist"));
 
         return new AuthenticationMetadata(user.getId(), username, user.getPassword(), user.getRole(), user.isActive());
+    }
+
+    @CacheEvict(value = "users", allEntries = true)
+    public void editUserDetails(UUID id, UserEditRequest userEditRequest) {
+
+        User user = getById(id);
+
+        user.setFirstName(userEditRequest.getFirstName());
+        user.setLastName(userEditRequest.getLastName());
+        user.setEmail(userEditRequest.getEmail());
+        user.setProfilePicture(userEditRequest.getProfilePicture());
+
+        userRepository.save(user);
     }
 }
