@@ -141,4 +141,8 @@ public class UserService implements UserDetailsService {
 
         userRepository.save(user);
     }
+
+    public Wallet getWalletByUser(User user) {
+        return userRepository.getWalletById(user.getId());
+    }
 }

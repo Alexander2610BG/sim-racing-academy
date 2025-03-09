@@ -1,6 +1,7 @@
 package aleksandarskachkov.simracingacademy.wallet.service;
 
 import aleksandarskachkov.simracingacademy.exception.DomainException;
+import aleksandarskachkov.simracingacademy.security.AuthenticationMetadata;
 import aleksandarskachkov.simracingacademy.transaction.model.Transaction;
 import aleksandarskachkov.simracingacademy.transaction.model.TransactionStatus;
 import aleksandarskachkov.simracingacademy.transaction.model.TransactionType;
@@ -15,13 +16,14 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Currency;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -171,5 +173,15 @@ public class WalletService {
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())
                 .build();
+    }
+
+    public Map<UUID, List<Transaction>> getLastFiveTransactions(Wallet wallet) {
+
+        Map<UUID, List<Transaction>> transactionByWalletId = new LinkedHashMap<>();
+
+        List<Transaction> lastFiveTransactions = transactionService.getLastFiveTransactionsByWalletId(wallet);
+        transactionByWalletId.put(wallet.getId(), lastFiveTransactions);
+
+        return transactionByWalletId;
     }
 }

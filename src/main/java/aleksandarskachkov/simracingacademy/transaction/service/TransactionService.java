@@ -1,10 +1,12 @@
 package aleksandarskachkov.simracingacademy.transaction.service;
 
+import aleksandarskachkov.simracingacademy.exception.DomainException;
 import aleksandarskachkov.simracingacademy.transaction.model.Transaction;
 import aleksandarskachkov.simracingacademy.transaction.model.TransactionStatus;
 import aleksandarskachkov.simracingacademy.transaction.model.TransactionType;
 import aleksandarskachkov.simracingacademy.transaction.repository.TransactionRepository;
 import aleksandarskachkov.simracingacademy.user.model.User;
+import aleksandarskachkov.simracingacademy.wallet.model.Wallet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +49,18 @@ public class TransactionService {
 
     public List<Transaction> getAllByOwnerId(UUID userId) {
 
+      return transactionRepository.findAllByOwnerIdOrderByCreatedOnDesc(userId);
+    }
+
+    public List<Transaction> getLastFiveTransactionsByWalletId(Wallet wallet) {
+
+        List<Transaction> lastFiveTransactions = transactionRepository.findAllBySenderOrReceiverOrderByCreatedOnDesc(wallet.getId().toString(), wallet.getStatus().toString());
+
         return null;
+    }
+
+    public Transaction getById(UUID id) {
+
+        return transactionRepository.findById(id).orElseThrow(() -> new DomainException("Transaction with id [%s] does not exits.".formatted(id)));
     }
 }

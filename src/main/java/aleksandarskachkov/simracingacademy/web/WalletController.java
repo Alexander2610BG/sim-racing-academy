@@ -1,8 +1,10 @@
 package aleksandarskachkov.simracingacademy.web;
 
 import aleksandarskachkov.simracingacademy.security.AuthenticationMetadata;
+import aleksandarskachkov.simracingacademy.transaction.model.Transaction;
 import aleksandarskachkov.simracingacademy.user.model.User;
 import aleksandarskachkov.simracingacademy.user.service.UserService;
+import aleksandarskachkov.simracingacademy.wallet.model.Wallet;
 import aleksandarskachkov.simracingacademy.wallet.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -33,8 +35,16 @@ public class WalletController {
 
         User user = userService.getById(authenticationMetadata.getUserId());
 
-//        Map<UUID, List<>>
+        Wallet wallet = userService.getWalletByUser(user);
 
-        return null;
+        Map<UUID, List<Transaction>> lastFiveTransactionsPerWallet = walletService.getLastFiveTransactions(user.getWallet());
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("wallet");
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("wallet", wallet);
+        modelAndView.addObject("lastFiveTransactions", lastFiveTransactionsPerWallet);
+
+        return modelAndView;
     }
 }
