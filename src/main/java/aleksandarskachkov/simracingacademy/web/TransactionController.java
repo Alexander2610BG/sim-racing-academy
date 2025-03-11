@@ -45,7 +45,7 @@ public class TransactionController {
         return modelAndView;
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ModelAndView getTransactionById(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
 
         User user = userService.getById(authenticationMetadata.getUserId());

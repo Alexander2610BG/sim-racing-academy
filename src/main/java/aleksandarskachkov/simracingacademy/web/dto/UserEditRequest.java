@@ -11,11 +11,9 @@ import org.hibernate.validator.constraints.URL;
 @Builder
 public class UserEditRequest {
 
-    @NotBlank
     @Size(max = 20, message = "First name can't have more than 20 symbols")
     private String firstName;
 
-    @NotBlank
     @Size(max = 20, message = "Last name can't have more than 20 symbols")
     private String lastName;
 
@@ -24,4 +22,7 @@ public class UserEditRequest {
 
     @URL(message = "Requires correct web link format")
     private String profilePicture;
+
+    @Size(max = 20, message = "Favorite driver can't have more than 50 symbols")
+    private String favoriteDriver;
 }

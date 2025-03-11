@@ -10,9 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -35,16 +38,32 @@ public class WalletController {
 
         User user = userService.getById(authenticationMetadata.getUserId());
 
-        Wallet wallet = userService.getWalletByUser(user);
+        Wallet wallet = walletService.getWalletByUser(user.getId());
 
         Map<UUID, List<Transaction>> lastFiveTransactionsPerWallet = walletService.getLastFiveTransactions(user.getWallet());
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("wallet");
+        modelAndView.setViewName("wallet");
         modelAndView.addObject("user", user);
         modelAndView.addObject("wallet", wallet);
         modelAndView.addObject("lastFiveTransactions", lastFiveTransactionsPerWallet);
 
         return modelAndView;
+    }
+
+    @PutMapping("/{id}/status")
+    public String switchWalletStatus(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
+
+        walletService.switchStatus(id, authenticationMetadata.getUserId());
+
+        return "redirect:/wallet";
+    }
+
+    @PutMapping("/{id}/balance/top-up")
+    public String topUpWalletBalance(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
+
+        Transaction transaction = walletService.topUp(id, BigDecimal.valueOf(15));
+
+        return "redirect:/transactions/" + transaction.getId();
     }
 }

@@ -157,6 +157,11 @@
                     <strong>Country: </strong>
                     <p th:text="${#strings.capitalize(#strings.toLowerCase(user.country))}"></p>
                 </div>
+                <div class="details-section-container">
+                    <strong>Favorite driver: </strong>
+                    <p th:text="${#strings.isEmpty(user.favoriteDriver) ? 'Add your favorite driver' : user.favoriteDriver}"></p>
+                </div>
+
             </div>
             <a th:href="@{'/users/' + ${user.id} + '/profile'}" class="profile-actions-button">
                 <p>Edit Profile</p>

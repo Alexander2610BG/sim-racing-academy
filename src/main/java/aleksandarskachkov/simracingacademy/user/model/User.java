@@ -32,6 +32,8 @@ public class User {
 
     private String profilePicture;
 
+    private String favoriteDriver;
+
     @Column(unique = true)
     private String email;
 

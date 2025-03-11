@@ -184,4 +184,62 @@ public class WalletService {
 
         return transactionByWalletId;
     }
+
+    public Wallet getWalletByUser(UUID id) {
+        return walletRepository.findByOwnerId(id);
+    }
+
+    public void switchStatus(UUID walletId, UUID ownerId) {
+
+        Optional<Wallet> optionalWallet = walletRepository.findByIdAndOwnerId(walletId, ownerId);
+
+        if (optionalWallet.isEmpty()) {
+            throw new DomainException("Wallet with id [%s] does not belong to user with id [%s].".formatted(walletId, ownerId));
+        }
+
+        Wallet wallet = optionalWallet.get();
+        if (wallet.getStatus() == WalletStatus.ACTIVE) {
+            wallet.setStatus(WalletStatus.INACTIVE);
+        } else {
+            wallet.setStatus(WalletStatus.ACTIVE);
+        }
+
+        walletRepository.save(wallet);
+    }
+
+    @Transactional
+    public Transaction topUp(UUID walletId, BigDecimal amount) {
+
+        Wallet wallet = getWalletById(walletId);
+        String transactionDescription = "Top up %.2f".formatted(amount.doubleValue());
+
+        if (wallet.getStatus() == WalletStatus.INACTIVE) {
+            return transactionService.createNewTransaction(wallet.getOwner(),
+                    SIM_RACING_ACADEMY,
+                    walletId.toString(),
+                    amount,
+                    wallet.getBalance(),
+                    wallet.getCurrency(),
+                    TransactionType.DEPOSIT,
+                    TransactionStatus.FAILED,
+                    transactionDescription, "Inactive wallet");
+        }
+
+        wallet.setBalance(wallet.getBalance().add(amount));
+        wallet.setUpdatedOn(LocalDateTime.now());
+
+        walletRepository.save(wallet);
+
+        Transaction transaction = transactionService.createNewTransaction(wallet.getOwner(),
+                SIM_RACING_ACADEMY,
+                walletId.toString(),
+                amount,
+                wallet.getBalance(),
+                wallet.getCurrency(),
+                TransactionType.DEPOSIT,
+                TransactionStatus.SUCCEEDED,
+                transactionDescription, null);
+
+        return transaction;
+    }
 }

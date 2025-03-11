@@ -33,7 +33,6 @@
 .single-section-box.payment-result-container::before {
     width: 350px;
     height: 190px;
-    background: radial-gradient(circle, #ff60d745, #679fff);
     top: -90px;
     left: -100px;
 }
@@ -41,7 +40,6 @@
 .single-section-box.payment-result-container::after {
     width: 400px;
     height: 130px;
-    background: radial-gradient(circle, rgb(135 102 255 / 47%), #ff676780);
     bottom: -40px;
     right: -180px;
 }

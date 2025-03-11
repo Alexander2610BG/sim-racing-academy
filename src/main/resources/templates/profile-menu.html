@@ -162,6 +162,10 @@
         <input type="text" id="profilePicture" placeholder="Image Link" th:field="*{profilePicture}">
         <p class="alert-warning" th:if="${#fields.hasErrors('profilePicture')}" th:errors="*{profilePicture}"></p>
 
+        <label for="profilePicture">Favorite Driver</label>
+        <input type="text" id="favoriteDriver" placeholder="Favorite Driver" th:field="*{favoriteDriver}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('favoriteDriver')}" th:errors="*{favoriteDriver}"></p>
+
 
         <button class="profile-actions-button">
           <p>Save</p>

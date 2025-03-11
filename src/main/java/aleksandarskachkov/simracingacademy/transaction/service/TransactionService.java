@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Currency;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -54,9 +55,14 @@ public class TransactionService {
 
     public List<Transaction> getLastFiveTransactionsByWalletId(Wallet wallet) {
 
-        List<Transaction> lastFiveTransactions = transactionRepository.findAllBySenderOrReceiverOrderByCreatedOnDesc(wallet.getId().toString(), wallet.getStatus().toString());
+        List<Transaction> lastFiveTransactions = transactionRepository.findAllBySenderOrReceiverOrderByCreatedOnDesc(wallet.getId().toString(), wallet.getId().toString())
+                .stream()
+                .filter(t -> t.getOwner().getId() == wallet.getOwner().getId())
+                .filter(t -> t.getStatus() == TransactionStatus.SUCCEEDED)
+                .limit(5)
+                .collect(Collectors.toList());
 
-        return null;
+        return lastFiveTransactions;
     }
 
     public Transaction getById(UUID id) {

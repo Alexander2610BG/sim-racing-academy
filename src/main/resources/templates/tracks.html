@@ -9,15 +9,13 @@
     <link rel="stylesheet" type="text/css" href="/css/nav-side-bar.css">
     <link rel="stylesheet" type="text/css" href="/css/home-common.css">
     <link rel="stylesheet" type="text/css" href="/css/home.css">
-    <link rel="stylesheet" type="text/css" href="/css/transfer.css">
-    <title>Transfer Funds</title>
+    <link rel="stylesheet" type="text/css" href="/css/tracks.css">
+    <title>Tracks</title>
 </head>
 <body>
-<nav>
-
-</nav>
 <main>
-    <div class="nav-bar"><div class="side-bar-container">
+<div class="nav-bar">
+    <div class="side-bar-container">
         <nav>
             <div class="side_navbar">
                 <div class="sim-racing-academy-nav-bar">
@@ -40,7 +38,7 @@
                 </div>
                 <div class="func-block">
                     <span>Racing</span>
-                    <a href="/tracks">
+                    <a href="/tracks" class="active">
                         <p>Tracks</p>
                         <svg fill="#000000" height="24px" width="24px" version="1.1" id="Layer_1"
                              xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -68,7 +66,7 @@
                 </div>
                 <div class="func-block">
                     <span>Quick Link</span>
-                    <a href="/transfers" class="active">
+                    <a href="/transfers">
                         <p>Transfers</p>
                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"></path>
@@ -122,38 +120,96 @@
                 </div>
             </div>
         </nav>
-    </div></div>
-    <div class="home-section">
-        <div class="single-section-box transfer-container">
-            <div class="transfer-section">
+    </div>
+</div>
 
-                <h2>Transfer Funds</h2>
+<div class="home-section">
+<!--    <h2 class="page-title">Famous Racing Tracks</h2>-->
 
-                <form th:action="@{/transfers}" th:method="post" class="transfer-form" th:object="${transferRequest}">
+    <div class="tracks-container">
+        <!-- Track 1 -->
+        <div class="track-box">
+            <div class="track-image">
+                <img src="monaco.jpg" alt="Monaco Grand Prix Circuit">
+            </div>
+            <div class="track-details">
+                <h2>Monaco Grand Prix Circuit</h2>
+                <p>One of the most prestigious street circuits in F1, famous for its tight corners.</p>
+                <p class="track-price">$199.99</p>
+                <div class="track-actions">
+                    <button class="btn purchase-btn">Purchase</button>
+                    <button class="btn info-btn">More Info</button>
+                </div>
+            </div>
+        </div>
 
-                    <label for="walletId">Select Wallet</label>
-                    <select id="walletId" name="fromWalletId" required="" th:field="*{fromWalletId}">
-                        <option value="" selected disabled="">Select your wallet</option>
-                        <option th:value="${user.wallet.id}" th:text="${'Standart Wallet - ' + user.wallet.balance + ' EUR'}"></option>
-                    </select>
+        <!-- Track 2 -->
+        <div class="track-box">
+            <div class="track-image">
+                <img src="silverstone.jpg" alt="Silverstone Circuit">
+            </div>
+            <div class="track-details">
+                <h2>Silverstone Circuit</h2>
+                <p>The birthplace of Formula 1, known for its high-speed corners.</p>
+                <p class="track-price">$249.99</p>
+                <div class="track-actions">
+                    <button class="btn purchase-btn">Purchase</button>
+                    <button class="btn info-btn">More Info</button>
+                </div>
+            </div>
+        </div>
 
-                    <label for="toUsername">Recipient Username</label>
-                    <input type="text" id="toUsername" placeholder="Enter recipient's username" required="" th:field="*{toUsername}">
+        <!-- Track 3 -->
+        <div class="track-box">
+            <div class="track-image">
+                <img src="nurburgring.jpg" alt="Nordschleife">
+            </div>
+            <div class="track-details">
+                <h2>Nordschleife</h2>
+                <p>One of the longest and most challenging circuits in the world.</p>
+                <p class="track-price">$299.99</p>
+                <div class="track-actions">
+                    <button class="btn purchase-btn">Purchase</button>
+                    <button class="btn info-btn">More Info</button>
+                </div>
+            </div>
+        </div>
 
-                    <label for="amount">Amount</label>
-                    <input type="number" id="amount" placeholder="Enter amount to send" min="1" step="0.01" required="" th:field="*{amount}">
+        <!-- Track 4 -->
+        <div class="track-box">
+            <div class="track-image">
+                <img src="suzuka.jpg" alt="Suzuka Circuit">
+            </div>
+            <div class="track-details">
+                <h2>Suzuka Circuit</h2>
+                <p>A legendary figure-eight circuit in Japan with technical turns.</p>
+                <p class="track-price">$279.99</p>
+                <div class="track-actions">
+                    <button class="btn purchase-btn">Purchase</button>
+                    <button class="btn info-btn">More Info</button>
+                </div>
+            </div>
+        </div>
 
-                    <button type="submit" class="profile-actions-button">
-                        <p>Send</p>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M10.4995 13.5001L20.9995 3.00005M10.6271 13.8281L13.2552 20.5861C13.4867 21.1815 13.6025 21.4791 13.7693 21.566C13.9139 21.6414 14.0862 21.6415 14.2308 21.5663C14.3977 21.4796 14.5139 21.1821 14.7461 20.587L21.3364 3.69925C21.5461 3.16207 21.6509 2.89348 21.5935 2.72185C21.5437 2.5728 21.4268 2.45583 21.2777 2.40604C21.1061 2.34871 20.8375 2.45352 20.3003 2.66315L3.41258 9.25349C2.8175 9.48572 2.51997 9.60183 2.43326 9.76873C2.35809 9.91342 2.35819 10.0857 2.43353 10.2303C2.52043 10.3971 2.81811 10.5128 3.41345 10.7444L10.1715 13.3725C10.2923 13.4195 10.3527 13.443 10.4036 13.4793C10.4487 13.5114 10.4881 13.5509 10.5203 13.596C10.5566 13.6468 10.5801 13.7073 10.6271 13.8281Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                    </button>
-                </form>
+        <!-- Track 5 -->
+        <div class="track-box">
+            <div class="track-image">
+                <img src="lemans.jpg" alt="Le Mans Circuit">
+            </div>
+            <div class="track-details">
+                <h2>Le Mans Circuit</h2>
+                <p>Home to the 24 Hours of Le Mans, featuring long straights and high speeds.</p>
+                <p class="track-price">$349.99</p>
+                <div class="track-actions">
+                    <button class="btn purchase-btn">Purchase</button>
+                    <button class="btn info-btn">More Info</button>
+                </div>
             </div>
         </div>
     </div>
+
+</div>
 </main>
 <th:block th:insert="~{fragments/footer :: footer}"></th:block>
-
-<span id="okta-plugin-message-channel-available" style="display: none;"></span></body></html>
+</body>
+</html>

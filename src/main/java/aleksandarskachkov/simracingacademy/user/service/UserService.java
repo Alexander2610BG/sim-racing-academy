@@ -116,6 +116,7 @@ public class UserService implements UserDetailsService {
         user.setLastName(userEditRequest.getLastName());
         user.setEmail(userEditRequest.getEmail());
         user.setProfilePicture(userEditRequest.getProfilePicture());
+        user.setFavoriteDriver(userEditRequest.getFavoriteDriver());
 
         userRepository.save(user);
     }
@@ -140,9 +141,5 @@ public class UserService implements UserDetailsService {
         }
 
         userRepository.save(user);
-    }
-
-    public Wallet getWalletByUser(User user) {
-        return userRepository.getWalletById(user.getId());
     }
 }
