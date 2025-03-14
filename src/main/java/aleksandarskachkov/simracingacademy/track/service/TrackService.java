@@ -4,7 +4,7 @@ import aleksandarskachkov.simracingacademy.track.model.Track;
 import aleksandarskachkov.simracingacademy.track.model.TrackName;
 import aleksandarskachkov.simracingacademy.track.model.TrackType;
 import aleksandarskachkov.simracingacademy.track.repository.TrackRepository;
-import aleksandarskachkov.simracingacademy.video.model.Video;
+import aleksandarskachkov.simracingacademy.user.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,16 +26,11 @@ public class TrackService {
         this.trackRepository = trackRepository;
     }
 
-//    public void createDefaultTracks() {
-//
-//        Track bahrain = createTrack(TrackName.BAHRAIN, "bahrain", new BigDecimal("0.00"), TrackType.DEFAULT);
-//        Track imola = createTrack(TrackName.IMOLA, "imola", new BigDecimal("0.00"), TrackType.DEFAULT);
-//
-//    }
 
     public List<Track> getDefaultTracks() {
         return trackRepository.findAllByType(TrackType.DEFAULT);
     }
+
 
     private static final List<Track> DEFAULT_TRACKS = List.of(
             Track.builder()
@@ -43,24 +38,44 @@ public class TrackService {
                     .description("Bahrain International Circuit")
                     .price(new BigDecimal("0.00"))
                     .type(TrackType.DEFAULT)
+                    .imageUrl("https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Bahrain_Circuit.png")
+//                    .videos(List.of(Video))
+                    .build(),
+
+            Track.builder()
+                    .name(TrackName.IMOLA)
+                    .description("Autodromo Enzo e Dino Ferrari")
+                    .price(new BigDecimal("0.00"))
+                    .type(TrackType.DEFAULT)
+                    .imageUrl("https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Emilia_Romagna_Circuit")
 //                    .videos(List.of(Video))
                     .build()
+
     );
 
-    public void initializeTracks() {
-        DEFAULT_TRACKS.forEach(trackRepository::save);
+//    private static final
+
+    public List<Track> createNewDefaultTracks(User user) {
+        List<Track> savedTracks = DEFAULT_TRACKS.stream()
+                .map(t -> {
+                    Track newTrack = Track.builder()
+                            .name(t.getName())
+                            .description(t.getDescription())
+                            .price(t.getPrice())
+                            .imageUrl(t.getImageUrl())
+                            .type(t.getType())
+                            .build();
+
+                    return trackRepository.save(newTrack);
+                })
+                .toList();
+
+        return savedTracks;
     }
 
-//    private Track createTrack(TrackName name, String description, BigDecimal price, TrackType type) {
-//
-//
-//        Track track = Track.builder()
-//                .name(name)
-//                .description(description)
-//                .price(price)
-//                .type(type)
-//                .build();
-//
-//        return trackRepository.save(track);
-//    }
+    public List<Track> getAllTracks(UUID ownerId) {
+
+//        return trackRepository.findAllTracksByUserId(ownerId);
+    return trackRepository.findAllTracksByUserId(ownerId);
+    }
 }

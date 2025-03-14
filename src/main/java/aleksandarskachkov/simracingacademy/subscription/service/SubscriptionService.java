@@ -47,6 +47,9 @@ public class SubscriptionService {
         // to be more safely because the milly seconds
         LocalDateTime now = LocalDateTime.now();
 
+        List<Track> defaultTracks = trackService.createNewDefaultTracks(user);
+        user.setTracks(defaultTracks);
+
         return Subscription.builder()
                 .owner(user)
                 .status(SubscriptionStatus.ACTIVE)
@@ -57,7 +60,9 @@ public class SubscriptionService {
                 .createdOn(now)
                 .completedOn(now.plusMonths(1))
 //                .course(null)
-                .tracks(trackService.getDefaultTracks())
+                .tracks(defaultTracks)
                 .build();
+
+
     }
 }

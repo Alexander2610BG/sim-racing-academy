@@ -64,7 +64,7 @@ public class User {
     @OrderBy("createdOn DESC")
     private List<Subscription> subscriptions = new ArrayList<>();
 
-//    @ManyToMany
-//    private List<Track> tracks = new ArrayList<>();
+    @ManyToMany
+    private List<Track> tracks = new ArrayList<>();
 
 }

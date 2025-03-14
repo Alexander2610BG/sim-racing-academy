@@ -44,8 +44,7 @@ public class Track {
     @ManyToMany(mappedBy = "tracks")
     private List<Subscription> subscriptions = new ArrayList<>();
 
-    //eventually to be removed
-//    @ManyToMany(mappedBy = "tracks")
-//    private List<User> users = new ArrayList<>();
+    @ManyToOne
+    private User owner;
 
 }

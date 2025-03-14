@@ -123,89 +123,88 @@
     </div>
 </div>
 
-<div class="home-section">
-<!--    <h2 class="page-title">Famous Racing Tracks</h2>-->
+    <div class="home-section">
+        <table class="tracks-container">
+            <!-- Track 1 -->
+            <tr th:each="track : ${user.tracks}" class="track-box">
+                <td class="track-image">
+                    <img th:src="${track.imageUrl}" alt="Monaco Grand Prix Circuit">
+                </td>
+                <td class="track-details">
+                    <h2 th:text="${track.name}"></h2>
+                    <p th:text="${track.description}"></p>
+                    <p class="track-price" th:text="${track.price} + ' EUR'"></p>
+                    <div class="track-actions">
+                        <button th:if="${!user.tracks.contains(track)}" class="btn purchase-btn">Purchase</button>
+                        <button class="btn info-btn">More Info</button>
+                    </div>
+                </td>
+            </tr>
 
-    <div class="tracks-container">
-        <!-- Track 1 -->
-        <div class="track-box">
-            <div class="track-image">
-                <img src="monaco.jpg" alt="Monaco Grand Prix Circuit">
-            </div>
-            <div class="track-details">
-                <h2>Monaco Grand Prix Circuit</h2>
-                <p>One of the most prestigious street circuits in F1, famous for its tight corners.</p>
-                <p class="track-price">$199.99</p>
-                <div class="track-actions">
-                    <button class="btn purchase-btn">Purchase</button>
-                    <button class="btn info-btn">More Info</button>
-                </div>
-            </div>
-        </div>
+<!--            &lt;!&ndash; Track 2 &ndash;&gt;-->
+<!--            <tr class="track-box">-->
+<!--                <td class="track-image">-->
+<!--                    <img src="silverstone.jpg" alt="Silverstone Circuit">-->
+<!--                </td>-->
+<!--                <td class="track-details">-->
+<!--                    <h2>Silverstone Circuit</h2>-->
+<!--                    <p>The birthplace of Formula 1, known for its high-speed corners.</p>-->
+<!--                    <p class="track-price">$249.99</p>-->
+<!--                    <div class="track-actions">-->
+<!--                        <button class="btn purchase-btn">Purchase</button>-->
+<!--                        <button class="btn info-btn">More Info</button>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
 
-        <!-- Track 2 -->
-        <div class="track-box">
-            <div class="track-image">
-                <img src="silverstone.jpg" alt="Silverstone Circuit">
-            </div>
-            <div class="track-details">
-                <h2>Silverstone Circuit</h2>
-                <p>The birthplace of Formula 1, known for its high-speed corners.</p>
-                <p class="track-price">$249.99</p>
-                <div class="track-actions">
-                    <button class="btn purchase-btn">Purchase</button>
-                    <button class="btn info-btn">More Info</button>
-                </div>
-            </div>
-        </div>
+<!--            &lt;!&ndash; Track 3 &ndash;&gt;-->
+<!--            <tr class="track-box">-->
+<!--                <td class="track-image">-->
+<!--                    <img src="nurburgring.jpg" alt="Nordschleife">-->
+<!--                </td>-->
+<!--                <td class="track-details">-->
+<!--                    <h2>Nordschleife</h2>-->
+<!--                    <p>One of the longest and most challenging circuits in the world.</p>-->
+<!--                    <p class="track-price">$299.99</p>-->
+<!--                    <div class="track-actions">-->
+<!--                        <button class="btn purchase-btn">Purchase</button>-->
+<!--                        <button class="btn info-btn">More Info</button>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
 
-        <!-- Track 3 -->
-        <div class="track-box">
-            <div class="track-image">
-                <img src="nurburgring.jpg" alt="Nordschleife">
-            </div>
-            <div class="track-details">
-                <h2>Nordschleife</h2>
-                <p>One of the longest and most challenging circuits in the world.</p>
-                <p class="track-price">$299.99</p>
-                <div class="track-actions">
-                    <button class="btn purchase-btn">Purchase</button>
-                    <button class="btn info-btn">More Info</button>
-                </div>
-            </div>
-        </div>
+<!--            &lt;!&ndash; Track 4 &ndash;&gt;-->
+<!--            <tr class="track-box">-->
+<!--                <td class="track-image">-->
+<!--                    <img src="suzuka.jpg" alt="Suzuka Circuit">-->
+<!--                </td>-->
+<!--                <td class="track-details">-->
+<!--                    <h2>Suzuka Circuit</h2>-->
+<!--                    <p>A legendary figure-eight circuit in Japan with technical turns.</p>-->
+<!--                    <p class="track-price">$279.99</p>-->
+<!--                    <div class="track-actions">-->
+<!--                        <button class="btn purchase-btn">Purchase</button>-->
+<!--                        <button class="btn info-btn">More Info</button>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
 
-        <!-- Track 4 -->
-        <div class="track-box">
-            <div class="track-image">
-                <img src="suzuka.jpg" alt="Suzuka Circuit">
-            </div>
-            <div class="track-details">
-                <h2>Suzuka Circuit</h2>
-                <p>A legendary figure-eight circuit in Japan with technical turns.</p>
-                <p class="track-price">$279.99</p>
-                <div class="track-actions">
-                    <button class="btn purchase-btn">Purchase</button>
-                    <button class="btn info-btn">More Info</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Track 5 -->
-        <div class="track-box">
-            <div class="track-image">
-                <img src="lemans.jpg" alt="Le Mans Circuit">
-            </div>
-            <div class="track-details">
-                <h2>Le Mans Circuit</h2>
-                <p>Home to the 24 Hours of Le Mans, featuring long straights and high speeds.</p>
-                <p class="track-price">$349.99</p>
-                <div class="track-actions">
-                    <button class="btn purchase-btn">Purchase</button>
-                    <button class="btn info-btn">More Info</button>
-                </div>
-            </div>
-        </div>
+<!--            &lt;!&ndash; Track 5 &ndash;&gt;-->
+<!--            <tr class="track-box">-->
+<!--                <td class="track-image">-->
+<!--                    <img src="lemans.jpg" alt="Le Mans Circuit">-->
+<!--                </td>-->
+<!--                <td class="track-details">-->
+<!--                    <h2>Le Mans Circuit</h2>-->
+<!--                    <p>Home to the 24 Hours of Le Mans, featuring long straights and high speeds.</p>-->
+<!--                    <p class="track-price">$349.99</p>-->
+<!--                    <div class="track-actions">-->
+<!--                        <button class="btn purchase-btn">Purchase</button>-->
+<!--                        <button class="btn info-btn">More Info</button>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
+        </table>
     </div>
 
 </div>

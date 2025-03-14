@@ -4,6 +4,7 @@ import aleksandarskachkov.simracingacademy.exception.DomainException;
 import aleksandarskachkov.simracingacademy.security.AuthenticationMetadata;
 import aleksandarskachkov.simracingacademy.subscription.model.Subscription;
 import aleksandarskachkov.simracingacademy.subscription.service.SubscriptionService;
+import aleksandarskachkov.simracingacademy.track.model.Track;
 import aleksandarskachkov.simracingacademy.track.repository.TrackRepository;
 import aleksandarskachkov.simracingacademy.track.service.TrackService;
 import aleksandarskachkov.simracingacademy.user.model.User;
@@ -69,6 +70,9 @@ public class UserService implements UserDetailsService {
         // potentially to be removed if user cant buy tracks
 //        List<Track> defaultTracks = trackRepository.getAllTracksByType(TrackType.DEFAULT);
 //        user.setTracks(defaultTracks);
+//
+//        List<Track> defaultTracks = trackService.createNewDefaultTracks(user);
+//        user.setTracks(defaultTracks);
 
         log.info("Successfully created new user account for username [%s] and id [%s]"
                 .formatted(user.getUsername(), user.getId()));
@@ -86,9 +90,14 @@ public class UserService implements UserDetailsService {
                 .isActive(true)
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())
-//                .tracks(trackService.getDefaultTracks())
                 .build();
     }
+
+//    private List<Track> linkTracksToUser() {
+//
+//        return trackService.createNewDefaultTracks();
+//
+//    }
 
     public List<User> getAllUsers() {
 
