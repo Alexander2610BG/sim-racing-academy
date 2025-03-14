@@ -124,90 +124,25 @@
 </div>
 
     <div class="home-section">
-        <table class="tracks-container">
-            <!-- Track 1 -->
-            <tr th:each="track : ${user.tracks}" class="track-box">
-                <td class="track-image">
-                    <img th:src="${track.imageUrl}" alt="Monaco Grand Prix Circuit">
-                </td>
-                <td class="track-details">
-                    <h2 th:text="${track.name}"></h2>
-                    <p th:text="${track.description}"></p>
-                    <p class="track-price" th:text="${track.price} + ' EUR'"></p>
-                    <div class="track-actions">
-                        <button th:if="${!user.tracks.contains(track)}" class="btn purchase-btn">Purchase</button>
-                        <button class="btn info-btn">More Info</button>
-                    </div>
-                </td>
-            </tr>
-
-<!--            &lt;!&ndash; Track 2 &ndash;&gt;-->
-<!--            <tr class="track-box">-->
-<!--                <td class="track-image">-->
-<!--                    <img src="silverstone.jpg" alt="Silverstone Circuit">-->
-<!--                </td>-->
-<!--                <td class="track-details">-->
-<!--                    <h2>Silverstone Circuit</h2>-->
-<!--                    <p>The birthplace of Formula 1, known for its high-speed corners.</p>-->
-<!--                    <p class="track-price">$249.99</p>-->
-<!--                    <div class="track-actions">-->
-<!--                        <button class="btn purchase-btn">Purchase</button>-->
-<!--                        <button class="btn info-btn">More Info</button>-->
-<!--                    </div>-->
-<!--                </td>-->
-<!--            </tr>-->
-
-<!--            &lt;!&ndash; Track 3 &ndash;&gt;-->
-<!--            <tr class="track-box">-->
-<!--                <td class="track-image">-->
-<!--                    <img src="nurburgring.jpg" alt="Nordschleife">-->
-<!--                </td>-->
-<!--                <td class="track-details">-->
-<!--                    <h2>Nordschleife</h2>-->
-<!--                    <p>One of the longest and most challenging circuits in the world.</p>-->
-<!--                    <p class="track-price">$299.99</p>-->
-<!--                    <div class="track-actions">-->
-<!--                        <button class="btn purchase-btn">Purchase</button>-->
-<!--                        <button class="btn info-btn">More Info</button>-->
-<!--                    </div>-->
-<!--                </td>-->
-<!--            </tr>-->
-
-<!--            &lt;!&ndash; Track 4 &ndash;&gt;-->
-<!--            <tr class="track-box">-->
-<!--                <td class="track-image">-->
-<!--                    <img src="suzuka.jpg" alt="Suzuka Circuit">-->
-<!--                </td>-->
-<!--                <td class="track-details">-->
-<!--                    <h2>Suzuka Circuit</h2>-->
-<!--                    <p>A legendary figure-eight circuit in Japan with technical turns.</p>-->
-<!--                    <p class="track-price">$279.99</p>-->
-<!--                    <div class="track-actions">-->
-<!--                        <button class="btn purchase-btn">Purchase</button>-->
-<!--                        <button class="btn info-btn">More Info</button>-->
-<!--                    </div>-->
-<!--                </td>-->
-<!--            </tr>-->
-
-<!--            &lt;!&ndash; Track 5 &ndash;&gt;-->
-<!--            <tr class="track-box">-->
-<!--                <td class="track-image">-->
-<!--                    <img src="lemans.jpg" alt="Le Mans Circuit">-->
-<!--                </td>-->
-<!--                <td class="track-details">-->
-<!--                    <h2>Le Mans Circuit</h2>-->
-<!--                    <p>Home to the 24 Hours of Le Mans, featuring long straights and high speeds.</p>-->
-<!--                    <p class="track-price">$349.99</p>-->
-<!--                    <div class="track-actions">-->
-<!--                        <button class="btn purchase-btn">Purchase</button>-->
-<!--                        <button class="btn info-btn">More Info</button>-->
-<!--                    </div>-->
-<!--                </td>-->
-<!--            </tr>-->
-        </table>
+        <!-- Each Track in a separate Section -->
+        <section th:each="track : ${user.tracks}" class="track-box">
+            <div class="track-image">
+                <img th:src="${track.imageUrl}" alt="Monaco Grand Prix Circuit">
+            </div>
+            <div class="track-details">
+                <h2 th:text="${track.name}"></h2>
+                <p th:text="${track.description}"></p>
+                <p class="track-price" th:text="${track.price} + ' EUR'"></p>
+                <div class="track-actions">
+                    <button th:if="${!user.tracks.contains(track)}" class="btn purchase-btn">Purchase</button>
+                    <button class="btn info-btn">Watch Tutorials</button>
+                </div>
+            </div>
+        </section>
     </div>
 
-</div>
+
+    </div>
 </main>
 <th:block th:insert="~{fragments/footer :: footer}"></th:block>
 </body>

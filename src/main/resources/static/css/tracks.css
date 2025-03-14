@@ -1,113 +1,112 @@
-.tracks-wrapper {
+/* Home Section */
+.home-section {
+    display: grid;
+    gap: 20px; /* Space between tracks */
+    padding: 20px;
+    grid-template-columns: repeat(2, 1fr); /* 2 items per row */
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Track Box Styling */
+.track-box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: box-shadow 0.3s ease, transform 0.2s ease-in-out;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center horizontally */
-    justify-content: center;
-    width: 100%;
+    align-items: center;
+    justify-content: space-between; /* Aligns items within the section */
 }
 
-/* Center the tracks container */
-.tracks-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto; /* Center the grid */
-    justify-items: center; /* Ensure grid items are centered */
-}
-
-/* Ensure each track box is centered and responsive */
-.track-box {
-    background-color: #1a1a1a;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    color: #fff;
-    width: 100%;
-    max-width: 350px; /* Limit width for better centering */
-    text-align: center;
-}
-
+/* Hover effect for track box */
 .track-box:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
 }
 
+/* Track Image */
 .track-image img {
     width: 100%;
-    height: 200px;
-    object-fit: cover;
+    height: auto;
+    object-fit: contain; /* Display the full image */
+    border-radius: 8px;
 }
 
+/* Track Details */
 .track-details {
-    padding: 15px;
+    margin-top: 15px;
 }
 
+/* Track Name (Red) */
 .track-details h2 {
-    font-size: 24px;
+    font-size: 1.5rem;
     margin-bottom: 10px;
-    color: #ff4500;
+    color: #ff0000;
+    font-family: 'Roboto', sans-serif;
 }
 
+/* Track Description */
 .track-details p {
-    font-size: 14px;
-    margin: 5px 0;
-    color: #ccc;
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 10px;
+    font-family: 'Roboto', sans-serif;
 }
 
+/* Track Price */
 .track-price {
-    font-size: 18px;
-    font-weight: bold;
-    color: #4CAF50;
-    margin: 10px 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    font-family: 'Roboto', sans-serif;
 }
 
-/* Buttons */
+/* Track Actions */
 .track-actions {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-top: 10px;
 }
 
-.btn {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
+/* Buttons */
+.track-actions .btn {
+    padding: 10px 20px;
     font-size: 14px;
+    border-radius: 5px;
+    border: none;
     cursor: pointer;
+    color: #ffffff;
+    background-color: #ff0000;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    flex: 1;
-    max-width: 120px;
 }
 
-.purchase-btn {
+/* Button Hover Effect */
+.track-actions .btn:hover {
+    background-color: #cc0000;
+    transform: scale(1.05);
+}
+
+/* Special Purchase Button */
+.track-actions .purchase-btn {
     background-color: #28a745;
-    color: white;
 }
 
-.purchase-btn:hover {
+.track-actions .purchase-btn:hover {
     background-color: #218838;
-    transform: scale(1.05);
 }
 
-.info-btn {
-    background-color: #ff4500;
-    color: white;
+/* Watch Tutorials Button */
+.track-actions .info-btn {
+    background-color: #007bff;
 }
 
-.info-btn:hover {
-    background-color: #cc3700;
-    transform: scale(1.05);
-}
-
-.page-title {
-    font-size: 32px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    text-align: center;
-    color: #fff;
-    width: 100%;
+.track-actions .info-btn:hover {
+    background-color: #0056b3;
 }

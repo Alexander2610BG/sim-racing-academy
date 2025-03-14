@@ -1,6 +1,9 @@
 package aleksandarskachkov.simracingacademy.web;
 
 import aleksandarskachkov.simracingacademy.security.AuthenticationMetadata;
+import aleksandarskachkov.simracingacademy.subscription.model.SubscriptionType;
+import aleksandarskachkov.simracingacademy.subscription.service.SubscriptionService;
+import aleksandarskachkov.simracingacademy.transaction.model.Transaction;
 import aleksandarskachkov.simracingacademy.user.model.User;
 import aleksandarskachkov.simracingacademy.user.service.UserService;
 import aleksandarskachkov.simracingacademy.web.dto.UpgradeRequest;
@@ -11,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -18,10 +22,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class SubscriptionController {
 
     private final UserService userService;
+    private final SubscriptionService subscriptionService;
 
     @Autowired
-    public SubscriptionController(UserService userService) {
+    public SubscriptionController(UserService userService, SubscriptionService subscriptionService) {
         this.userService = userService;
+        this.subscriptionService = subscriptionService;
     }
 
     @GetMapping
@@ -50,4 +56,13 @@ public class SubscriptionController {
         return modelAndView;
     }
 
+    @PostMapping
+    public String upgrade(@RequestParam("subscription-type")SubscriptionType subscriptionType, UpgradeRequest upgradeRequest, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
+
+        User user = userService.getById(authenticationMetadata.getUserId());
+
+        Transaction upgradeResult = subscriptionService.upgrade(user, subscriptionType, upgradeRequest);
+
+        return "redirect:/transactions/" + upgradeResult.getId();
+    }
 }
