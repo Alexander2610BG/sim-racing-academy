@@ -7,12 +7,15 @@ import aleksandarskachkov.simracingacademy.transaction.model.TransactionStatus;
 import aleksandarskachkov.simracingacademy.transaction.model.TransactionType;
 import aleksandarskachkov.simracingacademy.transaction.service.TransactionService;
 import aleksandarskachkov.simracingacademy.user.model.User;
+import aleksandarskachkov.simracingacademy.user.service.UserService;
 import aleksandarskachkov.simracingacademy.wallet.model.Wallet;
 import aleksandarskachkov.simracingacademy.wallet.model.WalletStatus;
 import aleksandarskachkov.simracingacademy.wallet.repository.WalletRepository;
+import aleksandarskachkov.simracingacademy.web.dto.DonationRequest;
 import aleksandarskachkov.simracingacademy.web.dto.PaymentNotificationEvent;
 import aleksandarskachkov.simracingacademy.web.dto.TransferRequest;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -242,4 +245,8 @@ public class WalletService {
 
         return transaction;
     }
+
+    public Transaction donate(User sender, @Valid DonationRequest donationRequest) {
+
+       return charge(sender, donationRequest.getFromWalletId(), donationRequest.getAmount(), "Donation for Nikola Tsolov");}
 }

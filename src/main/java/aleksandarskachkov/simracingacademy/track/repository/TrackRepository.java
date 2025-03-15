@@ -22,4 +22,7 @@ public interface TrackRepository extends JpaRepository<Track, UUID> {
 
     @Query("SELECT t FROM Track t JOIN t.subscriptions s JOIN s.owner u WHERE u.id = :ownerId")
     List<Track> findAllTracksByUserId(@Param("ownerId") UUID ownerId);
+
+    Track findByName(TrackName name);
+
 }

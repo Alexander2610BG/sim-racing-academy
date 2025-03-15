@@ -6,6 +6,9 @@ import aleksandarskachkov.simracingacademy.track.model.TrackName;
 import aleksandarskachkov.simracingacademy.track.model.TrackType;
 import aleksandarskachkov.simracingacademy.track.repository.TrackRepository;
 import aleksandarskachkov.simracingacademy.user.model.User;
+import aleksandarskachkov.simracingacademy.video.repository.VideoRepository;
+//import aleksandarskachkov.simracingacademy.video.service.VideoService;
+import aleksandarskachkov.simracingacademy.video.service.VideoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,12 +22,13 @@ import java.util.UUID;
 public class TrackService {
 
     private final TrackRepository trackRepository;
-
+    private final VideoService videoService;
 
 
     @Autowired
-    public TrackService(TrackRepository trackRepository) {
+    public TrackService(TrackRepository trackRepository, VideoService videoService) {
         this.trackRepository = trackRepository;
+        this.videoService = videoService;
     }
 
 
@@ -33,14 +37,14 @@ public class TrackService {
     }
 
 
-    private static final List<Track> DEFAULT_TRACKS = List.of(
+    private final List<Track> DEFAULT_TRACKS = List.of(
             Track.builder()
                     .name(TrackName.BAHRAIN)
                     .description("Bahrain International Circuit")
                     .price(new BigDecimal("0.00"))
                     .type(TrackType.DEFAULT)
                     .imageUrl("https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Bahrain_Circuit.png")
-//                    .videos(List.of(Video))
+//                    .videos(videoService.getVideosForBahrain(TrackName.BAHRAIN))
                     .build(),
 
             Track.builder()
@@ -91,40 +95,45 @@ public class TrackService {
 //    private static final
 
     public List<Track> createNewDefaultTracks(User user) {
-        List<Track> savedTracks = DEFAULT_TRACKS.stream()
+        return DEFAULT_TRACKS.stream()
                 .map(t -> {
-                    Track newTrack = Track.builder()
-                            .name(t.getName())
-                            .description(t.getDescription())
-                            .price(t.getPrice())
-                            .imageUrl(t.getImageUrl())
-                            .type(t.getType())
-                            .build();
-
-                    return trackRepository.save(newTrack);
-                })
-                .toList();
-
-        return savedTracks;
+                    Track existingTrack = trackRepository.findByName(t.getName());
+                    if (existingTrack != null) {
+                        return existingTrack;
+                    }
+                    return trackRepository.save(
+                            Track.builder()
+                                    .name(t.getName())
+                                    .description(t.getDescription())
+                                    .price(t.getPrice())
+                                    .imageUrl(t.getImageUrl())
+                                    .type(t.getType())
+                                    .videos(videoService.getVideosForTrack(t.getName()))
+                                    .build()
+                    );
+                }).toList();
     }
 
     public List<Track> createNewUpgradeTracks(User user) {
-        List<Track> savedTracks = UPGRADED_TRACKS.stream()
+        return UPGRADED_TRACKS.stream()
                 .map(t -> {
-                    Track newTrack = Track.builder()
-                            .name(t.getName())
-                            .description(t.getDescription())
-                            .price(t.getPrice())
-                            .imageUrl(t.getImageUrl())
-                            .type(t.getType())
-                            .build();
-
-                    return trackRepository.save(newTrack);
-                })
-                .toList();
-
-        return savedTracks;
+                    Track existingTrack = trackRepository.findByName(t.getName());
+                    if (existingTrack != null) {
+                        return existingTrack;
+                    }
+                    return trackRepository.save(
+                            Track.builder()
+                                    .name(t.getName())
+                                    .description(t.getDescription())
+                                    .price(t.getPrice())
+                                    .imageUrl(t.getImageUrl())
+                                    .type(t.getType())
+                                    .videos(videoService.getVideosForTrack(t.getName()))
+                                    .build()
+                    );
+                }).toList();
     }
+
 
     public List<Track> getAllTracks(UUID ownerId) {
 
@@ -136,4 +145,16 @@ public class TrackService {
 
         return trackRepository.findById(id).orElseThrow(() -> new DomainException("Track with id [%s] does not exits.".formatted(id)));
     }
+
+    public Track getTrackByName(String name) {
+        return trackRepository.findByName(TrackName.valueOf(name));
+    }
+
+//    private List<Track> attachVideosToTracks(List<Track> tracks) {
+//        for (Track track : tracks) {
+//            track.setVideos(videoService.getVideosForTrack(track.getId()));
+//        }
+//
+//        return tracks;
+//    }
 }

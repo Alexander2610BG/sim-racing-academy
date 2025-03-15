@@ -45,21 +45,21 @@ public class TrackController {
         return modelAndView;
     }
 
-    @GetMapping("/{id}/videos")
-    public ModelAndView getVideosPageOfTrack(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
-
-        User user = userService.getById(authenticationMetadata.getUserId());
-
-//        List<Video> videos = trackService.getAllVideosOfTrack(id);
-
-        Track track = trackService.getTrackById(id);
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("videos");
-        modelAndView.addObject("user", user);
-        modelAndView.addObject("track", track);
-//        modelAndView.addObject("videos", videos);
-
-        return modelAndView;
-    }
+//    @GetMapping("/{id}/videos")
+//    public ModelAndView getVideosPageOfTrack(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
+//
+//        User user = userService.getById(authenticationMetadata.getUserId());
+//
+////        List<Video> videos = trackService.getAllVideosOfTrack(id);
+//
+//        Track track = trackService.getTrackById(id);
+//
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("videos");
+//        modelAndView.addObject("user", user);
+//        modelAndView.addObject("track", track);
+////        modelAndView.addObject("videos", videos);
+//
+//        return modelAndView;
+//    }
 }
