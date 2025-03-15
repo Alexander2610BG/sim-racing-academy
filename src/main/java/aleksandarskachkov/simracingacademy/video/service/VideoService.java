@@ -51,15 +51,23 @@ public class VideoService {
 
     @PostConstruct
     public void initializeTrackVideos() {
-        createVideo("Bahrain Hot Lap", "https://www.youtube.com/embed/-e4-1y_fDDw?si=_7B6bPvMXnTus2-7", "A fast lap around Imola.", TrackName.BAHRAIN);
-        createVideo("Bahrain Track Guide", "https://www.youtube.com/embed/HPxlzAoBVX4", "A detailed guide to mastering Imola.", TrackName.BAHRAIN);
+        createVideo("Bahrain Hot Lap", "https://www.youtube.com/embed/-e4-1y_fDDw?si=_7B6bPvMXnTus2-7", "A fast lap around Bahrain.", TrackName.BAHRAIN);
+        createVideo("Bahrain Track Guide", "https://www.youtube.com/embed/HPxlzAoBVX4", "A detailed guide to mastering Bahrain.", TrackName.BAHRAIN);
 
         createVideo("Imola Hot Lap", "https://www.youtube.com/embed/oPGG-ip5IaQ", "A fast lap around Imola.", TrackName.IMOLA);
         createVideo("Imola Track Guide", "https://www.youtube.com/embed/lpNkpVCptIQ", "A detailed guide to mastering Imola.", TrackName.IMOLA);
 
-        createVideo("Imola Hot Lap", "https://www.youtube.com/embed/oPGG-ip5IaQ", "A fast lap around Imola.", TrackName.IMOLA);
-        createVideo("Imola Track Guide", "https://www.youtube.com/embed/lpNkpVCptIQ", "A detailed guide to mastering Imola.", TrackName.IMOLA);
+        createVideo("Suzuka Hot Lap", "https://www.youtube.com/embed/q-85hyxBlvc", "A fast lap around Suzuka.", TrackName.SUZUKA);
+        createVideo("Suzuka Track Guide", "https://www.youtube.com/embed/XUJlIWnyP_0", "A detailed guide to mastering Suzuka.", TrackName.SUZUKA);
 
+        createVideo("Spa Hot Lap", "https://www.youtube.com/embed/8_0iCbtBJGw", "A fast lap around Spa.", TrackName.SPA_FRANCORCHAMPS);
+        createVideo("Spa Track Guide", "https://www.youtube.com/embed/PMhBVq2QpJU", "A detailed guide to mastering Spa.", TrackName.SPA_FRANCORCHAMPS);
+
+        createVideo("Monaco Hot Lap", "https://www.youtube.com/embed/ntZMFR1-Z2E", "A fast lap around Monaco.", TrackName.SPA_FRANCORCHAMPS);
+        createVideo("Monaco Track Guide", "https://www.youtube.com/embed/FL5RiPGxgd0", "A detailed guide to mastering Monaco.", TrackName.SPA_FRANCORCHAMPS);
+
+        createVideo("Monza Hot Lap", "https://www.youtube.com/embed/NyLHgXyU4Iw", "A fast lap around Monza.", TrackName.MONZA);
+        createVideo("Monza Track Guide", "https://www.youtube.com/embed/Xbhi2Vnk36Q", "A detailed guide to mastering Monza.", TrackName.MONZA);
     }
 
     // Store video mappings
