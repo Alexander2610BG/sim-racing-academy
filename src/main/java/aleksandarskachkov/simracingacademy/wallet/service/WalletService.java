@@ -175,6 +175,7 @@ public class WalletService {
                 .currency(Currency.getInstance("EUR"))
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())
+                .donatedAmount(new BigDecimal("0.00"))
                 .build();
     }
 
@@ -247,6 +248,8 @@ public class WalletService {
     }
 
     public Transaction donate(User sender, @Valid DonationRequest donationRequest) {
+
+        sender.getWallet().setDonatedAmount(sender.getWallet().getDonatedAmount().add(donationRequest.getAmount()));
 
        return charge(sender, donationRequest.getFromWalletId(), donationRequest.getAmount(), "Donation for Nikola Tsolov");}
 }

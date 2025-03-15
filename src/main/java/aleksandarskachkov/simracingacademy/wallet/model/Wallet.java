@@ -39,4 +39,7 @@ public class Wallet {
 
     @Column(nullable = false)
     private LocalDateTime updatedOn;
+
+    @Column(nullable = false)
+    private BigDecimal donatedAmount;
 }

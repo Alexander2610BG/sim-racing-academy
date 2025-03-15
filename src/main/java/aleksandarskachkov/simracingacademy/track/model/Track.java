@@ -29,8 +29,8 @@ public class Track {
 
     private String description;
 
-    @Column(nullable = false)
-    private BigDecimal price;
+//    @Column(nullable = false)
+//    private BigDecimal price;
 
     private String imageUrl;
 

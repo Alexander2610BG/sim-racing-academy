@@ -72,10 +72,18 @@ public class SubscriptionService {
     }
 
     private List<Track> getDefaultTracks(User user) {
-        List<Track> defaultTracks = trackService.createNewDefaultTracks(user);
+
+        List<Track> defaultTracks = trackService.getAllTracksByType(TrackType.DEFAULT);
         user.setTracks(defaultTracks);
         return defaultTracks;
     }
+
+    private List<Track> getSubscriptionTracks(User user) {
+        List<Track> subscriptionTracks = trackService.getAllTracksByType(TrackType.SUBSCRIPTION);
+        user.setTracks(subscriptionTracks);
+        return subscriptionTracks;
+    }
+
 
     @Transactional
     public Transaction upgrade(User user, SubscriptionType subscriptionType, UpgradeRequest upgradeRequest) {
@@ -108,7 +116,7 @@ public class SubscriptionService {
             completedOn = now.plusYears(1);
         }
 
-        List<Track> upgradeTracks = trackService.createNewUpgradeTracks(user);
+        List<Track> upgradeTracks = getSubscriptionTracks(user);
         List<Track> defaultTracks = getDefaultTracks(user);
 
         List<Track> allTracks = new ArrayList<>(defaultTracks);
