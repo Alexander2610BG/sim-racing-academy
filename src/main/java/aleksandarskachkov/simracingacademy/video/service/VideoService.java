@@ -54,10 +54,12 @@ public class VideoService {
         createVideo("Bahrain Hot Lap", "https://www.youtube.com/embed/-e4-1y_fDDw?si=_7B6bPvMXnTus2-7", "A fast lap around Imola.", TrackName.BAHRAIN);
         createVideo("Bahrain Track Guide", "https://www.youtube.com/embed/HPxlzAoBVX4", "A detailed guide to mastering Imola.", TrackName.BAHRAIN);
 
-        createVideo("Imola Hot Lap", "https://www.youtube.com/embed/lpNkpVCptIQ", "A fast lap around Imola.", TrackName.IMOLA);
-        createVideo("Imola Track Guide", "https://www.youtube.com/embed/HPxlzAoBVX4", "A detailed guide to mastering Imola.", TrackName.IMOLA);
+        createVideo("Imola Hot Lap", "https://www.youtube.com/embed/oPGG-ip5IaQ", "A fast lap around Imola.", TrackName.IMOLA);
+        createVideo("Imola Track Guide", "https://www.youtube.com/embed/lpNkpVCptIQ", "A detailed guide to mastering Imola.", TrackName.IMOLA);
 
-//        https://youtu.be/lpNkpVCptIQ
+        createVideo("Imola Hot Lap", "https://www.youtube.com/embed/oPGG-ip5IaQ", "A fast lap around Imola.", TrackName.IMOLA);
+        createVideo("Imola Track Guide", "https://www.youtube.com/embed/lpNkpVCptIQ", "A detailed guide to mastering Imola.", TrackName.IMOLA);
+
     }
 
     // Store video mappings
