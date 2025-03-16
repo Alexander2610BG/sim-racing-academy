@@ -1,5 +1,6 @@
 package aleksandarskachkov.simracingacademy.subscription.model;
 
+import aleksandarskachkov.simracingacademy.module.model.Module;
 import aleksandarskachkov.simracingacademy.track.model.Track;
 import aleksandarskachkov.simracingacademy.user.model.User;
 import jakarta.persistence.*;
@@ -57,6 +58,13 @@ public class Subscription {
             inverseJoinColumns = @JoinColumn
     )
     private List<Track> tracks = new ArrayList<>();
+
+//    @ManyToMany
+//    @JoinTable(
+//            joinColumns = @JoinColumn,
+//            inverseJoinColumns = @JoinColumn
+//    )
+//    private List<Module> modules = new ArrayList<>();
 
 //    @ManyToMany
 //    private List<Module> modules = new ArrayList<>();

@@ -56,6 +56,9 @@ public class SubscriptionService {
         LocalDateTime now = LocalDateTime.now();
 
         List<Track> defaultTracks = getDefaultTracks(user);
+//        List<Track> defaultTracks = trackService.getAllTracksByType(TrackType.DEFAULT);
+
+//        user.setTracks(defaultTracks);
 
         return Subscription.builder()
                 .owner(user)
@@ -66,19 +69,20 @@ public class SubscriptionService {
                 .renewalAllowed(true)
                 .createdOn(now)
                 .completedOn(now.plusMonths(1))
-//                .course(null)
                 .tracks(defaultTracks)
                 .build();
     }
 
     private List<Track> getDefaultTracks(User user) {
 
+//         return trackService.getAllTracksByType(TrackType.DEFAULT);
         List<Track> defaultTracks = trackService.getAllTracksByType(TrackType.DEFAULT);
         user.setTracks(defaultTracks);
         return defaultTracks;
     }
 
     private List<Track> getSubscriptionTracks(User user) {
+//       return trackService.getAllTracksByType(TrackType.SUBSCRIPTION);
         List<Track> subscriptionTracks = trackService.getAllTracksByType(TrackType.SUBSCRIPTION);
         user.setTracks(subscriptionTracks);
         return subscriptionTracks;
@@ -119,8 +123,12 @@ public class SubscriptionService {
         List<Track> upgradeTracks = getSubscriptionTracks(user);
         List<Track> defaultTracks = getDefaultTracks(user);
 
-        List<Track> allTracks = new ArrayList<>(defaultTracks);
-        allTracks.addAll(upgradeTracks);
+        List<Track> allTracks = new ArrayList<>(currentSubscription.getTracks());  // Start with existing tracks
+        allTracks.addAll(upgradeTracks); // Add upgrade tracks
+        allTracks.addAll(defaultTracks);
+
+//        List<Track> allTracks = new ArrayList<>(defaultTracks);
+//        allTracks.addAll(upgradeTracks);
 
         user.setTracks(allTracks);
 
@@ -140,7 +148,7 @@ public class SubscriptionService {
         currentSubscription.setCompletedOn(now);
         currentSubscription.setStatus(SubscriptionStatus.COMPLETED);
 
-        // removes the tracks for upgraded subscriptions
+//         removes the tracks for upgraded subscriptions
         if (newSubscription.getType() == SubscriptionType.DEFAULT) {
             newSubscription.setTracks(getDefaultTracks(user));
         }

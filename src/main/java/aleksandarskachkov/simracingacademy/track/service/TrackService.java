@@ -50,80 +50,168 @@ public class TrackService {
         return trackRepository.save(track);
     }
 
-    // creates the tracks when for first time is run the app
+
+    private void addTrackIfNotExists(TrackName trackName, String description, String imageUrl, TrackType type) {
+        // Check if track already exists
+        Optional<Track> existingTrack = Optional.ofNullable(trackRepository.findByName(trackName));
+        if (existingTrack.isPresent()) {
+            log.info("Track '{}' already exists. Skipping...", trackName);
+        } else {
+            // Create the track if it does not exist
+            createTrack(trackName, description, imageUrl, type, List.of());
+        }
+    }
+
     @PostConstruct
     public void initializeTracks() {
-
+        // Define all available tracks
         List<TrackName> trackNames = List.of(
                 TrackName.BAHRAIN,
                 TrackName.IMOLA,
                 TrackName.SUZUKA,
                 TrackName.SPA_FRANCORCHAMPS,
                 TrackName.MONACO,
-                TrackName.MONZA
+                TrackName.MONZA,
+                TrackName.SPAIN // A,dd Spain track here
         );
+
         for (TrackName trackName : trackNames) {
-            Optional<Track> existingTrack = Optional.ofNullable(trackRepository.findByName(trackName));
-
-            if (existingTrack.isPresent()) {
-                log.info("Track '{}' already exists. Skipping...", trackName);
-                continue;
+            // Add track if not exists
+            switch (trackName) {
+                case BAHRAIN -> addTrackIfNotExists(
+                        TrackName.BAHRAIN,
+                        "Bahrain International Circuit",
+                        "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Bahrain_Circuit.png",
+                        TrackType.DEFAULT
+                );
+                case IMOLA -> addTrackIfNotExists(
+                        TrackName.IMOLA,
+                        "Autodromo Enzo e Dino Ferrari",
+                        "https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Emilia_Romagna_Circuit",
+                        TrackType.DEFAULT
+                );
+                case SUZUKA -> addTrackIfNotExists(
+                        TrackName.SUZUKA,
+                        "Suzuka International Racing Course",
+                        "https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Japan_Circuit",
+                        TrackType.SUBSCRIPTION
+                );
+                case SPA_FRANCORCHAMPS -> addTrackIfNotExists(
+                        TrackName.SPA_FRANCORCHAMPS,
+                        "Circuit de Spa-Francorchamps",
+                        "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Belgium_Circuit.png",
+                        TrackType.SUBSCRIPTION
+                );
+                case MONACO -> addTrackIfNotExists(
+                        TrackName.MONACO,
+                        "Circuit de Monaco",
+                        "https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Monaco_Circuit",
+                        TrackType.SUBSCRIPTION
+                );
+                case MONZA -> addTrackIfNotExists(
+                        TrackName.MONZA,
+                        "Monza National Autodrome",
+                        "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Italy_Circuit.png",
+                        TrackType.SUBSCRIPTION
+                );
+                case SPAIN -> addTrackIfNotExists(
+                        TrackName.SPAIN,
+                        "Circuit de Spain",
+                        "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Spain_Circuit.png",
+                        TrackType.DEFAULT
+                );
             }
-
-            createTrack(
-                    TrackName.BAHRAIN,
-                    "Bahrain International Circuit",
-                    "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Bahrain_Circuit.png",
-                    TrackType.DEFAULT,
-                    List.of()
-            );
-
-            createTrack(
-                    TrackName.IMOLA,
-                    "Autodromo Enzo e Dino Ferrari",
-                    "https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Emilia_Romagna_Circuit",
-                    TrackType.DEFAULT,
-                    List.of()
-            );
-
-            createTrack(
-                    TrackName.SUZUKA,
-                    "Suzuka International Racing Course",
-                    "https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Japan_Circuit",
-                    TrackType.SUBSCRIPTION,
-                    List.of()
-            );
-
-            createTrack(
-                    TrackName.SPA_FRANCORCHAMPS,
-                    "Circuit de Spa-Francorchamps",
-                    "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Belgium_Circuit.png",
-                    TrackType.SUBSCRIPTION,
-                    List.of()
-            );
-
-            createTrack(
-                    TrackName.MONACO,
-                    "Circuit de Monaco",
-                    "https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Monaco_Circuit",
-                    TrackType.SUBSCRIPTION,
-                    List.of()
-            );
-
-            createTrack(
-                    TrackName.MONZA,
-                    "Monza National Autodrome",
-                    "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Italy_Circuit.png",
-                    TrackType.SUBSCRIPTION,
-                    List.of()
-            );
         }
 
-
-        // guarantees that first tracks are done first and after that videos are putted for each track
+        // Initialize videos for the tracks after tracks are added
         videoService.initializeTrackVideos();
+}
 
-    }
+
+
+//    // creates the tracks when for first time is run the app
+//    @PostConstruct
+//    public void initializeTracks() {
+//
+//        List<TrackName> trackNames = List.of(
+//                TrackName.BAHRAIN,
+//                TrackName.IMOLA,
+//                TrackName.SUZUKA,
+//                TrackName.SPA_FRANCORCHAMPS,
+//                TrackName.MONACO,
+//                TrackName.MONZA
+////                TrackName.SPAIN
+//        );
+//        for (TrackName trackName : trackNames) {
+//            Optional<Track> existingTrack = Optional.ofNullable(trackRepository.findByName(trackName));
+//
+//            if (existingTrack.isPresent()) {
+//                log.info("Track '{}' already exists. Skipping...", trackName);
+//                continue;
+//            }
+//
+//            createTrack(
+//                    TrackName.BAHRAIN,
+//                    "Bahrain International Circuit",
+//                    "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Bahrain_Circuit.png",
+//                    TrackType.DEFAULT,
+//                    List.of()
+//            );
+//
+//            createTrack(
+//                    TrackName.IMOLA,
+//                    "Autodromo Enzo e Dino Ferrari",
+//                    "https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Emilia_Romagna_Circuit",
+//                    TrackType.DEFAULT,
+//                    List.of()
+//            );
+//
+//            createTrack(
+//                    TrackName.SUZUKA,
+//                    "Suzuka International Racing Course",
+//                    "https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Japan_Circuit",
+//                    TrackType.SUBSCRIPTION,
+//                    List.of()
+//            );
+//
+//            createTrack(
+//                    TrackName.SPA_FRANCORCHAMPS,
+//                    "Circuit de Spa-Francorchamps",
+//                    "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Belgium_Circuit.png",
+//                    TrackType.SUBSCRIPTION,
+//                    List.of()
+//            );
+//
+//            createTrack(
+//                    TrackName.MONACO,
+//                    "Circuit de Monaco",
+//                    "https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Monaco_Circuit",
+//                    TrackType.SUBSCRIPTION,
+//                    List.of()
+//            );
+//
+//            createTrack(
+//                    TrackName.MONZA,
+//                    "Monza National Autodrome",
+//                    "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Italy_Circuit.png",
+//                    TrackType.SUBSCRIPTION,
+//                    List.of()
+//            );
+//
+////            createTrack(
+////                    TrackName.SPAIN,
+////                    "Monza National Autodrome",
+////                    "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Italy_Circuit.png",
+////                    TrackType.SUBSCRIPTION,
+////                    List.of()
+////            );
+//        }
+//
+//
+//        // guarantees that first tracks are done first and after that videos are putted for each track
+//        videoService.initializeTrackVideos();
+//
+//    }
 
 
 

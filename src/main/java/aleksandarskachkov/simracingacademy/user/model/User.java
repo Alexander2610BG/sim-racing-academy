@@ -1,5 +1,6 @@
 package aleksandarskachkov.simracingacademy.user.model;
 
+import aleksandarskachkov.simracingacademy.module.model.Module;
 import aleksandarskachkov.simracingacademy.subscription.model.Subscription;
 import aleksandarskachkov.simracingacademy.track.model.Track;
 import aleksandarskachkov.simracingacademy.wallet.model.Wallet;
@@ -66,5 +67,8 @@ public class User {
 
     @ManyToMany
     private List<Track> tracks = new ArrayList<>();
+
+//    @ManyToMany
+//    private List<Module> modules = new ArrayList<>();
 
 }
