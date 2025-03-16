@@ -11,6 +11,7 @@ import aleksandarskachkov.simracingacademy.video.repository.VideoRepository;
 //import aleksandarskachkov.simracingacademy.video.service.VideoService;
 import aleksandarskachkov.simracingacademy.video.service.VideoService;
 import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,7 @@ public class TrackService {
         return trackRepository.save(track);
     }
 
+    // creates the tracks when for first time is run the app
     @PostConstruct
     public void initializeTracks() {
 
@@ -68,31 +70,20 @@ public class TrackService {
                 continue;
             }
 
-
-            List<Video> videosForBahrain = videoService.getVideosForTrack(TrackName.BAHRAIN);
-            List<Video> videosForImola = videoService.getVideosForTrack(TrackName.IMOLA);
-            List<Video> videosForSuzuka = videoService.getVideosForTrack(TrackName.SUZUKA);
-            List<Video> videosForSpa = videoService.getVideosForTrack(TrackName.SPA_FRANCORCHAMPS);
-            List<Video> videosForMonaco = videoService.getVideosForTrack(TrackName.MONACO);
-            List<Video> videosForMonza = videoService.getVideosForTrack(TrackName.MONZA);
-
             createTrack(
                     TrackName.BAHRAIN,
                     "Bahrain International Circuit",
-//                    new BigDecimal(0.00),
                     "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Bahrain_Circuit.png",
                     TrackType.DEFAULT,
-                    videosForBahrain
-
+                    List.of()
             );
 
             createTrack(
                     TrackName.IMOLA,
                     "Autodromo Enzo e Dino Ferrari",
-//                    new BigDecimal("0.00"),
                     "https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Emilia_Romagna_Circuit",
                     TrackType.DEFAULT,
-                    videosForImola
+                    List.of()
             );
 
             createTrack(
@@ -100,7 +91,7 @@ public class TrackService {
                     "Suzuka International Racing Course",
                     "https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Japan_Circuit",
                     TrackType.SUBSCRIPTION,
-                    videosForSuzuka
+                    List.of()
             );
 
             createTrack(
@@ -108,7 +99,7 @@ public class TrackService {
                     "Circuit de Spa-Francorchamps",
                     "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Belgium_Circuit.png",
                     TrackType.SUBSCRIPTION,
-                    videosForSpa
+                    List.of()
             );
 
             createTrack(
@@ -116,7 +107,7 @@ public class TrackService {
                     "Circuit de Monaco",
                     "https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Monaco_Circuit",
                     TrackType.SUBSCRIPTION,
-                    videosForMonaco
+                    List.of()
             );
 
             createTrack(
@@ -124,9 +115,13 @@ public class TrackService {
                     "Monza National Autodrome",
                     "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Italy_Circuit.png",
                     TrackType.SUBSCRIPTION,
-                    videosForMonza
+                    List.of()
             );
         }
+
+
+        // guarantees that first tracks are done first and after that videos are putted for each track
+        videoService.initializeTrackVideos();
 
     }
 
@@ -139,5 +134,9 @@ public class TrackService {
 
     public List<Track> getAllTracksByType(TrackType type) {
         return trackRepository.findAllByType(type);
+    }
+
+    public Track getTrackById(UUID trackId) {
+        return trackRepository.getById(trackId);
     }
 }

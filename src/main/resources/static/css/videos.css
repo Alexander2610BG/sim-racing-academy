@@ -1,0 +1,97 @@
+/* Home Section */
+.home-section {
+    display: grid;
+    gap: 20px; /* Space between video boxes */
+    padding: 20px;
+    grid-template-columns: repeat(2, 1fr); /* 2 items per row */
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Video Box Styling */
+.video-box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: box-shadow 0.3s ease, transform 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Aligns items within the section */
+}
+
+/* Hover effect for video box */
+.video-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}
+
+/* Video Container */
+.video-container {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden; /* Ensures the video stays within the container */
+    margin-bottom: 15px;
+}
+
+/* Video Details */
+.video-details {
+    text-align: left;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+/* Video Title */
+.video-details h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #ff0000;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Video Description */
+.video-details p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 10px;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Video Actions */
+.video-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+/* Buttons */
+.video-actions .btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    color: #ffffff;
+    background-color: #ff0000;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Button Hover Effect */
+.video-actions .btn:hover {
+    background-color: #cc0000;
+    transform: scale(1.05);
+}
+
+/* Watch More Button */
+.video-actions .watch-more-btn {
+    background-color: #007bff;
+}
+
+.video-actions .watch-more-btn:hover {
+    background-color: #0056b3;
+}

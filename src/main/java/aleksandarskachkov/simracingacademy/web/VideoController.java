@@ -19,47 +19,35 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/tracks")
-public class TrackController {
+@RequestMapping("/videos")
+public class VideoController {
 
     private final UserService userService;
-    private final TrackService trackService;
     private final VideoService videoService;
+    private final TrackService trackService;
 
     @Autowired
-    public TrackController(UserService userService, TrackService trackService, VideoService videoService) {
+    public VideoController(UserService userService, VideoService videoService, TrackService trackService) {
         this.userService = userService;
-        this.trackService = trackService;
         this.videoService = videoService;
+        this.trackService = trackService;
     }
 
-    @GetMapping
-    public ModelAndView getTracksPage(@AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
+    @GetMapping("/track/{trackId}")
+    public ModelAndView getVideosForTrack(@PathVariable UUID trackId, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
 
         User user = userService.getById(authenticationMetadata.getUserId());
 
-        List<Track> tracks = trackService.getAllTracks(user.getId());
+        List<Video> videos = videoService.getVideosForTrack(trackId);
+
+        Track track = trackService.getTrackById(trackId);
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("tracks");
+        modelAndView.setViewName("videos");
         modelAndView.addObject("user", user);
-        modelAndView.addObject("tracks", tracks);
+        modelAndView.addObject("videos", videos);
+        modelAndView.addObject("track", track);
 
         return modelAndView;
     }
-
-//    @GetMapping("/{id}/videos")
-//    public ModelAndView getVideosForTrackPage(@PathVariable UUID trackId, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
-//
-//        User user = userService.getById(authenticationMetadata.getUserId());
-//
-//        List<Video> videos = videoService.getVideosForTrack(trackId);
-//
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("videos");
-//        modelAndView.addObject("user", user);
-//        modelAndView.addObject("videos", videos);
-//
-//        return modelAndView;
-//    }
 }

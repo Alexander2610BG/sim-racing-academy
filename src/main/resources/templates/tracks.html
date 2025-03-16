@@ -144,8 +144,10 @@
                 <p th:text="${track.description}"></p>
 <!--                <p class="track-price" th:text="${track.price} + ' EUR'"></p>-->
                 <div class="track-actions">
-                    <button th:if="${!user.tracks.contains(track)}" class="btn purchase-btn">Purchase</button>
-                    <button class="btn info-btn">Watch Tutorials</button>
+<!--                    <button th:if="${!user.tracks.contains(track)}" class="btn purchase-btn">Purchase</button>-->
+                    <a th:href="@{'/videos/track/' + ${track.id}}" class="btn watch-tutorials-btn">
+                        Watch Tutorials
+                    </a>
                 </div>
             </div>
         </section>
