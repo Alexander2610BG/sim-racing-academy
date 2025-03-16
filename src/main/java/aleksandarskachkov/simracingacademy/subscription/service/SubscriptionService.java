@@ -58,7 +58,7 @@ public class SubscriptionService {
         List<Track> defaultTracks = getDefaultTracks(user);
 //        List<Track> defaultTracks = trackService.getAllTracksByType(TrackType.DEFAULT);
 
-//        user.setTracks(defaultTracks);
+        user.setTracks(defaultTracks);
 
         return Subscription.builder()
                 .owner(user)
@@ -76,9 +76,8 @@ public class SubscriptionService {
     private List<Track> getDefaultTracks(User user) {
 
 //         return trackService.getAllTracksByType(TrackType.DEFAULT);
-        List<Track> defaultTracks = trackService.getAllTracksByType(TrackType.DEFAULT);
-        user.setTracks(defaultTracks);
-        return defaultTracks;
+        return trackService.getAllTracksByType(TrackType.DEFAULT);
+//        user.setTracks(defaultTracks);
     }
 
     private List<Track> getSubscriptionTracks(User user) {
@@ -123,12 +122,12 @@ public class SubscriptionService {
         List<Track> upgradeTracks = getSubscriptionTracks(user);
         List<Track> defaultTracks = getDefaultTracks(user);
 
-        List<Track> allTracks = new ArrayList<>(currentSubscription.getTracks());  // Start with existing tracks
-        allTracks.addAll(upgradeTracks); // Add upgrade tracks
-        allTracks.addAll(defaultTracks);
+//        List<Track> allTracks = new ArrayList<>(currentSubscription.getTracks());  // Start with existing tracks
+//        allTracks.addAll(upgradeTracks); // Add upgrade tracks
+//        allTracks.addAll(defaultTracks);
 
-//        List<Track> allTracks = new ArrayList<>(defaultTracks);
-//        allTracks.addAll(upgradeTracks);
+        List<Track> allTracks = new ArrayList<>(defaultTracks);
+        allTracks.addAll(upgradeTracks);
 
         user.setTracks(allTracks);
 
@@ -144,14 +143,17 @@ public class SubscriptionService {
                 .completedOn(completedOn)
                 .build();
 
-        // stop the current sub
-        currentSubscription.setCompletedOn(now);
-        currentSubscription.setStatus(SubscriptionStatus.COMPLETED);
+
 
 //         removes the tracks for upgraded subscriptions
         if (newSubscription.getType() == SubscriptionType.DEFAULT) {
             newSubscription.setTracks(getDefaultTracks(user));
+            user.setTracks(getDefaultTracks(user));
         }
+
+        // stop the current sub
+        currentSubscription.setCompletedOn(now);
+        currentSubscription.setStatus(SubscriptionStatus.COMPLETED);
 
         subscriptionRepository.save(currentSubscription);
         subscriptionRepository.save(newSubscription);
@@ -172,5 +174,26 @@ public class SubscriptionService {
         } else {
             return new BigDecimal("499.99");
         }
+    }
+
+    public List<Subscription> getAllSubscriptionsReadyForRenewal() {
+
+        return subscriptionRepository.findAllByStatusAndCompletedOnLessThanEqual(SubscriptionStatus.ACTIVE, LocalDateTime.now());
+    }
+
+    public void markSubscriptionAsTerminated(Subscription subscription) {
+
+        subscription.setStatus(SubscriptionStatus.TERMINATED);
+        subscription.setCompletedOn(LocalDateTime.now());
+
+        subscriptionRepository.save(subscription);
+    }
+
+    public void markSubscriptionAsCompleted(Subscription subscription) {
+
+        subscription.setStatus(SubscriptionStatus.COMPLETED);
+        subscription.setCompletedOn(LocalDateTime.now());
+
+        subscriptionRepository.save(subscription);
     }
 }

@@ -1,0 +1,10 @@
+package aleksandarskachkov.simracingacademy.module.model;
+
+public enum ModuleName {
+    FOUNDATIONS_OF_SIM_RACING,
+    ADVANCED_DRIVING_TECHNIQUES,
+    RACECRAFT_AND_STRATEGY,
+    TELEMETRY_AND_DATA_ANALYSIS,
+    VEHICLE_SETUP_OPTIMIZATION,
+    MENTAL_TOUGHNESS_AND_FOCUS
+}
