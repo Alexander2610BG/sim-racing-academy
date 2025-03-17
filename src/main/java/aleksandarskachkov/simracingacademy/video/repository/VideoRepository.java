@@ -1,5 +1,7 @@
 package aleksandarskachkov.simracingacademy.video.repository;
 
+import aleksandarskachkov.simracingacademy.module.model.Module;
+import aleksandarskachkov.simracingacademy.module.model.ModuleName;
 import aleksandarskachkov.simracingacademy.track.model.TrackName;
 import aleksandarskachkov.simracingacademy.video.model.Video;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,4 +24,8 @@ public interface VideoRepository extends JpaRepository<Video, UUID> {
     Optional<Video> findByTitleAndTrackId(String title, UUID id);
 
     boolean existsByTitleAndTrackName(String title, TrackName trackName);
+
+    boolean existsByTitleAndModuleName(String title, ModuleName moduleName);
+
+    List<Video> findAllByModuleId(UUID moduleId);
 }

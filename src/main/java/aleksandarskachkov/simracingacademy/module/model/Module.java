@@ -22,7 +22,7 @@ public class Module {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String name;
+    private ModuleName name;
 
     private String description;
 
@@ -33,10 +33,9 @@ public class Module {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "module")
     private List<Video> videos = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "modules")
+    private List<Subscription> subscriptions = new ArrayList<>();
 
-//    @ManyToMany(mappedBy = "modules")
-//    private List<Subscription> subscriptions = new ArrayList<>();
-
-//    @ManyToOne
-//    private User owner;
+    @ManyToOne
+    private User owner;
 }

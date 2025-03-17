@@ -68,6 +68,9 @@ public class User {
     @ManyToMany
     private List<Track> tracks = new ArrayList<>();
 
+    @ManyToMany
+    private List<Module> modules = new ArrayList<>();
+
 //    @ManyToMany
 //    private List<Module> modules = new ArrayList<>();
 

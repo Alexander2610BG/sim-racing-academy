@@ -1,0 +1,100 @@
+/* Home Section */
+.home-section {
+    padding: 20px; /* Padding around the home section */
+    max-width: 1200px; /* Limit the width for better readability */
+    margin: 0 auto; /* Center the home section */
+    box-sizing: border-box;
+}
+
+/* Home Section Title */
+.home-section-title {
+    font-size: 2rem; /* Larger font size for the title */
+    color: #333; /* Dark gray color */
+    text-align: center; /* Center the title */
+    margin-bottom: 20px; /* Space below the title */
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Module Container */
+.module-container {
+    display: grid;
+    gap: 20px; /* Space between modules */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid layout */
+}
+
+/* Module Box Styling */
+.module-box {
+    background: white;
+    padding: 20px; /* Padding inside each module box */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    text-align: center;
+    transition: box-shadow 0.3s ease, transform 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Aligns items within the box */
+}
+
+/* Hover effect for module box */
+.module-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Slightly larger shadow on hover */
+    transform: scale(1.03); /* Slight scale-up effect */
+}
+
+/* Module Details */
+.module-details {
+    margin-top: 15px; /* Space above the details */
+}
+
+/* Module Name (Red) */
+.module-details h2 {
+    font-size: 1.5rem; /* Slightly larger font size */
+    margin-bottom: 10px; /* Space below the name */
+    color: #ff0000; /* Red color */
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Module Description */
+.module-details p {
+    font-size: 1rem; /* Standard font size */
+    color: #666; /* Gray color */
+    margin-bottom: 10px; /* Space below the description */
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Module Actions */
+.module-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Space between buttons */
+}
+
+/* Buttons */
+.module-actions .btn {
+    padding: 10px 20px; /* Standard padding */
+    font-size: 14px; /* Standard font size */
+    border-radius: 5px; /* Rounded corners */
+    border: none;
+    cursor: pointer;
+    color: #ffffff; /* White text */
+    background-color: #ff0000; /* Red background */
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Button Hover Effect */
+.module-actions .btn:hover {
+    background-color: #cc0000; /* Darker red on hover */
+    transform: scale(1.05); /* Slight scale-up effect */
+}
+
+/* Watch Tutorials Button */
+.module-actions .watch-tutorials-btn {
+    background-color: #007bff; /* Blue background */
+}
+
+.module-actions .watch-tutorials-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}

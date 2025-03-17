@@ -1,5 +1,7 @@
 package aleksandarskachkov.simracingacademy.web;
 
+import aleksandarskachkov.simracingacademy.module.model.Module;
+import aleksandarskachkov.simracingacademy.module.service.ModuleService;
 import aleksandarskachkov.simracingacademy.security.AuthenticationMetadata;
 import aleksandarskachkov.simracingacademy.track.model.Track;
 import aleksandarskachkov.simracingacademy.track.service.TrackService;
@@ -25,12 +27,14 @@ public class VideoController {
     private final UserService userService;
     private final VideoService videoService;
     private final TrackService trackService;
+    private final ModuleService moduleService;
 
     @Autowired
-    public VideoController(UserService userService, VideoService videoService, TrackService trackService) {
+    public VideoController(UserService userService, VideoService videoService, TrackService trackService, ModuleService moduleService) {
         this.userService = userService;
         this.videoService = videoService;
         this.trackService = trackService;
+        this.moduleService = moduleService;
     }
 
     @GetMapping("/track/{trackId}")
@@ -47,6 +51,24 @@ public class VideoController {
         modelAndView.addObject("user", user);
         modelAndView.addObject("videos", videos);
         modelAndView.addObject("track", track);
+
+        return modelAndView;
+    }
+
+    @GetMapping("/module/{moduleId}")
+    public ModelAndView getVideosForModule(@PathVariable UUID moduleId, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
+
+        User user = userService.getById(authenticationMetadata.getUserId());
+
+        List<Video> videos = videoService.getVideosForModule(moduleId);
+
+        Module module = moduleService.getModuleById(moduleId);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("videos");
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("module", module);
+        modelAndView.addObject("videos", videos);
 
         return modelAndView;
     }

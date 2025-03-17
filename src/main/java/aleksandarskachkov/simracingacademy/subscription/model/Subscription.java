@@ -59,12 +59,12 @@ public class Subscription {
     )
     private List<Track> tracks = new ArrayList<>();
 
-//    @ManyToMany
-//    @JoinTable(
-//            joinColumns = @JoinColumn,
-//            inverseJoinColumns = @JoinColumn
-//    )
-//    private List<Module> modules = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            joinColumns = @JoinColumn,
+            inverseJoinColumns = @JoinColumn
+    )
+    private List<Module> modules = new ArrayList<>();
 
 //    @ManyToMany
 //    private List<Module> modules = new ArrayList<>();

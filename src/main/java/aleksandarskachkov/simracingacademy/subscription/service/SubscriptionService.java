@@ -1,6 +1,9 @@
 package aleksandarskachkov.simracingacademy.subscription.service;
 
 import aleksandarskachkov.simracingacademy.exception.DomainException;
+import aleksandarskachkov.simracingacademy.module.model.Module;
+import aleksandarskachkov.simracingacademy.module.model.ModuleType;
+import aleksandarskachkov.simracingacademy.module.repository.ModuleRepository;
 import aleksandarskachkov.simracingacademy.subscription.model.Subscription;
 import aleksandarskachkov.simracingacademy.subscription.model.SubscriptionPeriod;
 import aleksandarskachkov.simracingacademy.subscription.model.SubscriptionStatus;
@@ -32,12 +35,14 @@ public class SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
     private final TrackService trackService;
     private final WalletService walletService;
+    private final ModuleRepository moduleRepository;
 
     @Autowired
-    public SubscriptionService(SubscriptionRepository subscriptionRepository, TrackService trackService, WalletService walletService) {
+    public SubscriptionService(SubscriptionRepository subscriptionRepository, TrackService trackService, WalletService walletService, ModuleRepository moduleRepository) {
         this.subscriptionRepository = subscriptionRepository;
         this.trackService = trackService;
         this.walletService = walletService;
+        this.moduleRepository = moduleRepository;
     }
 
     public Subscription createDefaultSubscription(User user) {
@@ -58,7 +63,10 @@ public class SubscriptionService {
         List<Track> defaultTracks = getDefaultTracks(user);
 //        List<Track> defaultTracks = trackService.getAllTracksByType(TrackType.DEFAULT);
 
+        List<Module> defaultModules = getDefaultModules(user);
+
         user.setTracks(defaultTracks);
+        user.setModules(defaultModules);
 
         return Subscription.builder()
                 .owner(user)
@@ -70,6 +78,7 @@ public class SubscriptionService {
                 .createdOn(now)
                 .completedOn(now.plusMonths(1))
                 .tracks(defaultTracks)
+                .modules(defaultModules)
                 .build();
     }
 
@@ -85,6 +94,16 @@ public class SubscriptionService {
         List<Track> subscriptionTracks = trackService.getAllTracksByType(TrackType.SUBSCRIPTION);
         user.setTracks(subscriptionTracks);
         return subscriptionTracks;
+    }
+
+    private List<Module> getDefaultModules(User user) {
+        return moduleRepository.getAllByType(ModuleType.DEFAULT);
+    }
+
+    private List<Module> getSubscriptionModules(User user) {
+        List<Module> subscriptionModules = moduleRepository.getAllByType(ModuleType.SUBSCRIPTION);
+        user.setModules(subscriptionModules);
+        return subscriptionModules;
     }
 
 
@@ -122,14 +141,20 @@ public class SubscriptionService {
         List<Track> upgradeTracks = getSubscriptionTracks(user);
         List<Track> defaultTracks = getDefaultTracks(user);
 
-//        List<Track> allTracks = new ArrayList<>(currentSubscription.getTracks());  // Start with existing tracks
-//        allTracks.addAll(upgradeTracks); // Add upgrade tracks
-//        allTracks.addAll(defaultTracks);
 
         List<Track> allTracks = new ArrayList<>(defaultTracks);
-        allTracks.addAll(upgradeTracks);
+
+        if (subscriptionType == SubscriptionType.ULTIMATE) {
+            allTracks.addAll(upgradeTracks);
+        }
 
         user.setTracks(allTracks);
+
+        List<Module> defaultModules = getDefaultModules(user);
+        List<Module> upgradedModules = getSubscriptionModules(user);
+
+        List<Module> allModules = new ArrayList<>(defaultModules);
+        allModules.addAll(upgradedModules);
 
         Subscription newSubscription = Subscription.builder()
                 .owner(user)
@@ -139,6 +164,7 @@ public class SubscriptionService {
                 .price(subscriptionPrice)
                 .renewalAllowed(subscriptionPeriod == SubscriptionPeriod.MONTHLY)
                 .tracks(allTracks)
+                .modules(allModules)
                 .createdOn(now)
                 .completedOn(completedOn)
                 .build();
@@ -149,6 +175,11 @@ public class SubscriptionService {
         if (newSubscription.getType() == SubscriptionType.DEFAULT) {
             newSubscription.setTracks(getDefaultTracks(user));
             user.setTracks(getDefaultTracks(user));
+        }
+
+        if (newSubscription.getType() == SubscriptionType.DEFAULT || newSubscription.getType() == SubscriptionType.PREMIUM) {
+            newSubscription.setModules(getDefaultModules(user));
+            user.setModules(getDefaultModules(user));
         }
 
         // stop the current sub
