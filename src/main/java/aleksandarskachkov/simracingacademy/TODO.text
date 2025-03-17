@@ -1,19 +1,15 @@
 login form button for submit to be resized
 
-add purchase each track ??? (big decimal price, button lifetime)
+track and course video active button in the nav bar
 
-tracks videos to be created only once
-
-initialized modules
-initialized course videos
-connect videos to course
-
-add scheduler
+not every user to have access to every track and module (subscriptions)
+currently default have access to everything
 
 add notification svc
 
 add caching ????
 
+exception handling
 
 unit testing
 
