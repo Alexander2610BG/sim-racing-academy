@@ -1,6 +1,7 @@
 package aleksandarskachkov.simracingacademy.track.service;
 
 import aleksandarskachkov.simracingacademy.exception.DomainException;
+import aleksandarskachkov.simracingacademy.subscription.model.SubscriptionType;
 import aleksandarskachkov.simracingacademy.track.model.Track;
 import aleksandarskachkov.simracingacademy.track.model.TrackName;
 import aleksandarskachkov.simracingacademy.track.model.TrackType;
@@ -131,6 +132,17 @@ public class TrackService {
 
     return trackRepository.findAllTracksByUserId(ownerId);
     }
+
+
+//    User user = us.getById(ownerId);
+//    SubscriptionType userSubscription = user.getSubscriptions();
+//
+//        return trackRepository.findAll().stream()
+//                .filter(track ->
+//            track.getType() == TrackType.DEFAULT ||
+//            (track.getType() == TrackType.SUBSCRIPTION && userSubscription != SubscriptionType.DEFAULT)
+//            )
+//            .toList();
 
     public List<Track> getAllTracksByType(TrackType type) {
         return trackRepository.findAllByType(type);

@@ -1,6 +1,7 @@
 package aleksandarskachkov.simracingacademy.user.service;
 
 import aleksandarskachkov.simracingacademy.exception.DomainException;
+import aleksandarskachkov.simracingacademy.notification.service.NotificationService;
 import aleksandarskachkov.simracingacademy.security.AuthenticationMetadata;
 import aleksandarskachkov.simracingacademy.subscription.model.Subscription;
 import aleksandarskachkov.simracingacademy.subscription.service.SubscriptionService;
@@ -37,17 +38,15 @@ public class UserService implements UserDetailsService {
     private final SubscriptionService subscriptionService;
     private final WalletService walletService;
     private final PasswordEncoder passwordEncoder;
-    private final TrackRepository trackRepository;
-    private final TrackService trackService;
+    private final NotificationService notificationService;
 
     @Autowired
-    public UserService(UserRepository userRepository, SubscriptionService subscriptionService, WalletService walletService, PasswordEncoder passwordEncoder, TrackRepository trackRepository, TrackService trackService) {
+    public UserService(UserRepository userRepository, SubscriptionService subscriptionService, WalletService walletService, PasswordEncoder passwordEncoder, NotificationService notificationService) {
         this.userRepository = userRepository;
         this.subscriptionService = subscriptionService;
         this.walletService = walletService;
         this.passwordEncoder = passwordEncoder;
-        this.trackRepository = trackRepository;
-        this.trackService = trackService;
+        this.notificationService = notificationService;
     }
 
     @Transactional
@@ -67,12 +66,7 @@ public class UserService implements UserDetailsService {
         Wallet wallet = walletService.createNewWallet(user);
         user.setWallet(wallet);
 
-        // potentially to be removed if user cant buy tracks
-//        List<Track> defaultTracks = trackRepository.getAllTracksByType(TrackType.DEFAULT);
-//        user.setTracks(defaultTracks);
-//
-//        List<Track> defaultTracks = trackService.createNewDefaultTracks(user);
-//        user.setTracks(defaultTracks);
+        notificationService.saveNotificationPreference(user.getId(), false, null);
 
         log.info("Successfully created new user account for username [%s] and id [%s]"
                 .formatted(user.getUsername(), user.getId()));
@@ -117,15 +111,23 @@ public class UserService implements UserDetailsService {
     }
 
     @CacheEvict(value = "users", allEntries = true)
-    public void editUserDetails(UUID id, UserEditRequest userEditRequest) {
+    public void editUserDetails(UUID userId, UserEditRequest userEditRequest) {
 
-        User user = getById(id);
+        User user = getById(userId);
+
+        if (userEditRequest.getEmail().isBlank()) {
+            notificationService.saveNotificationPreference(userId, false, null);
+        }
 
         user.setFirstName(userEditRequest.getFirstName());
         user.setLastName(userEditRequest.getLastName());
         user.setEmail(userEditRequest.getEmail());
         user.setProfilePicture(userEditRequest.getProfilePicture());
         user.setFavoriteDriver(userEditRequest.getFavoriteDriver());
+
+        if (!user.getEmail().isBlank()) {
+            notificationService.saveNotificationPreference(userId, true, userEditRequest.getEmail());
+        }
 
         userRepository.save(user);
     }

@@ -25,21 +25,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                 .authorizeHttpRequests(matchers -> matchers
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/", "/register").permitAll()
+//                        .requestMatchers("/videos/track/**").hasAnyAuthority("PREMIUM", "ULTIMATE")
                         .anyRequest().authenticated()
-
-//                        // Restrict access to Default content for Default users
-//                        .requestMatchers("/videos/track/default/**").access("hasSubscription('DEFAULT')")
-//                        .requestMatchers("/videos/module/default/**").access("hasSubscription('DEFAULT')")
-//
-//                        // Restrict access to Premium content for Premium and Ultimate users
-//                        .requestMatchers("/videos/track/premium/**").access("hasSubscription('PREMIUM')")
-//                        .requestMatchers("/videos/module/premium/**").access("hasSubscription('PREMIUM')")
-//
-//                        // Restrict access to Ultimate content for Ultimate users
-//                        .requestMatchers("/videos/track/ultimate/**").access("hasSubscription('ULTIMATE')")
-//                        .requestMatchers("/videos/module/ultimate/**").access("hasSubscription('ULTIMATE')")
-//
-//                        .anyRequest().authenticated()
                 )
 
                 .formLogin(form -> form

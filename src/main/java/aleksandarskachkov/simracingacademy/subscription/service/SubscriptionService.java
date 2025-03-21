@@ -144,7 +144,7 @@ public class SubscriptionService {
 
         List<Track> allTracks = new ArrayList<>(defaultTracks);
 
-        if (subscriptionType == SubscriptionType.ULTIMATE) {
+        if (subscriptionType == SubscriptionType.PREMIUM ||subscriptionType == SubscriptionType.ULTIMATE) {
             allTracks.addAll(upgradeTracks);
         }
 
@@ -172,10 +172,10 @@ public class SubscriptionService {
 
 
 //         removes the tracks for upgraded subscriptions
-        if (newSubscription.getType() == SubscriptionType.DEFAULT) {
-            newSubscription.setTracks(getDefaultTracks(user));
-            user.setTracks(getDefaultTracks(user));
-        }
+//        if (newSubscription.getType() == SubscriptionType.DEFAULT) {
+//            newSubscription.setTracks(getDefaultTracks(user));
+//            user.setTracks(getDefaultTracks(user));
+//        }
 
         if (newSubscription.getType() == SubscriptionType.DEFAULT || newSubscription.getType() == SubscriptionType.PREMIUM) {
             newSubscription.setModules(getDefaultModules(user));

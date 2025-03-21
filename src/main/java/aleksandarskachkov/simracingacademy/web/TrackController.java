@@ -47,19 +47,4 @@ public class TrackController {
 
         return modelAndView;
     }
-
-//    @GetMapping("/{id}/videos")
-//    public ModelAndView getVideosForTrackPage(@PathVariable UUID trackId, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
-//
-//        User user = userService.getById(authenticationMetadata.getUserId());
-//
-//        List<Video> videos = videoService.getVideosForTrack(trackId);
-//
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("videos");
-//        modelAndView.addObject("user", user);
-//        modelAndView.addObject("videos", videos);
-//
-//        return modelAndView;
-//    }
 }

@@ -10,6 +10,7 @@ import aleksandarskachkov.simracingacademy.user.service.UserService;
 import aleksandarskachkov.simracingacademy.video.model.Video;
 import aleksandarskachkov.simracingacademy.video.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +38,7 @@ public class VideoController {
         this.moduleService = moduleService;
     }
 
+//    @PreAuthorize("hasAuthority('PREMIUM') or hasAuthority('ULTIMATE')")
     @GetMapping("/track/{trackId}")
     public ModelAndView getVideosForTrack(@PathVariable UUID trackId, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
 
