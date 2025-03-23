@@ -1,5 +1,6 @@
 package aleksandarskachkov.simracingacademy.web;
 
+import aleksandarskachkov.simracingacademy.exception.UserDoesntOwnModule;
 import aleksandarskachkov.simracingacademy.exception.UserDoesntOwnTrack;
 import aleksandarskachkov.simracingacademy.exception.UsernameAlreadyExist;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,7 +32,8 @@ public class ExceptionAdvice {
             AccessDeniedException.class,
             NoResourceFoundException.class,
             MethodArgumentTypeMismatchException.class,
-            UserDoesntOwnTrack.class
+            UserDoesntOwnTrack.class,
+            UserDoesntOwnModule.class
     })
     public ModelAndView handleNotFoundExceptions() {
 

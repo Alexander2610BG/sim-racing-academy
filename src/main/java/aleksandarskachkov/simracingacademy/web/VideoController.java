@@ -63,7 +63,7 @@ public class VideoController {
 
         User user = userService.getById(authenticationMetadata.getUserId());
 
-        List<Video> videos = videoService.getVideosForModule(moduleId);
+        List<Video> videos = videoService.getVideosForModule(moduleId, user.getId());
 
         Module module = moduleService.getModuleById(moduleId);
 

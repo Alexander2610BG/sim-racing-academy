@@ -16,4 +16,6 @@ public interface ModuleRepository extends JpaRepository<Module, UUID> {
     List<Module> findAllByOwnerId(UUID ownerId);
 
     List<Module> getAllByType(ModuleType type);
+
+    Module getModuleById(UUID id);
 }

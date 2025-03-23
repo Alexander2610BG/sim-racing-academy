@@ -1,30 +1,26 @@
 package aleksandarskachkov.simracingacademy.video.service;
 
 import aleksandarskachkov.simracingacademy.exception.DomainException;
+import aleksandarskachkov.simracingacademy.exception.UserDoesntOwnModule;
 import aleksandarskachkov.simracingacademy.exception.UserDoesntOwnTrack;
 import aleksandarskachkov.simracingacademy.module.model.Module;
 import aleksandarskachkov.simracingacademy.module.model.ModuleName;
+import aleksandarskachkov.simracingacademy.module.model.ModuleType;
 import aleksandarskachkov.simracingacademy.module.repository.ModuleRepository;
 import aleksandarskachkov.simracingacademy.subscription.model.Subscription;
 import aleksandarskachkov.simracingacademy.subscription.model.SubscriptionStatus;
 import aleksandarskachkov.simracingacademy.subscription.model.SubscriptionType;
 import aleksandarskachkov.simracingacademy.subscription.repository.SubscriptionRepository;
-import aleksandarskachkov.simracingacademy.subscription.service.SubscriptionService;
 import aleksandarskachkov.simracingacademy.track.model.Track;
 import aleksandarskachkov.simracingacademy.track.model.TrackName;
 import aleksandarskachkov.simracingacademy.track.model.TrackType;
 import aleksandarskachkov.simracingacademy.track.repository.TrackRepository;
-import aleksandarskachkov.simracingacademy.track.service.TrackService;
 import aleksandarskachkov.simracingacademy.video.model.Video;
 import aleksandarskachkov.simracingacademy.video.repository.VideoRepository;
 import jakarta.annotation.PostConstruct;
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
-
-import java.nio.file.AccessDeniedException;
 import java.util.*;
 
 @Slf4j
@@ -36,18 +32,12 @@ public class VideoService {
     private final TrackRepository trackRepository;
     private final ModuleRepository moduleRepository;
     private final SubscriptionRepository subscriptionRepository;
-//    private final SubscriptionService subscriptionService;
-//    private final TrackService trackService;
-//    private final SubscriptionService subscriptionService;
 
     @Autowired
     public VideoService(VideoRepository videoRepository, TrackRepository trackRepository, ModuleRepository moduleRepository, SubscriptionRepository subscriptionRepository) {
         this.videoRepository = videoRepository;
         this.trackRepository = trackRepository;
         this.moduleRepository = moduleRepository;
-//        this.trackService = trackService;
-//        this.subscriptionService = subscriptionService;
-//        this.subscriptionService = subscriptionService;
         this.subscriptionRepository = subscriptionRepository;
     }
 
@@ -87,6 +77,8 @@ public class VideoService {
 
         Track track = trackRepository.getTrackById(trackId);
 
+
+        // check for active subscription
         Optional<Subscription> optionalSubscription = subscriptionRepository.findByStatusAndOwnerId(SubscriptionStatus.ACTIVE, userId);
         if (optionalSubscription.isEmpty()) {
             throw new DomainException("No active subscription found.");
@@ -99,7 +91,28 @@ public class VideoService {
         } else if (userSubscription.getType() == SubscriptionType.PREMIUM || userSubscription.getType() == SubscriptionType.ULTIMATE) {
             return videoRepository.findAllByTrackId(trackId);
         } else {
-            throw new UserDoesntOwnTrack("User doesn't have Premium or Ultimate subscription to access this track.");
+            throw new UserDoesntOwnTrack("User doesn't own Premium or Ultimate subscription to access this track.");
+        }
+    }
+
+    public List<Video> getVideosForModule(UUID moduleId, UUID userId) {
+
+        Module module = moduleRepository.getModuleById(moduleId);
+
+
+        Optional<Subscription> optionalSubscription = subscriptionRepository.findByStatusAndOwnerId(SubscriptionStatus.ACTIVE, userId);
+        if (optionalSubscription.isEmpty()) {
+            throw new DomainException("No active subscription found.");
+        }
+
+        Subscription userSubscription = optionalSubscription.get();
+
+        if (module.getType() == ModuleType.DEFAULT && userSubscription.getType() == SubscriptionType.DEFAULT) {
+            return videoRepository.findAllByModuleId(moduleId);
+        } else if (module.getType() == ModuleType.SUBSCRIPTION && userSubscription.getType() == SubscriptionType.ULTIMATE) {
+            return videoRepository.findAllByModuleId(moduleId);
+        } else {
+            throw new UserDoesntOwnModule("User doesn't own Ultimate subscription to access this track.");
         }
     }
 
@@ -209,9 +222,7 @@ public class VideoService {
         }
     }
 
-    public List<Video> getVideosForModule(UUID moduleId) {
-        return videoRepository.findAllByModuleId(moduleId);
-    }
+
 
 
 //    @PostConstruct
