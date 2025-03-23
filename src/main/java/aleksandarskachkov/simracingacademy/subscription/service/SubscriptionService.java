@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -227,4 +228,18 @@ public class SubscriptionService {
 
         subscriptionRepository.save(subscription);
     }
+
+    public Subscription getSubscriptionType(UUID userId) {
+        return subscriptionRepository.findByOwnerIdAndStatus(userId, SubscriptionStatus.ACTIVE);
+    }
+
+//    public Subscription getSubscriptionType(UUID userId) {
+//        return subscriptionRepository.findByI;
+//    }
+
+//    public Subscription getActiveSubscription(UUID userId) {
+//
+//        return subscriptionRepository.findByStatusAndOwnerId(SubscriptionStatus.ACTIVE, userId)
+//                .orElseThrow(() -> new AccessDeniedException("No active subscription found for user ID: " + userId));
+//    }
 }

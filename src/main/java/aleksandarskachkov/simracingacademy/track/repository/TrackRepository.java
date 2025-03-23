@@ -25,4 +25,5 @@ public interface TrackRepository extends JpaRepository<Track, UUID> {
 
     Track findByName(TrackName name);
 
+    Track getTrackById(UUID trackId);
 }

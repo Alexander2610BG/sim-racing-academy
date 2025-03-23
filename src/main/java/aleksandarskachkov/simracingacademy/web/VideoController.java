@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,11 +41,11 @@ public class VideoController {
 
 //    @PreAuthorize("hasAuthority('PREMIUM') or hasAuthority('ULTIMATE')")
     @GetMapping("/track/{trackId}")
-    public ModelAndView getVideosForTrack(@PathVariable UUID trackId, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
+    public ModelAndView getVideosForTrack(@PathVariable UUID trackId, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) throws AccessDeniedException {
 
         User user = userService.getById(authenticationMetadata.getUserId());
 
-        List<Video> videos = videoService.getVideosForTrack(trackId);
+        List<Video> videos = videoService.getVideosForTrack(trackId, user.getId());
 
         Track track = trackService.getTrackById(trackId);
 

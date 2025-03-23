@@ -151,4 +151,9 @@ public class TrackService {
     public Track getTrackById(UUID trackId) {
         return trackRepository.getById(trackId);
     }
+
+    public boolean isPaidTrack(UUID trackId) {
+        Track track = getTrackById(trackId);
+        return track.getType() == TrackType.SUBSCRIPTION;
+    }
 }

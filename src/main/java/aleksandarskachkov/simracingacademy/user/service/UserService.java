@@ -1,6 +1,7 @@
 package aleksandarskachkov.simracingacademy.user.service;
 
 import aleksandarskachkov.simracingacademy.exception.DomainException;
+import aleksandarskachkov.simracingacademy.exception.UsernameAlreadyExist;
 import aleksandarskachkov.simracingacademy.notification.service.NotificationService;
 import aleksandarskachkov.simracingacademy.security.AuthenticationMetadata;
 import aleksandarskachkov.simracingacademy.subscription.model.Subscription;
@@ -55,7 +56,7 @@ public class UserService implements UserDetailsService {
         Optional<User> userOptional = userRepository.findByUsername(registerRequest.getUsername());
 
         if (userOptional.isPresent()) {
-            throw new DomainException("User with this username already exists.");
+            throw new UsernameAlreadyExist("User with this username already exists.");
         }
 
         User user = userRepository.save(initializeUser(registerRequest));
