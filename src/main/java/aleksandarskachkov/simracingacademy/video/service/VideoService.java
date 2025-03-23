@@ -107,13 +107,21 @@ public class VideoService {
 
         Subscription userSubscription = optionalSubscription.get();
 
-        if (module.getType() == ModuleType.DEFAULT && userSubscription.getType() == SubscriptionType.DEFAULT) {
+        if (module.getType() == ModuleType.DEFAULT && (userSubscription.getType() == SubscriptionType.DEFAULT || userSubscription.getType() == SubscriptionType.PREMIUM || userSubscription.getType() == SubscriptionType.ULTIMATE)) {
             return videoRepository.findAllByModuleId(moduleId);
         } else if (module.getType() == ModuleType.SUBSCRIPTION && userSubscription.getType() == SubscriptionType.ULTIMATE) {
             return videoRepository.findAllByModuleId(moduleId);
         } else {
             throw new UserDoesntOwnModule("User doesn't own Ultimate subscription to access this track.");
         }
+
+//        if (track.getType() == TrackType.DEFAULT && userSubscription.getType() == SubscriptionType.DEFAULT) {
+//            return videoRepository.findAllByTrackId(trackId);
+//        } else if (userSubscription.getType() == SubscriptionType.PREMIUM || userSubscription.getType() == SubscriptionType.ULTIMATE) {
+//            return videoRepository.findAllByTrackId(trackId);
+//        } else {
+//            throw new UserDoesntOwnTrack("User doesn't own Premium or Ultimate subscription to access this track.");
+//        }
     }
 
     private void addVideoIfNotExistsForTrack(String title, String url, String description, TrackName trackName) {

@@ -39,9 +39,8 @@ public class VideoController {
         this.moduleService = moduleService;
     }
 
-//    @PreAuthorize("hasAuthority('PREMIUM') or hasAuthority('ULTIMATE')")
     @GetMapping("/track/{trackId}")
-    public ModelAndView getVideosForTrack(@PathVariable UUID trackId, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) throws AccessDeniedException {
+    public ModelAndView getVideosForTrack(@PathVariable UUID trackId, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
 
         User user = userService.getById(authenticationMetadata.getUserId());
 

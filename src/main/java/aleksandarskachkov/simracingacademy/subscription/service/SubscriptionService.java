@@ -139,6 +139,8 @@ public class SubscriptionService {
             completedOn = now.plusYears(1);
         }
 
+        // sets user's track
+
         List<Track> upgradeTracks = getSubscriptionTracks(user);
         List<Track> defaultTracks = getDefaultTracks(user);
 
@@ -151,11 +153,18 @@ public class SubscriptionService {
 
         user.setTracks(allTracks);
 
+        // set's user modules
+
         List<Module> defaultModules = getDefaultModules(user);
         List<Module> upgradedModules = getSubscriptionModules(user);
 
         List<Module> allModules = new ArrayList<>(defaultModules);
-        allModules.addAll(upgradedModules);
+
+        if (subscriptionType == SubscriptionType.ULTIMATE) {
+            allModules.addAll(upgradedModules);
+        }
+
+        user.setModules(allModules);
 
         Subscription newSubscription = Subscription.builder()
                 .owner(user)
@@ -178,10 +187,10 @@ public class SubscriptionService {
 //            user.setTracks(getDefaultTracks(user));
 //        }
 
-        if (newSubscription.getType() == SubscriptionType.DEFAULT || newSubscription.getType() == SubscriptionType.PREMIUM) {
-            newSubscription.setModules(getDefaultModules(user));
-            user.setModules(getDefaultModules(user));
-        }
+//        if (newSubscription.getType() == SubscriptionType.DEFAULT || newSubscription.getType() == SubscriptionType.PREMIUM) {
+//            newSubscription.setModules(getDefaultModules(user));
+//            user.setModules(getDefaultModules(user));
+//        }
 
         // stop the current sub
         currentSubscription.setCompletedOn(now);
@@ -227,10 +236,6 @@ public class SubscriptionService {
         subscription.setCompletedOn(LocalDateTime.now());
 
         subscriptionRepository.save(subscription);
-    }
-
-    public Subscription getSubscriptionType(UUID userId) {
-        return subscriptionRepository.findByOwnerIdAndStatus(userId, SubscriptionStatus.ACTIVE);
     }
 
 //    public Subscription getSubscriptionType(UUID userId) {
