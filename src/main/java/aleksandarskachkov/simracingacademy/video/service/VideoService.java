@@ -114,14 +114,6 @@ public class VideoService {
         } else {
             throw new UserDoesntOwnModule("User doesn't own Ultimate subscription to access this track.");
         }
-
-//        if (track.getType() == TrackType.DEFAULT && userSubscription.getType() == SubscriptionType.DEFAULT) {
-//            return videoRepository.findAllByTrackId(trackId);
-//        } else if (userSubscription.getType() == SubscriptionType.PREMIUM || userSubscription.getType() == SubscriptionType.ULTIMATE) {
-//            return videoRepository.findAllByTrackId(trackId);
-//        } else {
-//            throw new UserDoesntOwnTrack("User doesn't own Premium or Ultimate subscription to access this track.");
-//        }
     }
 
     private void addVideoIfNotExistsForTrack(String title, String url, String description, TrackName trackName) {
@@ -175,10 +167,10 @@ public class VideoService {
                     addVideoIfNotExistsForTrack("Monza Hot Lap", "https://www.youtube.com/embed/NyLHgXyU4Iw", "A fast lap around Monza.", trackName);
                     addVideoIfNotExistsForTrack("Monza Track Guide", "https://www.youtube.com/embed/Xbhi2Vnk36Q", "A detailed guide to mastering Monza.", trackName);
                 }
-                case SPAIN -> {
-                    addVideoIfNotExistsForTrack("Spain Hot Lap", "https://www.youtube.com/embed/example1", "A fast lap around Spain.", trackName);
-                    addVideoIfNotExistsForTrack("Spain Track Guide", "https://www.youtube.com/embed/example2", "A detailed guide to mastering Spain.", trackName);
-                }
+//                case SPAIN -> {
+//                    addVideoIfNotExistsForTrack("Spain Hot Lap", "https://www.youtube.com/embed/example1", "A fast lap around Spain.", trackName);
+//                    addVideoIfNotExistsForTrack("Spain Track Guide", "https://www.youtube.com/embed/example2", "A detailed guide to mastering Spain.", trackName);
+//                }
             }
         }
     }
@@ -229,114 +221,4 @@ public class VideoService {
             }
         }
     }
-
-
-
-
-//    @PostConstruct
-//    public void initializeTrackVideos() {
-//        List<Track> tracks = trackRepository.findAll();
-//
-//        for (Track track : tracks) {
-//            TrackName trackName = track.getName();
-//
-//            // Check if there are already videos for this track
-//            if (videoRepository.existsByTrackName(trackName)) {
-//                continue; // Skip if videos for this track already exist
-//            }
-//
-//            switch (trackName) {
-//                case BAHRAIN -> {
-//                    createVideoForTrack("Bahrain Hot Lap", "https://www.youtube.com/embed/PC6XRaLGUdc", "A fast lap around Bahrain.", trackName);
-//                    createVideoForTrack("Bahrain Track Guide", "https://www.youtube.com/embed/-e4-1y_fDDw", "A detailed guide to mastering Bahrain.", trackName);
-//                }
-//                case IMOLA -> {
-//                    createVideoForTrack("Imola Hot Lap", "https://www.youtube.com/embed/oPGG-ip5IaQ", "A fast lap around Imola.", trackName);
-//                    createVideoForTrack("Imola Track Guide", "https://www.youtube.com/embed/lpNkpVCptIQ", "A detailed guide to mastering Imola.", trackName);
-//                }
-//                case SUZUKA -> {
-//                    createVideoForTrack("Suzuka Hot Lap", "https://www.youtube.com/embed/q-85hyxBlvc", "A fast lap around Suzuka.", trackName);
-//                    createVideoForTrack("Suzuka Track Guide", "https://www.youtube.com/embed/XUJlIWnyP_0", "A detailed guide to mastering Suzuka.", trackName);
-//                }
-//                case SPA_FRANCORCHAMPS -> {
-//                    createVideoForTrack("Spa Hot Lap", "https://www.youtube.com/embed/8_0iCbtBJGw", "A fast lap around Spa.", trackName);
-//                    createVideoForTrack("Spa Track Guide", "https://www.youtube.com/embed/PMhBVq2QpJU", "A detailed guide to mastering Spa.", trackName);
-//                }
-//                case MONACO -> {
-//                    createVideoForTrack("Monaco Hot Lap", "https://www.youtube.com/embed/ntZMFR1-Z2E", "A fast lap around Monaco.", trackName);
-//                    createVideoForTrack("Monaco Track Guide", "https://www.youtube.com/embed/FL5RiPGxgd0", "A detailed guide to mastering Monaco.", trackName);
-//                }
-//                case MONZA -> {
-//                    createVideoForTrack("Monza Hot Lap", "https://www.youtube.com/embed/NyLHgXyU4Iw", "A fast lap around Monza.", trackName);
-//                    createVideoForTrack("Monza Track Guide", "https://www.youtube.com/embed/Xbhi2Vnk36Q", "A detailed guide to mastering Monza.", trackName);
-//                }
-//                case SPAIN -> {
-//                    createVideoForTrack("Spain Hot Lap", "https://www.youtube.com/embed/example1", "A fast lap around Spain.", trackName);
-//                    createVideoForTrack("Spain Track Guide", "https://www.youtube.com/embed/example2", "A detailed guide to mastering Spain.", trackName);
-//                }
-//
-//
-//            }
-//        }
-//    }
-//
-//    private void addVideoIfNotExists(String title, String url, String description, TrackName trackName) {
-//        if (!videoRepository.existsByTitleAndTrackName(title, trackName)) {
-//            createVideoForTrack(title, url, description, trackName);
-//        }
-//    }
-
-//@PostConstruct
-//public void initializeTrackVideos() {
-//
-    ////         if there are already created videos, itnos making them again
-//    List<TrackName> trackNames = List.of(
-//            TrackName.BAHRAIN,
-//            TrackName.IMOLA,
-//            TrackName.SUZUKA,
-//            TrackName.SPA_FRANCORCHAMPS,
-//            TrackName.MONACO,
-//            TrackName.MONZA
-//    );
-//
-//    for (TrackName trackName : trackNames) {
-//        Optional<Video> existingVideo = Optional.ofNullable(videoRepository.findByTitle())
-//    }
-//
-//    List<Track> tracks = trackRepository.findAll();
-//
-//    for (Track track : tracks) {
-
-//        TrackName trackName = track.getName();
-//
-//
-//        switch (trackName) {
-//            case BAHRAIN -> {
-//                createVideo("Bahrain Hot Lap", "https://www.youtube.com/embed/-e4-1y_fDDw", "A fast lap around Bahrain.", trackName);
-//                createVideo("Bahrain Track Guide", "https://www.youtube.com/embed/HPxlzAoBVX4", "A detailed guide to mastering Bahrain.", trackName);
-//            }
-//            case IMOLA -> {
-//                createVideo("Imola Hot Lap", "https://www.youtube.com/embed/oPGG-ip5IaQ", "A fast lap around Imola.", trackName);
-//                createVideo("Imola Track Guide", "https://www.youtube.com/embed/lpNkpVCptIQ", "A detailed guide to mastering Imola.", trackName);
-//            }
-//            case SUZUKA -> {
-//                createVideo("Suzuka Hot Lap", "https://www.youtube.com/embed/q-85hyxBlvc", "A fast lap around Suzuka.", trackName);
-//                createVideo("Suzuka Track Guide", "https://www.youtube.com/embed/XUJlIWnyP_0", "A detailed guide to mastering Suzuka.", trackName);
-//            }
-//            case SPA_FRANCORCHAMPS -> {
-//                createVideo("Spa Hot Lap", "https://www.youtube.com/embed/8_0iCbtBJGw", "A fast lap around Spa.", trackName);
-//                createVideo("Spa Track Guide", "https://www.youtube.com/embed/PMhBVq2QpJU", "A detailed guide to mastering Spa.", trackName);
-//            }
-//            case MONACO -> {
-//                createVideo("Monaco Hot Lap", "https://www.youtube.com/embed/ntZMFR1-Z2E", "A fast lap around Monaco.", trackName);
-//                createVideo("Monaco Track Guide", "https://www.youtube.com/embed/FL5RiPGxgd0", "A detailed guide to mastering Monaco.", trackName);
-//            }
-//            case MONZA -> {
-//                createVideo("Monza Hot Lap", "https://www.youtube.com/embed/NyLHgXyU4Iw", "A fast lap around Monza.", trackName);
-//                createVideo("Monza Track Guide", "https://www.youtube.com/embed/Xbhi2Vnk36Q", "A detailed guide to mastering Monza.", trackName);
-//            }
-//        }
-//    }
-//}
-
 }

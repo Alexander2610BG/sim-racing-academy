@@ -5,7 +5,6 @@ import aleksandarskachkov.simracingacademy.user.model.User;
 import aleksandarskachkov.simracingacademy.user.service.UserService;
 import aleksandarskachkov.simracingacademy.web.dto.LoginRequest;
 import aleksandarskachkov.simracingacademy.web.dto.RegisterRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

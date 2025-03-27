@@ -1,6 +1,8 @@
 package aleksandarskachkov.simracingacademy.web;
 
 import aleksandarskachkov.simracingacademy.security.AuthenticationMetadata;
+import aleksandarskachkov.simracingacademy.subscription.model.Subscription;
+import aleksandarskachkov.simracingacademy.subscription.service.SubscriptionService;
 import aleksandarskachkov.simracingacademy.track.model.Track;
 import aleksandarskachkov.simracingacademy.track.service.TrackService;
 import aleksandarskachkov.simracingacademy.user.model.User;
@@ -40,6 +42,8 @@ public class TrackController {
 
         List<Track> tracks = trackService.getAllTracks(user.getId());
 
+
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("tracks");
         modelAndView.addObject("user", user);
@@ -57,11 +61,14 @@ public class TrackController {
 
         Track track = trackService.getTrackById(trackId);
 
+        List<Subscription> subscriptions = user.getSubscriptions();
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("videos");
         modelAndView.addObject("user", user);
         modelAndView.addObject("videos", videos);
         modelAndView.addObject("track", track);
+        modelAndView.addObject("subscription", subscriptions);
 
         return modelAndView;
     }

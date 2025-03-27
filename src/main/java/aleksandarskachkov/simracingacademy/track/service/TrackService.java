@@ -1,23 +1,16 @@
 package aleksandarskachkov.simracingacademy.track.service;
 
-import aleksandarskachkov.simracingacademy.exception.DomainException;
-import aleksandarskachkov.simracingacademy.subscription.model.SubscriptionType;
 import aleksandarskachkov.simracingacademy.track.model.Track;
 import aleksandarskachkov.simracingacademy.track.model.TrackName;
 import aleksandarskachkov.simracingacademy.track.model.TrackType;
 import aleksandarskachkov.simracingacademy.track.repository.TrackRepository;
-import aleksandarskachkov.simracingacademy.user.model.User;
 import aleksandarskachkov.simracingacademy.video.model.Video;
-import aleksandarskachkov.simracingacademy.video.repository.VideoRepository;
-//import aleksandarskachkov.simracingacademy.video.service.VideoService;
 import aleksandarskachkov.simracingacademy.video.service.VideoService;
 import jakarta.annotation.PostConstruct;
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -72,8 +65,8 @@ public class TrackService {
                 TrackName.SUZUKA,
                 TrackName.SPA_FRANCORCHAMPS,
                 TrackName.MONACO,
-                TrackName.MONZA,
-                TrackName.SPAIN // A,dd Spain track here
+                TrackName.MONZA
+//                TrackName.SPAIN // Add Spain track here for example if we add new track
         );
 
         for (TrackName trackName : trackNames) {
@@ -115,12 +108,12 @@ public class TrackService {
                         "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Italy_Circuit.png",
                         TrackType.SUBSCRIPTION
                 );
-                case SPAIN -> addTrackIfNotExists(
-                        TrackName.SPAIN,
-                        "Circuit de Spain",
-                        "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Spain_Circuit.png",
-                        TrackType.DEFAULT
-                );
+//                case SPAIN -> addTrackIfNotExists(
+//                        TrackName.SPAIN,
+//                        "Circuit de Spain",
+//                        "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Spain_Circuit.png",
+//                        TrackType.DEFAULT
+//                );
             }
         }
 
@@ -133,27 +126,11 @@ public class TrackService {
     return trackRepository.findAllTracksByUserId(ownerId);
     }
 
-
-//    User user = us.getById(ownerId);
-//    SubscriptionType userSubscription = user.getSubscriptions();
-//
-//        return trackRepository.findAll().stream()
-//                .filter(track ->
-//            track.getType() == TrackType.DEFAULT ||
-//            (track.getType() == TrackType.SUBSCRIPTION && userSubscription != SubscriptionType.DEFAULT)
-//            )
-//            .toList();
-
     public List<Track> getAllTracksByType(TrackType type) {
         return trackRepository.findAllByType(type);
     }
 
     public Track getTrackById(UUID trackId) {
         return trackRepository.getById(trackId);
-    }
-
-    public boolean isPaidTrack(UUID trackId) {
-        Track track = getTrackById(trackId);
-        return track.getType() == TrackType.SUBSCRIPTION;
     }
 }

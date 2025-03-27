@@ -1,13 +1,11 @@
 package aleksandarskachkov.simracingacademy.wallet.service;
 
 import aleksandarskachkov.simracingacademy.exception.DomainException;
-import aleksandarskachkov.simracingacademy.security.AuthenticationMetadata;
 import aleksandarskachkov.simracingacademy.transaction.model.Transaction;
 import aleksandarskachkov.simracingacademy.transaction.model.TransactionStatus;
 import aleksandarskachkov.simracingacademy.transaction.model.TransactionType;
 import aleksandarskachkov.simracingacademy.transaction.service.TransactionService;
 import aleksandarskachkov.simracingacademy.user.model.User;
-import aleksandarskachkov.simracingacademy.user.service.UserService;
 import aleksandarskachkov.simracingacademy.wallet.model.Wallet;
 import aleksandarskachkov.simracingacademy.wallet.model.WalletStatus;
 import aleksandarskachkov.simracingacademy.wallet.repository.WalletRepository;
@@ -19,10 +17,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

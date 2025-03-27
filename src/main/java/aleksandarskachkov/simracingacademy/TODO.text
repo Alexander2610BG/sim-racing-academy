@@ -1,11 +1,4 @@
-login form button for submit to be resized
-
-track and course video active button in the nav bar
-
-not every user to have access to every track and module (subscriptions)
-currently default have access to everything
-
-add notification svc
+repair for email, to not be blank and saved.
 
 add caching ????
 

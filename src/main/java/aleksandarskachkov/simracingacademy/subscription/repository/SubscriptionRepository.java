@@ -15,6 +15,4 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, UUID
     Optional<Subscription> findByStatusAndOwnerId(SubscriptionStatus subscriptionStatus, UUID id);
 
     List<Subscription> findAllByStatusAndCompletedOnLessThanEqual(SubscriptionStatus subscriptionStatus, LocalDateTime now);
-
-    Subscription findByOwnerIdAndStatus(UUID ownerId, SubscriptionStatus status);
 }

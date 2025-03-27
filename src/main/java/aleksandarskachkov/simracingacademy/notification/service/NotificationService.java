@@ -1,5 +1,6 @@
 package aleksandarskachkov.simracingacademy.notification.service;
 
+import aleksandarskachkov.simracingacademy.exception.NotificationServiceFeignCallException;
 import aleksandarskachkov.simracingacademy.notification.client.NotificationClient;
 import aleksandarskachkov.simracingacademy.notification.client.dto.Notification;
 import aleksandarskachkov.simracingacademy.notification.client.dto.NotificationPreference;
@@ -7,6 +8,7 @@ import aleksandarskachkov.simracingacademy.notification.client.dto.NotificationR
 import aleksandarskachkov.simracingacademy.notification.client.dto.UpsertNotificationPreference;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,9 @@ import java.util.UUID;
 @Slf4j
 @Service
 public class NotificationService {
+
+    @Value("${notification-svc.failure-message.clear.history}")
+    private String clearHistoryFailedMessage;
 
     private final NotificationClient notificationClient;
 
@@ -78,6 +83,25 @@ public class NotificationService {
             }
         } catch (Exception e) {
             log.warn("Can't send email to user with id = [%s] due to Internal Server Error".formatted(userId));
+        }
+    }
+
+    public void clearHistory(UUID userId) {
+
+        try {
+            notificationClient.clearHistory(userId);
+        } catch (Exception e) {
+            throw new NotificationServiceFeignCallException(clearHistoryFailedMessage);
+        }
+    }
+
+    public void retryFailed(UUID userId) {
+
+        try {
+            notificationClient.retryFailedNotification(userId);
+        } catch (Exception e) {
+            log.error("Unable to call notification-svc for clear notification history.");
+            throw new NotificationServiceFeignCallException(clearHistoryFailedMessage);
         }
     }
 }

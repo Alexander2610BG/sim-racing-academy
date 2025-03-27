@@ -1,5 +1,6 @@
 package aleksandarskachkov.simracingacademy.web;
 
+import aleksandarskachkov.simracingacademy.exception.NotificationServiceFeignCallException;
 import aleksandarskachkov.simracingacademy.exception.UserDoesntOwnModule;
 import aleksandarskachkov.simracingacademy.exception.UserDoesntOwnTrack;
 import aleksandarskachkov.simracingacademy.exception.UsernameAlreadyExist;
@@ -25,6 +26,15 @@ public class ExceptionAdvice {
 
         redirectAttributes.addFlashAttribute("usernameAlreadyExistMessage", message);
         return "redirect:/register";
+    }
+
+    @ExceptionHandler(NotificationServiceFeignCallException.class)
+    public String handleNotificationFeignCallException(RedirectAttributes redirectAttributes, NotificationServiceFeignCallException exception) {
+
+        String message = exception.getMessage();
+
+        redirectAttributes.addFlashAttribute("clearHistoryErrorMessage", message);
+        return "redirect:/notifications";
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

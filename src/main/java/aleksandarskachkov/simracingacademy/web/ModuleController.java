@@ -3,7 +3,6 @@ package aleksandarskachkov.simracingacademy.web;
 import aleksandarskachkov.simracingacademy.module.model.Module;
 import aleksandarskachkov.simracingacademy.module.service.ModuleService;
 import aleksandarskachkov.simracingacademy.security.AuthenticationMetadata;
-import aleksandarskachkov.simracingacademy.track.model.Track;
 import aleksandarskachkov.simracingacademy.user.model.User;
 import aleksandarskachkov.simracingacademy.user.service.UserService;
 import aleksandarskachkov.simracingacademy.video.model.Video;

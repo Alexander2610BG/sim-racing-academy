@@ -54,10 +54,10 @@ public class SubscriptionRenewalScheduler {
                 if (transaction.getStatus() == TransactionStatus.FAILED) {
                     subscriptionService.markSubscriptionAsTerminated(subscription);
                     subscriptionService.createDefaultSubscription(subscription.getOwner());
+//                    subscriptionOwner.setTracks(getDefaultTracks(user));
+
                 } else {
-                    // kogato svurshi sub-a se suzdava default
                     subscriptionService.markSubscriptionAsCompleted(subscription);
-//                    subscriptionService.createDefaultSubscription(subscription.getOwner());
                 }
             }
         }

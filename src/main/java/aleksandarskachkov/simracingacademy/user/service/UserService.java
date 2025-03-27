@@ -6,9 +6,6 @@ import aleksandarskachkov.simracingacademy.notification.service.NotificationServ
 import aleksandarskachkov.simracingacademy.security.AuthenticationMetadata;
 import aleksandarskachkov.simracingacademy.subscription.model.Subscription;
 import aleksandarskachkov.simracingacademy.subscription.service.SubscriptionService;
-import aleksandarskachkov.simracingacademy.track.model.Track;
-import aleksandarskachkov.simracingacademy.track.repository.TrackRepository;
-import aleksandarskachkov.simracingacademy.track.service.TrackService;
 import aleksandarskachkov.simracingacademy.user.model.User;
 import aleksandarskachkov.simracingacademy.user.model.UserRole;
 import aleksandarskachkov.simracingacademy.user.repository.UserRepository;
@@ -87,12 +84,6 @@ public class UserService implements UserDetailsService {
                 .updatedOn(LocalDateTime.now())
                 .build();
     }
-
-//    private List<Track> linkTracksToUser() {
-//
-//        return trackService.createNewDefaultTracks();
-//
-//    }
 
     public List<User> getAllUsers() {
 
