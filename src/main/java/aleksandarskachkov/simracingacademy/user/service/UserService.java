@@ -47,8 +47,11 @@ public class UserService implements UserDetailsService {
         this.notificationService = notificationService;
     }
 
+    // Test 1 : When user exist with this username - then exception is thrown
+    // Test 2 : Happy path
+    @CacheEvict(value = "users", allEntries = true)
     @Transactional
-    public User registerUser(RegisterRequest registerRequest) {
+    public User register(RegisterRequest registerRequest) {
 
         Optional<User> userOptional = userRepository.findByUsername(registerRequest.getUsername());
 
@@ -94,6 +97,8 @@ public class UserService implements UserDetailsService {
        return userRepository.findById(userId).orElseThrow(() -> new DomainException("User with id [%s] does not exists.".formatted(userId)));
     }
 
+    // Test 1: When user exist - then return new AuthenticationMetadata
+    // Test 2: When user does not exist - then throws exception
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -102,7 +107,8 @@ public class UserService implements UserDetailsService {
         return new AuthenticationMetadata(user.getId(), username, user.getPassword(), user.getRole(), user.isActive());
     }
 
-    @CacheEvict(value = "users", allEntries = true)
+    // Test: When there is no user in the database (repository returns Optional.empty()) -
+    // then expect an exception of type DomainException is thrown    @CacheEvict(value = "users", allEntries = true)
     public void editUserDetails(UUID userId, UserEditRequest userEditRequest) {
 
         User user = getById(userId);
@@ -127,15 +133,15 @@ public class UserService implements UserDetailsService {
     @CacheEvict(value = "users", allEntries = true)
     public void switchStatus(UUID userId) {
 
-        User user = userRepository.getById(userId);
+        User user = getById(userId);
 
         user.setActive(!user.isActive());
         userRepository.save(user);
     }
 
-    public void swichRole(UUID userId) {
+    public void switchRole(UUID userId) {
 
-        User user = userRepository.getById(userId);
+        User user = getById(userId);
 
         if (user.getRole() == UserRole.USER) {
             user.setRole(UserRole.ADMIN);

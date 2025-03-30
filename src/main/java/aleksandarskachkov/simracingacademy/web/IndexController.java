@@ -62,7 +62,7 @@ public class IndexController {
             return new ModelAndView("register");
         }
 
-        userService.registerUser(registerRequest);
+        userService.register(registerRequest);
 
         return new ModelAndView("redirect:/login");
     }

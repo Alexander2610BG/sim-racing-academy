@@ -2,7 +2,9 @@ repair for email, to not be blank and saved.
 
 add caching ????
 
-exception handling
+repair the design of the courses (thymeleaf) to not be enums
+
+repair when renewal to remove the tracks and course.
 
 unit testing
 

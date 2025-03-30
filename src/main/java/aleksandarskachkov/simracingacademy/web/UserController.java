@@ -86,7 +86,7 @@ public class UserController {
     @PutMapping("/{id}/role")
     public ModelAndView switchUserRole(@PathVariable UUID id) {
 
-        userService.swichRole(id);
+        userService.switchRole(id);
 
         return new ModelAndView("redirect:/users");
     }
