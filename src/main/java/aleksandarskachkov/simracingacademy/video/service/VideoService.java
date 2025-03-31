@@ -116,7 +116,7 @@ public class VideoService {
         }
     }
 
-    private void addVideoIfNotExistsForTrack(String title, String url, String description, TrackName trackName) {
+    public void addVideoIfNotExistsForTrack(String title, String url, String description, TrackName trackName) {
         if (!videoRepository.existsByTitleAndTrackName(title, trackName)) {
             createVideoForTrack(title, url, description, trackName);
             log.info("Added video for track: %s with title: %s".formatted(trackName, title));
@@ -125,7 +125,7 @@ public class VideoService {
         }
     }
 
-    private void addVideoIfNotExistsForModule(String title, String url, String description, ModuleName moduleName) {
+    public void addVideoIfNotExistsForModule(String title, String url, String description, ModuleName moduleName) {
         if (!videoRepository.existsByTitleAndModuleName(title, moduleName)) {
             createVideoForModule(title, url, description, moduleName);
             log.info("Added video for module: %s with title: %s".formatted(moduleName, title));

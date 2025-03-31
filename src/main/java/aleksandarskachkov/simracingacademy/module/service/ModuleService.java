@@ -42,7 +42,7 @@ public class ModuleService {
         return moduleRepository.save(module);
     }
 
-    private void addModuleIfNotExists(ModuleName moduleName, String description, ModuleType type) {
+    public void addModuleIfNotExists(ModuleName moduleName, String description, ModuleType type) {
         Optional<Module> existingTrack = Optional.ofNullable(moduleRepository.findByName(moduleName));
         if (existingTrack.isPresent()) {
             log.info("Module already exists: {} Skipping...", existingTrack.get());

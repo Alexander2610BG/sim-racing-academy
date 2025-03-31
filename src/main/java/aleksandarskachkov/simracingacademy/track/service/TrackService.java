@@ -45,7 +45,7 @@ public class TrackService {
     }
 
 
-    private void addTrackIfNotExists(TrackName trackName, String description, String imageUrl, TrackType type) {
+    public void addTrackIfNotExists(TrackName trackName, String description, String imageUrl, TrackType type) {
         // Check if track already exists
         Optional<Track> existingTrack = Optional.ofNullable(trackRepository.findByName(trackName));
         if (existingTrack.isPresent()) {
