@@ -2,6 +2,7 @@ package aleksandarskachkov.simracingacademy.web;
 
 
 import aleksandarskachkov.simracingacademy.security.AuthenticationMetadata;
+import aleksandarskachkov.simracingacademy.user.model.User;
 import aleksandarskachkov.simracingacademy.user.model.UserRole;
 import aleksandarskachkov.simracingacademy.user.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -14,8 +15,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -76,16 +76,48 @@ public class UserControllerApiTest {
                 .andExpect(redirectedUrl("/users"));
     }
 
+
+@Test
+void getAllUsers_shouldReturnUsersView() throws Exception {
+
+    // 1. Build Request
+    AuthenticationMetadata principal = new AuthenticationMetadata(UUID.randomUUID(), "User123", "123123", UserRole.ADMIN, true);
+    MockHttpServletRequestBuilder request = get("/users")
+            .with(user(principal));
+    // 2. Send Request
+    mockMvc.perform(request)
+            .andExpect(status().isOk())
+            .andExpect(view().name("users"))
+            .andExpect(model().attributeExists("users"));
+}
+
     @Test
-    void getProfileMenu_shouldReturnEditProfileMenu() throws Exception {
-//        AuthenticationMetadata principal = new AuthenticationMetadata(UUID.randomUUID(), "User123", "123123", UserRole.ADMIN, true);
-        MockHttpServletRequestBuilder request = get("/{id}/profile", UUID.randomUUID());
-//                .with(user(principal));
+    void getProfileMenu_shouldReturnProfileMenuView() throws Exception {
+
+        // 1. Build Request
+        UUID userId = UUID.randomUUID();
+        when(userService.getById(userId)).thenReturn(User.builder().build());
+        MockHttpServletRequestBuilder request = get("/users/{id}/profile", userId);
+        // 2. Send Request
+        mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(view().name("profile-menu"))
+                .andExpect(model().attributeExists("user", "userEditRequest"));
+    }
+
+    @Test
+    void putInvalidUpdateProfileMenu_shouldReturnProfileMenuView() throws Exception {
+        UUID userId = UUID.randomUUID();
+
+        MockHttpServletRequestBuilder request = get("/users/{id}/profile", userId)
+                .param("invalidField", "")
+                .with(csrf());
 
         mockMvc.perform(request)
                 .andExpect(status().isOk())
                 .andExpect(view().name("profile-menu"))
-                .andExpect(model().attributeExists("userEditRequest", "user"));
+                .andExpect(model().attributeExists("user", "userEditRequest"));
+
 
     }
 

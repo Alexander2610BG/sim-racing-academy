@@ -22,8 +22,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -347,5 +346,32 @@ public class WalletServiceUTest {
                 anyString(),
                 eq("Invalid criteria for transfer")
         );
+    }
+
+    @Test
+    void getLastFiveTransactions_shouldReturnMapWithTransactions() {
+        // Given
+        UUID walletId = UUID.randomUUID();
+        Wallet wallet = Wallet.builder().id(walletId).build();
+
+        List<Transaction> mockTransactions = List.of(
+                new Transaction(),
+                new Transaction(),
+                new Transaction()
+        );
+
+        when(transactionService.getLastFiveTransactionsByWalletId(wallet))
+                .thenReturn(mockTransactions);
+
+        // When
+        Map<UUID, List<Transaction>> result = walletService.getLastFiveTransactions(wallet);
+
+        // Then
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertTrue(result.containsKey(walletId));
+        assertEquals(mockTransactions, result.get(walletId));
+        verify(transactionService, times(1))
+                .getLastFiveTransactionsByWalletId(wallet);
     }
 }

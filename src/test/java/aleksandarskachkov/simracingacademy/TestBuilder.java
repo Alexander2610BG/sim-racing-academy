@@ -7,6 +7,9 @@ import aleksandarskachkov.simracingacademy.subscription.model.SubscriptionPeriod
 import aleksandarskachkov.simracingacademy.subscription.model.SubscriptionStatus;
 import aleksandarskachkov.simracingacademy.subscription.model.SubscriptionType;
 import aleksandarskachkov.simracingacademy.track.model.Track;
+import aleksandarskachkov.simracingacademy.transaction.model.Transaction;
+import aleksandarskachkov.simracingacademy.transaction.model.TransactionStatus;
+import aleksandarskachkov.simracingacademy.transaction.model.TransactionType;
 import aleksandarskachkov.simracingacademy.user.model.Country;
 import aleksandarskachkov.simracingacademy.user.model.User;
 import aleksandarskachkov.simracingacademy.user.model.UserRole;
@@ -63,5 +66,21 @@ public class TestBuilder {
         user.setWallet(wallet);
 
         return user;
+    }
+
+    public static Transaction aRandomTransaction() {
+       return Transaction.builder()
+                .id(UUID.randomUUID())
+                .owner(aRandomUser())
+                .sender("asdf")
+                .receiver("asdf")
+                .amount(BigDecimal.valueOf(15))
+                .balanceLeft(BigDecimal.ZERO)
+                .createdOn(LocalDateTime.now())
+                .currency(Currency.getInstance("EUR"))
+                .type(TransactionType.WITHDRAWAL)
+                .status(TransactionStatus.SUCCEEDED)
+                .description("asdf")
+                .build();
     }
 }
