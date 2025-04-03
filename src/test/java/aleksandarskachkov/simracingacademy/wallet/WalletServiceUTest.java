@@ -303,4 +303,49 @@ public class WalletServiceUTest {
                 anyString(), eq("Inactive wallet")
         );
     }
+
+    @Test
+    void givenInvalidReceiver_whenTransferFunds_thenTransactionFalls() {
+
+        // Given
+
+        User user = User.builder()
+                .id(UUID.randomUUID())
+                .build();
+
+        TransferRequest transferRequest = TransferRequest.builder()
+                .fromWalletId(UUID.randomUUID())
+                .toUsername("receiver")
+                .amount(BigDecimal.valueOf(100))
+                .build();
+
+        Wallet wallet = Wallet.builder()
+                .id(UUID.randomUUID())
+                .balance(BigDecimal.valueOf(500))
+                .status(WalletStatus.INACTIVE)
+                .owner(user)
+                .build();
+
+
+        when(walletRepository.findById(transferRequest.getFromWalletId())).thenReturn(Optional.of(wallet));
+        when(walletRepository.findAllByOwnerUsername(transferRequest.getToUsername())).thenReturn(Optional.empty());
+
+        // When
+        Transaction result = walletService.transferFunds(user, transferRequest);
+
+        // Then
+        assertEquals(TransactionStatus.FAILED, result.getStatus());
+        verify(transactionService, times(1)).createNewTransaction(
+                eq(user),
+                eq(wallet.getId().toString()),
+                eq("receiverUsername"),
+                eq(BigDecimal.valueOf(100)),
+                eq(wallet.getBalance()),
+                eq(wallet.getCurrency()),
+                eq(TransactionType.WITHDRAWAL),
+                eq(TransactionStatus.FAILED),
+                anyString(),
+                eq("Invalid criteria for transfer")
+        );
+    }
 }
