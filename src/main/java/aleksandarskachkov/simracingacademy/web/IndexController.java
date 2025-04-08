@@ -7,6 +7,7 @@ import aleksandarskachkov.simracingacademy.web.dto.LoginRequest;
 import aleksandarskachkov.simracingacademy.web.dto.RegisterRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -26,7 +27,11 @@ public class IndexController {
     }
 
     @GetMapping("/login")
-    public ModelAndView getLoginPage(@RequestParam(value = "error", required = false) String error) {
+    public ModelAndView getLoginPage(@RequestParam(value = "error", required = false) String error, Authentication authentication) {
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            return new ModelAndView("redirect:/home");
+        }
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
@@ -40,13 +45,18 @@ public class IndexController {
     }
 
     @GetMapping("/")
-    public String getIndexPage() {
-
+    public String getIndexPage(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            return "redirect:/home";
+        }
         return "index";
     }
 
     @GetMapping("/register")
-    public ModelAndView getRegisterPage() {
+    public ModelAndView getRegisterPage(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            return new ModelAndView("redirect:/home");
+        }
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("register");
