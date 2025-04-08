@@ -1,6 +1,7 @@
 package aleksandarskachkov.simracingacademy.subscription.service;
 
 import aleksandarskachkov.simracingacademy.exception.DomainException;
+import aleksandarskachkov.simracingacademy.exception.NoActiveSubscriptionFound;
 import aleksandarskachkov.simracingacademy.module.model.Module;
 import aleksandarskachkov.simracingacademy.module.model.ModuleType;
 import aleksandarskachkov.simracingacademy.module.repository.ModuleRepository;
@@ -106,7 +107,7 @@ public class SubscriptionService {
 
         Optional<Subscription> optionalSubscription = subscriptionRepository.findByStatusAndOwnerId(SubscriptionStatus.ACTIVE, user.getId());
         if (optionalSubscription.isEmpty()) {
-            throw new DomainException("No active subscription has been found for user with id = [%s]".formatted(user.getId()));
+            throw new NoActiveSubscriptionFound("No active subscription has been found for user with id = [%s]".formatted(user.getId()));
         }
 
         Subscription currentSubscription = optionalSubscription.get();

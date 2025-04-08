@@ -51,6 +51,19 @@ public class IndexControllerApiTest {
     }
 
     @Test
+    void getAuthenticatedRequestToIndex_shouldRedirectToHome() throws Exception {
+        UUID userId = UUID.randomUUID();
+        AuthenticationMetadata principal = new AuthenticationMetadata(userId, "Alex123", "Test123#", UserRole.USER, true);
+
+        MockHttpServletRequestBuilder request = get("/")
+                .with(user(principal));
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/home"));
+    }
+
+    @Test
     void getRequestToRegisterEndpoint_shouldReturnRegisterView() throws Exception {
 
         // 1. Build Request
@@ -81,6 +94,19 @@ public class IndexControllerApiTest {
                 .andExpect(view().name("login"))
                 .andExpect(model().attributeExists("loginRequest"));
 
+    }
+
+    @Test
+    void getAuthenticatedRequestToLogin_shouldRedirectToHome() throws Exception {
+        UUID userId = UUID.randomUUID();
+        AuthenticationMetadata principal = new AuthenticationMetadata(userId, "Alex123", "Test123#", UserRole.USER, true);
+
+        MockHttpServletRequestBuilder request = get("/login")
+                .with(user(principal));
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/home"));
     }
 
 
@@ -187,6 +213,19 @@ public class IndexControllerApiTest {
         mockMvc.perform(request)
                 .andExpect(status().is3xxRedirection());
         verify(userService, never()).getById(any());
+    }
+
+    @Test
+    void getAuthenticatedRequestToRegister_shouldRedirectToHome() throws Exception {
+        UUID userId = UUID.randomUUID();
+        AuthenticationMetadata principal = new AuthenticationMetadata(userId, "Alex123", "Test123#", UserRole.USER, true);
+
+        MockHttpServletRequestBuilder request = get("/register")
+                .with(user(principal));
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/home"));
     }
 
 }

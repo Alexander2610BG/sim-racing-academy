@@ -1,9 +1,7 @@
 package aleksandarskachkov.simracingacademy.web;
 
-import aleksandarskachkov.simracingacademy.exception.NotificationServiceFeignCallException;
-import aleksandarskachkov.simracingacademy.exception.UserDoesntOwnModule;
-import aleksandarskachkov.simracingacademy.exception.UserDoesntOwnTrack;
-import aleksandarskachkov.simracingacademy.exception.UsernameAlreadyExist;
+import aleksandarskachkov.simracingacademy.exception.*;
+import feign.RetryableException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -18,6 +16,25 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @ControllerAdvice
 public class ExceptionAdvice {
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler({
+            DomainException.class,
+            AccessDeniedException.class,
+            NoResourceFoundException.class,
+            MethodArgumentTypeMismatchException.class,
+            UserDoesntOwnTrack.class,
+            UserDoesntOwnModule.class,
+            ModuleNotFound.class,
+            TrackNotFound.class,
+            RetryableException.class
+    })
+    public ModelAndView handleNotFoundExceptions() {
+
+        return new ModelAndView("not-found");
+    }
+
+
+
     @ExceptionHandler(UsernameAlreadyExist.class)
     public String handleUsernameAlreadyExist(HttpServletRequest request, RedirectAttributes redirectAttributes) {
 
@@ -28,27 +45,52 @@ public class ExceptionAdvice {
         return "redirect:/register";
     }
 
-    @ExceptionHandler(NotificationServiceFeignCallException.class)
-    public String handleNotificationFeignCallException(RedirectAttributes redirectAttributes, NotificationServiceFeignCallException exception) {
+    @ExceptionHandler(WalletDoestNotExist.class)
+    public String handleWalletDoesNotExist(RedirectAttributes redirectAttributes, WalletDoestNotExist exception) {
 
         String message = exception.getMessage();
 
-        redirectAttributes.addFlashAttribute("clearHistoryErrorMessage", message);
-        return "redirect:/notifications";
+        redirectAttributes.addFlashAttribute("walletDoesntExistErrorMessage", message);
+        return "redirect:/home";
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({
-            AccessDeniedException.class,
-            NoResourceFoundException.class,
-            MethodArgumentTypeMismatchException.class,
-            UserDoesntOwnTrack.class,
-            UserDoesntOwnModule.class
-    })
-    public ModelAndView handleNotFoundExceptions() {
+    @ExceptionHandler(WalletDoesntBelong.class)
+    public String handleWalletDoesntBelong(RedirectAttributes redirectAttributes, WalletDoestNotExist exception) {
 
-        return new ModelAndView("not-found");
+        String message = exception.getMessage();
+
+        redirectAttributes.addFlashAttribute("walletDoesntBelongErrorMessage", message);
+        return "redirect:/home";
     }
+
+    @ExceptionHandler(TransactionDoesntExist.class)
+    public String handleTransactionDoesntExist(RedirectAttributes redirectAttributes, TransactionDoesntExist exception) {
+
+        String message = exception.getMessage();
+
+        redirectAttributes.addFlashAttribute("transactionDoesntExistErrorMessage", message);
+        return "redirect:/home";
+    }
+
+    @ExceptionHandler(NotificationPreferenceDoesntExist.class)
+    public String handleNotificationPreferenceDoesntExist(RedirectAttributes redirectAttributes, NotificationPreferenceDoesntExist exception) {
+
+        String message = exception.getMessage();
+
+        redirectAttributes.addFlashAttribute("notificationPreferenceDoesntExistErrorMessage", message);
+        return "redirect:/home";
+    }
+
+    @ExceptionHandler(NoActiveSubscriptionFound.class)
+    public String handleNoActiveSubscriptionFound(RedirectAttributes redirectAttributes, NoActiveSubscriptionFound exception) {
+
+        String message = exception.getMessage();
+
+        redirectAttributes.addFlashAttribute("noActiveSubscriptionFoundErrorMessage", message);
+        return "redirect:/home";
+    }
+
+
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)

@@ -1,6 +1,8 @@
 package aleksandarskachkov.simracingacademy.wallet.service;
 
 import aleksandarskachkov.simracingacademy.exception.DomainException;
+import aleksandarskachkov.simracingacademy.exception.WalletDoesntBelong;
+import aleksandarskachkov.simracingacademy.exception.WalletDoestNotExist;
 import aleksandarskachkov.simracingacademy.transaction.model.Transaction;
 import aleksandarskachkov.simracingacademy.transaction.model.TransactionStatus;
 import aleksandarskachkov.simracingacademy.transaction.model.TransactionType;
@@ -158,7 +160,7 @@ public class WalletService {
 
     private Wallet getWalletById(UUID walletId) {
         return walletRepository.findById(walletId)
-                .orElseThrow(() -> new DomainException("Wallet with id [%s] does not exist.".formatted(walletId)));
+                .orElseThrow(() -> new WalletDoestNotExist("Wallet with id [%s] does not exist.".formatted(walletId)));
     }
 
     private Wallet intializeWallet(User user) {
@@ -193,7 +195,7 @@ public class WalletService {
         Optional<Wallet> optionalWallet = walletRepository.findByIdAndOwnerId(walletId, ownerId);
 
         if (optionalWallet.isEmpty()) {
-            throw new DomainException("Wallet with id [%s] does not belong to user with id [%s].".formatted(walletId, ownerId));
+            throw new WalletDoesntBelong("Wallet with id [%s] does not belong to user with id [%s].".formatted(walletId, ownerId));
         }
 
         Wallet wallet = optionalWallet.get();

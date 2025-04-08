@@ -1,8 +1,6 @@
 package aleksandarskachkov.simracingacademy.video.service;
 
-import aleksandarskachkov.simracingacademy.exception.DomainException;
-import aleksandarskachkov.simracingacademy.exception.UserDoesntOwnModule;
-import aleksandarskachkov.simracingacademy.exception.UserDoesntOwnTrack;
+import aleksandarskachkov.simracingacademy.exception.*;
 import aleksandarskachkov.simracingacademy.module.model.Module;
 import aleksandarskachkov.simracingacademy.module.model.ModuleName;
 import aleksandarskachkov.simracingacademy.module.model.ModuleType;
@@ -44,7 +42,7 @@ public class VideoService {
     public Video createVideoForTrack(String title, String videoUrl, String description, TrackName trackName) {
       Optional<Track> trackOptional = Optional.ofNullable(trackRepository.findByName(trackName));
       if (trackOptional.isEmpty()) {
-          throw new DomainException("Track not found: " + trackName);
+          throw new TrackNotFound("Track not found: " + trackName);
       }
 
         Video video = Video.builder()
@@ -60,7 +58,7 @@ public class VideoService {
     public Video createVideoForModule(String title, String videoUrl, String description, ModuleName moduleName) {
         Optional<Module> moduleOptional = Optional.ofNullable(moduleRepository.findByName(moduleName));
         if (moduleOptional.isEmpty()) {
-            throw new DomainException("Module not found: " + moduleName);
+            throw new ModuleNotFound("Module not found: " + moduleName);
         }
 
         Video video = Video.builder()
@@ -81,7 +79,7 @@ public class VideoService {
         // check for active subscription
         Optional<Subscription> optionalSubscription = subscriptionRepository.findByStatusAndOwnerId(SubscriptionStatus.ACTIVE, userId);
         if (optionalSubscription.isEmpty()) {
-            throw new DomainException("No active subscription found.");
+            throw new NoActiveSubscriptionFound("No active subscription found.");
         }
 
         Subscription userSubscription = optionalSubscription.get();
@@ -102,7 +100,7 @@ public class VideoService {
 
         Optional<Subscription> optionalSubscription = subscriptionRepository.findByStatusAndOwnerId(SubscriptionStatus.ACTIVE, userId);
         if (optionalSubscription.isEmpty()) {
-            throw new DomainException("No active subscription found.");
+            throw new NoActiveSubscriptionFound("No active subscription found.");
         }
 
         Subscription userSubscription = optionalSubscription.get();

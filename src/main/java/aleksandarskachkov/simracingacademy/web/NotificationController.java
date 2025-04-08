@@ -40,6 +40,8 @@ public class NotificationController {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("notifications");
+
+
         modelAndView.addObject("notificationPreference", notificationPreference);
         modelAndView.addObject("notificationHistory", notificationHistory);
         modelAndView.addObject("succeededNotificationsNumber", succeededNotificationsNumber);

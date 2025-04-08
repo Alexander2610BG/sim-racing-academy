@@ -1,6 +1,5 @@
 package aleksandarskachkov.simracingacademy.user.service;
 
-import aleksandarskachkov.simracingacademy.exception.DomainException;
 import aleksandarskachkov.simracingacademy.exception.UsernameAlreadyExist;
 import aleksandarskachkov.simracingacademy.notification.service.NotificationService;
 import aleksandarskachkov.simracingacademy.security.AuthenticationMetadata;
@@ -94,7 +93,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User getById(UUID userId) {
-       return userRepository.findById(userId).orElseThrow(() -> new DomainException("User with id [%s] does not exists.".formatted(userId)));
+       return userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User with id [%s] does not exists.".formatted(userId)));
     }
 
     // Test 1: When user exist - then return new AuthenticationMetadata
@@ -102,7 +101,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new DomainException("User with this username does not exist"));
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User with this username does not exist"));
 
         return new AuthenticationMetadata(user.getId(), username, user.getPassword(), user.getRole(), user.isActive());
     }

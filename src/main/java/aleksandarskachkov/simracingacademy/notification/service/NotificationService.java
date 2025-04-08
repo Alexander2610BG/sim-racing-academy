@@ -1,5 +1,6 @@
 package aleksandarskachkov.simracingacademy.notification.service;
 
+import aleksandarskachkov.simracingacademy.exception.NotificationPreferenceDoesntExist;
 import aleksandarskachkov.simracingacademy.exception.NotificationServiceFeignCallException;
 import aleksandarskachkov.simracingacademy.notification.client.NotificationClient;
 import aleksandarskachkov.simracingacademy.notification.client.dto.Notification;
@@ -34,7 +35,7 @@ public class NotificationService {
         ResponseEntity<NotificationPreference> httpResponse = notificationClient.getUserPreference(userId);
 
         if (!httpResponse.getStatusCode().is2xxSuccessful()) {
-            throw new RuntimeException("Notification preference for user id [%s] does not exists.".formatted(userId));
+            throw new NotificationPreferenceDoesntExist("Notification preference for user id [%s] does not exists.".formatted(userId));
         }
 
         return httpResponse.getBody();

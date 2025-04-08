@@ -2,8 +2,11 @@ package aleksandarskachkov.simracingacademy.web;
 
 import aleksandarskachkov.simracingacademy.exception.UsernameAlreadyExist;
 import aleksandarskachkov.simracingacademy.security.AuthenticationMetadata;
+import aleksandarskachkov.simracingacademy.subscription.model.SubscriptionPeriod;
 import aleksandarskachkov.simracingacademy.subscription.model.SubscriptionType;
 import aleksandarskachkov.simracingacademy.subscription.service.SubscriptionService;
+import aleksandarskachkov.simracingacademy.transaction.model.Transaction;
+import aleksandarskachkov.simracingacademy.user.model.User;
 import aleksandarskachkov.simracingacademy.user.model.UserRole;
 import aleksandarskachkov.simracingacademy.user.service.UserService;
 import aleksandarskachkov.simracingacademy.web.dto.UpgradeRequest;
@@ -87,5 +90,36 @@ public class SubscriptionControllerApiTest {
         mockMvc.perform(request)
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/transactions/" + any()));
+    }
+
+    @Test
+    void postUpgrade_thenRedirectToTransactionDetails() throws Exception {
+        UUID userId = UUID.randomUUID();
+        UUID walletId = UUID.randomUUID();
+        AuthenticationMetadata principal = new AuthenticationMetadata(userId, "User123", "123123", UserRole.ADMIN, true);
+
+        User user = User.builder()
+                .id(userId)
+                .username("User123")
+                .role(UserRole.USER)
+                .build();
+
+        Transaction transaction = Transaction.builder()
+                .id(UUID.randomUUID())
+                .build();
+
+        when(userService.getById(userId)).thenReturn(user);
+        when(subscriptionService.upgrade(eq(user), eq(SubscriptionType.PREMIUM), any(UpgradeRequest.class)))
+                .thenReturn(transaction);
+
+        mockMvc.perform(post("/subscriptions")
+                        .param("subscription-type", "PREMIUM")
+                        .param("walletId", walletId.toString())
+                        .with(user(principal))
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/transactions/" + transaction.getId()));
+
+        verify(subscriptionService).upgrade(eq(user), eq(SubscriptionType.PREMIUM), any(UpgradeRequest.class));
     }
 }

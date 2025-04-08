@@ -2,6 +2,7 @@ package aleksandarskachkov.simracingacademy;
 
 
 import aleksandarskachkov.simracingacademy.exception.DomainException;
+import aleksandarskachkov.simracingacademy.scheduler.SubscriptionRenewalScheduler;
 import aleksandarskachkov.simracingacademy.subscription.model.Subscription;
 import aleksandarskachkov.simracingacademy.subscription.model.SubscriptionPeriod;
 import aleksandarskachkov.simracingacademy.subscription.model.SubscriptionStatus;
@@ -33,6 +34,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.comparesEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -50,6 +53,9 @@ public class SubscribeITest {
 
     @Autowired
     private WalletRepository walletRepository;
+
+    @Autowired
+    private SubscriptionRenewalScheduler subscriptionRenewalScheduler;
 
     @Test
     void subscribeToPlan_thenReturnsFailedTransaction() {

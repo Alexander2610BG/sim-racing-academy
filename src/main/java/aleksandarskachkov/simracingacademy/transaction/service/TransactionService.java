@@ -1,6 +1,7 @@
 package aleksandarskachkov.simracingacademy.transaction.service;
 
 import aleksandarskachkov.simracingacademy.exception.DomainException;
+import aleksandarskachkov.simracingacademy.exception.TransactionDoesntExist;
 import aleksandarskachkov.simracingacademy.notification.service.NotificationService;
 import aleksandarskachkov.simracingacademy.transaction.model.Transaction;
 import aleksandarskachkov.simracingacademy.transaction.model.TransactionStatus;
@@ -73,6 +74,6 @@ public class TransactionService {
 
     public Transaction getById(UUID id) {
 
-        return transactionRepository.findById(id).orElseThrow(() -> new DomainException("Transaction with id [%s] does not exits.".formatted(id)));
+        return transactionRepository.findById(id).orElseThrow(() -> new TransactionDoesntExist("Transaction with id [%s] does not exits.".formatted(id)));
     }
 }
